@@ -1221,6 +1221,23 @@
   const $ = (id) => document.getElementById(id);
   const qsa = (s, p = document) => Array.from(p.querySelectorAll(s));
 
+  // Safe setters that never throw
+  const setVal = (id, val) => {
+    const el = $(id);
+    if (el) { el.value = val != null ? val : ''; }
+    else console.warn(`[Admin] Missing element #${id} (setVal)`);
+  };
+  const setText = (id, txt) => {
+    const el = $(id);
+    if (el) { el.textContent = txt; }
+    else console.warn(`[Admin] Missing element #${id} (setText)`);
+  };
+  const setHTML = (id, html) => {
+    const el = $(id);
+    if (el) { el.innerHTML = html; }
+    else console.warn(`[Admin] Missing element #${id} (setHTML)`);
+  };
+
   const state = {
     properties: [],
     filtered: [],
@@ -1338,14 +1355,14 @@
   function showLogin() {
     $('loginScreen').style.display = 'flex';
     $('appShell').classList.remove('visible');
-    setTimeout(() => $('loginEmail').focus(), 300);
+    setTimeout(() => $('loginEmail')?.focus(), 300);
   }
   function showApp(session) {
     $('loginScreen').style.display = 'none';
     $('appShell').classList.add('visible');
     const email = session?.user?.email || 'admin@spatio.com';
-    $('userEmail').textContent = email;
-    $('userAvatar').textContent = (email[0] || 'A').toUpperCase();
+    setText('userEmail', email);
+    setText('userAvatar', (email[0] || 'A').toUpperCase());
     loadProperties();
   }
   async function handleLogin(e) {
@@ -1393,7 +1410,7 @@
       state.properties = data || [];
       applyFilters();
       updateStats();
-      $('sidebarCount').textContent = state.properties.length;
+      setText('sidebarCount', state.properties.length);
     } catch (err) {
       console.error(err);
       toast('error', 'Failed to load', err.message || 'Could not fetch properties.');
@@ -1404,17 +1421,17 @@
 
   function updateStats() {
     const p = state.properties;
-    $('statTotal').textContent = p.length;
-    $('statActive').textContent = p.filter(x => (x.status || 'active').toLowerCase() === 'active').length;
-    $('statSold').textContent = p.filter(x => (x.status || '').toLowerCase() === 'sold').length;
-    $('statRented').textContent = p.filter(x => (x.status || '').toLowerCase() === 'rented').length;
+    setText('statTotal', p.length);
+    setText('statActive', p.filter(x => (x.status || 'active').toLowerCase() === 'active').length);
+    setText('statSold', p.filter(x => (x.status || '').toLowerCase() === 'sold').length);
+    setText('statRented', p.filter(x => (x.status || '').toLowerCase() === 'rented').length);
   }
 
   function applyFilters() {
-    const q = $('searchInput').value.trim().toLowerCase();
-    const status = $('statusFilter').value;
-    const category = $('categoryFilter').value;
-    const sort = $('sortSelect').value;
+    const q = $('searchInput')?.value.trim().toLowerCase() || '';
+    const status = $('statusFilter')?.value || '';
+    const category = $('categoryFilter')?.value || '';
+    const sort = $('sortSelect')?.value || 'newest';
 
     let list = state.properties.filter(item => {
       if (q) {
@@ -1449,6 +1466,7 @@
   // ===== Render Grid =====
   function renderGrid() {
     const grid = $('gridView');
+    if (!grid) return;
     if (state.filtered.length === 0) {
       grid.innerHTML = `
         <div class="empty">
@@ -1516,6 +1534,7 @@
   // ===== Render Table =====
   function renderTable() {
     const body = $('tableBody');
+    if (!body) return;
     if (state.filtered.length === 0) {
       body.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--ink-500);">No properties found</td></tr>`;
       return;
@@ -1639,27 +1658,38 @@
 
   // ===== Modal =====
   function openModal() {
-    $('propertyModal').classList.add('show');
+    const modal = $('propertyModal');
+    if (!modal) return;
+    modal.classList.add('show');
     document.body.style.overflow = 'hidden';
     setTimeout(() => {
       if (!state.mapPickerInstance) initMapPicker();
-      state.mapPickerInstance.invalidateSize();
+      state.mapPickerInstance?.invalidateSize();
     }, 250);
   }
+
   function closeModal() {
-    $('propertyModal').classList.remove('show');
+    const modal = $('propertyModal');
+    if (modal) modal.classList.remove('show');
     document.body.style.overflow = '';
     resetForm();
   }
+
+  // ===== resetForm — HARDENED (never throws) =====
   function resetForm() {
-    $('propertyForm').reset();
-    $('editId').value = '';
-    $('imgPreview').innerHTML = '';
+    const form = $('propertyForm');
+    if (form) form.reset();
+
+    setVal('editId', '');
+    setHTML('imgPreview', '');
+
     state.pendingPhotos = [];
     state.existingPhotos = [];
     state.editingId = null;
-    $('modalTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add New Property';
-    $('saveBtnText').textContent = 'Save Property';
+
+    setHTML('modalTitle', '<i class="fas fa-plus-circle"></i> Add New Property');
+    setText('saveBtnText', 'Save Property');
+
     if (state.mapPickerMarker && state.mapPickerInstance) {
       state.mapPickerInstance.removeLayer(state.mapPickerMarker);
       state.mapPickerMarker = null;
@@ -1671,6 +1701,11 @@
 
   // ===== Map Picker =====
   function initMapPicker() {
+    const el = $('mapPicker');
+    if (!el) {
+      console.warn('[Admin] Missing #mapPicker');
+      return;
+    }
     const map = L.map('mapPicker', {
       center: [-1.286389, 36.817223],
       zoom: 7,
@@ -1705,8 +1740,8 @@
       } else {
         state.mapPickerMarker = L.marker([lat, lng], { icon }).addTo(map);
       }
-      $('fLat').value = lat.toFixed(6);
-      $('fLng').value = lng.toFixed(6);
+      setVal('fLat', lat.toFixed(6));
+      setVal('fLng', lng.toFixed(6));
     });
 
     state.mapPickerInstance = map;
@@ -1742,22 +1777,22 @@
     resetForm();
     state.editingId = item.id;
 
-    $('editId').value = item.id;
-    $('fLocation').value = item.location || '';
-    $('fType').value = item.type || '';
-    $('fCategory').value = item.category || 'For Sale';
-    $('fPrice').value = item.price || '';
-    $('fSize').value = item.size || '';
-    $('fStatus').value = item.status || 'active';
-    $('fDescription').value = item.description || '';
-    $('fLat').value = item.lat != null ? item.lat : '';
-    $('fLng').value = item.lng != null ? item.lng : '';
+    setVal('editId', item.id);
+    setVal('fLocation', item.location);
+    setVal('fType', item.type);
+    setVal('fCategory', item.category || 'For Sale');
+    setVal('fPrice', item.price);
+    setVal('fSize', item.size);
+    setVal('fStatus', item.status || 'active');
+    setVal('fDescription', item.description);
+    setVal('fLat', item.lat != null ? item.lat : '');
+    setVal('fLng', item.lng != null ? item.lng : '');
 
     state.existingPhotos = getPhotos(item);
     renderImagePreviews();
 
-    $('modalTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Property';
-    $('saveBtnText').textContent = 'Update Property';
+    setHTML('modalTitle', '<i class="fas fa-edit"></i> Edit Property');
+    setText('saveBtnText', 'Update Property');
 
     openModal();
 
@@ -1795,6 +1830,8 @@
 
   function renderImagePreviews() {
     const preview = $('imgPreview');
+    if (!preview) return;
+
     const existingList = state.existingPhotos || [];
     const total = existingList.length + state.pendingPhotos.length;
 
@@ -1843,9 +1880,13 @@
     });
   }
 
-  // ===== Save Property =====
+  // ===== Save Property — HARDENED =====
   async function handleSave() {
     const form = $('propertyForm');
+    if (!form) {
+      toast('error', 'Form missing', 'Could not find the property form.');
+      return;
+    }
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
@@ -1872,9 +1913,11 @@
     }
 
     const saveBtn = $('modalSave');
-    const originalText = saveBtn.innerHTML;
-    saveBtn.disabled = true;
-    saveBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Uploading ${state.pendingPhotos.length} photo(s)...`;
+    const originalHTML = saveBtn ? saveBtn.innerHTML : '';
+    if (saveBtn) {
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Uploading ${state.pendingPhotos.length} photo(s)...`;
+    }
 
     try {
       const uploadedUrls = await Promise.all(
@@ -1906,14 +1949,21 @@
         toast('success', 'Property added', `${allPhotos.length} photo(s) uploaded.`);
       }
 
-      closeModal();
+      // Close modal + reset separately so a crash in resetForm can't block the flow
+      const modal = $('propertyModal');
+      if (modal) modal.classList.remove('show');
+      document.body.style.overflow = '';
+      resetForm();
+
       await loadProperties();
     } catch (err) {
       console.error(err);
       toast('error', 'Save failed', err.message || 'Something went wrong.');
     } finally {
-      saveBtn.disabled = false;
-      saveBtn.innerHTML = originalText;
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = originalHTML;
+      }
     }
   }
 
@@ -1922,13 +1972,13 @@
   function confirmDelete(id) {
     const item = state.properties.find(p => String(p.id) === String(id));
     pendingDeleteId = id;
-    $('confirmTitle').textContent = 'Delete Property?';
-    $('confirmText').innerHTML = `You're about to delete <strong>${escapeHtml(item?.location || 'this property')}</strong>. This action cannot be undone.`;
-    $('confirmModal').classList.add('show');
+    setText('confirmTitle', 'Delete Property?');
+    setHTML('confirmText', `You're about to delete <strong>${escapeHtml(item?.location || 'this property')}</strong>. This action cannot be undone.`);
+    $('confirmModal')?.classList.add('show');
   }
   async function performDelete() {
     if (!pendingDeleteId) return;
-    $('confirmModal').classList.remove('show');
+    $('confirmModal')?.classList.remove('show');
     loader.show();
     try {
       const { error } = await supabase.from('properties').delete().eq('id', pendingDeleteId);
@@ -1978,96 +2028,98 @@
     qsa('.view-tab').forEach(t => {
       t.classList.toggle('active', t.dataset.viewMode === mode);
     });
-    $('gridView').classList.toggle('hidden', mode !== 'grid');
-    $('tableView').classList.toggle('active', mode === 'table');
+    $('gridView')?.classList.toggle('hidden', mode !== 'grid');
+    $('tableView')?.classList.toggle('active', mode === 'table');
   }
 
   // ===== Sidebar =====
   function toggleSidebar(force) {
     state.sidebarOpen = force != null ? force : !state.sidebarOpen;
-    $('sidebar').classList.toggle('open', state.sidebarOpen);
-    $('sidebarOverlay').classList.toggle('show', state.sidebarOpen);
+    $('sidebar')?.classList.toggle('open', state.sidebarOpen);
+    $('sidebarOverlay')?.classList.toggle('show', state.sidebarOpen);
   }
 
   // ===== Init =====
   function init() {
-    $('year').textContent = new Date().getFullYear();
+    setText('year', new Date().getFullYear());
 
     initTheme();
-    $('themeBtn').addEventListener('click', toggleTheme);
+    $('themeBtn')?.addEventListener('click', toggleTheme);
 
-    $('loginForm').addEventListener('submit', handleLogin);
-    $('logoutBtn').addEventListener('click', (e) => {
+    $('loginForm')?.addEventListener('submit', handleLogin);
+    $('logoutBtn')?.addEventListener('click', (e) => {
       e.preventDefault();
       handleLogout();
     });
 
-    $('searchInput').addEventListener('input', debounce(applyFilters, 200));
-    $('statusFilter').addEventListener('change', applyFilters);
-    $('categoryFilter').addEventListener('change', applyFilters);
-    $('sortSelect').addEventListener('change', applyFilters);
-    $('refreshBtn').addEventListener('click', loadProperties);
-    $('exportBtn').addEventListener('click', exportCSV);
+    $('searchInput')?.addEventListener('input', debounce(applyFilters, 200));
+    $('statusFilter')?.addEventListener('change', applyFilters);
+    $('categoryFilter')?.addEventListener('change', applyFilters);
+    $('sortSelect')?.addEventListener('change', applyFilters);
+    $('refreshBtn')?.addEventListener('click', loadProperties);
+    $('exportBtn')?.addEventListener('click', exportCSV);
 
     qsa('.view-tab').forEach(tab => {
       tab.addEventListener('click', () => setViewMode(tab.dataset.viewMode));
     });
     setViewMode(state.viewMode);
 
-    $('addBtn').addEventListener('click', openAddModal);
-    $('quickAddBtn').addEventListener('click', openAddModal);
+    $('addBtn')?.addEventListener('click', openAddModal);
+    $('quickAddBtn')?.addEventListener('click', openAddModal);
 
-    $('modalClose').addEventListener('click', closeModal);
-    $('modalCancel').addEventListener('click', closeModal);
-    $('modalSave').addEventListener('click', handleSave);
-    $('propertyModal').addEventListener('click', (e) => {
+    $('modalClose')?.addEventListener('click', closeModal);
+    $('modalCancel')?.addEventListener('click', closeModal);
+    $('modalSave')?.addEventListener('click', handleSave);
+    $('propertyModal')?.addEventListener('click', (e) => {
       if (e.target === $('propertyModal')) closeModal();
     });
 
     const uploadZone = $('uploadZone');
     const photoInput = $('photoInput');
-    photoInput.addEventListener('change', (e) => {
+    photoInput?.addEventListener('change', (e) => {
       if (e.target.files.length) handlePhotoSelect(e.target.files);
       e.target.value = '';
     });
-    ['dragenter', 'dragover'].forEach(evt => {
-      uploadZone.addEventListener(evt, (e) => {
-        e.preventDefault();
-        uploadZone.classList.add('dragover');
+    if (uploadZone) {
+      ['dragenter', 'dragover'].forEach(evt => {
+        uploadZone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          uploadZone.classList.add('dragover');
+        });
       });
-    });
-    ['dragleave', 'drop'].forEach(evt => {
-      uploadZone.addEventListener(evt, (e) => {
-        e.preventDefault();
-        uploadZone.classList.remove('dragover');
+      ['dragleave', 'drop'].forEach(evt => {
+        uploadZone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          uploadZone.classList.remove('dragover');
+        });
       });
-    });
-    uploadZone.addEventListener('drop', (e) => {
-      if (e.dataTransfer.files.length) handlePhotoSelect(e.dataTransfer.files);
-    });
+      uploadZone.addEventListener('drop', (e) => {
+        if (e.dataTransfer.files.length) handlePhotoSelect(e.dataTransfer.files);
+      });
+    }
 
     ['fLat', 'fLng'].forEach(id => {
-      $(id).addEventListener('change', () => {
+      $(id)?.addEventListener('change', () => {
         const lat = parseFloat($('fLat').value);
         const lng = parseFloat($('fLng').value);
         if (Number.isFinite(lat) && Number.isFinite(lng)) setMapMarker(lat, lng);
       });
     });
 
-    $('confirmCancel').addEventListener('click', () => {
-      $('confirmModal').classList.remove('show');
+    $('confirmCancel')?.addEventListener('click', () => {
+      $('confirmModal')?.classList.remove('show');
       pendingDeleteId = null;
     });
-    $('confirmOk').addEventListener('click', performDelete);
-    $('confirmModal').addEventListener('click', (e) => {
+    $('confirmOk')?.addEventListener('click', performDelete);
+    $('confirmModal')?.addEventListener('click', (e) => {
       if (e.target === $('confirmModal')) {
         $('confirmModal').classList.remove('show');
         pendingDeleteId = null;
       }
     });
 
-    $('mobileMenuBtn').addEventListener('click', () => toggleSidebar(true));
-    $('sidebarOverlay').addEventListener('click', () => toggleSidebar(false));
+    $('mobileMenuBtn')?.addEventListener('click', () => toggleSidebar(true));
+    $('sidebarOverlay')?.addEventListener('click', () => toggleSidebar(false));
 
     qsa('.sidebar-nav a[data-view]').forEach(link => {
       link.addEventListener('click', (e) => {
@@ -2082,12 +2134,12 @@
         link.classList.add('active');
 
         if (view === 'dashboard') {
-          $('pageTitle').textContent = 'Dashboard';
-          $('pageSubtitle').textContent = 'Overview of your property portfolio';
+          setText('pageTitle', 'Dashboard');
+          setText('pageSubtitle', 'Overview of your property portfolio');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if (view === 'listings') {
-          $('pageTitle').textContent = 'All Listings';
-          $('pageSubtitle').textContent = `${state.properties.length} properties in portfolio`;
+          setText('pageTitle', 'All Listings');
+          setText('pageSubtitle', `${state.properties.length} properties in portfolio`);
         }
         if (window.innerWidth <= 860) toggleSidebar(false);
       });
@@ -2095,8 +2147,8 @@
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if ($('propertyModal').classList.contains('show')) closeModal();
-        if ($('confirmModal').classList.contains('show')) {
+        if ($('propertyModal')?.classList.contains('show')) closeModal();
+        if ($('confirmModal')?.classList.contains('show')) {
           $('confirmModal').classList.remove('show');
           pendingDeleteId = null;
         }
