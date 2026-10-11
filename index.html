@@ -1,2218 +1,1677 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline'; img-src 'self' https: data: blob:; connect-src 'self' https://fvathemgswgejrsmrpos.supabase.co https://*.supabase.co https://*.arcgisonline.com https://wa.me; font-src 'self' https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' https:;">
-  <link rel="preconnect" href="https://fvathemgswgejrsmrpos.supabase.co" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://server.arcgisonline.com" crossorigin>
-  <link rel="dns-prefetch" href="https://server.arcgisonline.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline'; img-src 'self' https: data: blob:; connect-src 'self' https://fvathemgswgejrsmrpos.supabase.co https://*.supabase.co https://*.arcgisonline.com https://wa.me https://nominatim.openstreetmap.org; font-src 'self' https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' https:;">
+<link rel="preconnect" href="https://fvathemgswgejrsmrpos.supabase.co" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://server.arcgisonline.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Property Services Kenya | Spatio Property Services</title>
+<meta name="description" content="Spatio Property Services - Verified properties for sale & rent, land surveying, GIS mapping & real estate consultancy in Kenya.">
+<meta name="theme-color" content="#0d3b3b">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-  <title>Property Services Kenya | Land Surveying & Real Estate Consultancy</title>
-  <meta name="description" content="Spatio Property Services - Leading property sales, land surveying, GIS mapping & real estate consultancy in Kenya. Find verified properties for sale & rent in Nairobi, Mombasa, Kisumu.">
-  <meta name="keywords" content="property services Kenya, land surveying Nairobi, property for sale, real estate consultancy, GIS mapping, property rentals, surveyor Kenya, land for sale Kenya">
-  <meta name="author" content="Spatio Property Services">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://spatiopropertyservices.co.ke/">
+<style>
+:root {
+  --brand-900:#0a2e2e; --brand-800:#0d3b3b; --brand-700:#0f4a4a;
+  --brand-600:#136f63; --brand-500:#1a8a7a; --brand-400:#2da88f;
+  --brand-100:#e0f5ee; --brand-50:#f0faf7;
+  --gold-600:#b8860b; --gold-500:#d4a017; --gold-400:#e6b422; --gold-100:#fef9e7;
+  --ink-900:#0f172a; --ink-800:#1e293b; --ink-700:#334155; --ink-600:#475569;
+  --ink-500:#64748b; --ink-400:#94a3b8; --ink-300:#cbd5e1; --ink-200:#e2e8f0;
+  --ink-100:#f1f5f9; --ink-50:#f8fafc; --white:#fff;
+  --success:#10b981; --warning:#f59e0b; --danger:#ef4444; --info:#3b82f6;
+  --header-h:76px; --max-width:1320px; --container-pad:clamp(16px,4vw,48px);
+  --radius-sm:8px; --radius-md:12px; --radius-lg:20px; --radius-full:9999px;
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.06); --shadow-md:0 6px 20px rgba(0,0,0,0.08);
+  --shadow-lg:0 16px 40px rgba(0,0,0,0.1); --shadow-xl:0 24px 60px rgba(0,0,0,0.14);
+  --transition:300ms cubic-bezier(0.4,0,0.2,1);
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',system-ui,sans-serif;
+}
+[data-theme="dark"] {
+  --brand-900:#0a1a1a; --brand-800:#0d2525; --brand-700:#103030;
+  --brand-600:#1a5254; --brand-500:#1a8a7a; --brand-400:#2da88f;
+  --brand-100:#0f2a2a; --brand-50:#0a1f1f;
+  --ink-900:#f8fafc; --ink-800:#f1f5f9; --ink-700:#e2e8f0; --ink-600:#cbd5e1;
+  --ink-500:#94a3b8; --ink-400:#64748b; --ink-300:#475569; --ink-200:#334155;
+  --ink-100:#1e293b; --ink-50:#0f172a; --white:#161b22;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 20px);}
+body{font-family:var(--font-body);line-height:1.7;color:var(--ink-800);background:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background var(--transition),color var(--transition);}
+[data-theme="dark"] body{background:var(--brand-900);color:var(--ink-800);}
+img,video,iframe{max-width:100%;height:auto;display:block;}
+a{color:inherit;text-decoration:none;transition:color 0.15s;}
+a:hover{color:var(--brand-500);}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+.container{width:100%;max-width:var(--max-width);margin:0 auto;padding:0 var(--container-pad);}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+:focus-visible{outline:3px solid var(--brand-400);outline-offset:2px;border-radius:4px;}
 
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://spatiopropertyservices.co.ke/">
-  <meta property="og:title" content="Property Services Kenya | Spatio Property Services">
-  <meta property="og:description" content="Verified properties for sale & rent. Professional land surveying, GIS mapping & real estate consultancy across Kenya.">
-  <meta property="og:image" content="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg">
-  <meta property="og:site_name" content="Spatio Property Services">
-  <meta property="og:locale" content="en_KE">
+/* Header */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,46,46,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);transition:background var(--transition),box-shadow var(--transition);}
+.site-header.scrolled{background:rgba(10,46,46,0.98);box-shadow:var(--shadow-lg);}
+[data-theme="dark"] .site-header{background:rgba(10,26,26,0.92);}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:var(--header-h);max-width:var(--max-width);margin:0 auto;padding:0 var(--container-pad);}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.brand-logo{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--gold-500);transition:transform var(--transition);}
+.brand:hover .brand-logo{transform:scale(1.05) rotate(5deg);}
+.brand-text{display:flex;flex-direction:column;line-height:1.1;}
+.brand-name{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--white);letter-spacing:-0.02em;}
+.brand-name span{color:var(--gold-400);}
+.brand-tagline{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--ink-400);font-weight:500;}
+.main-nav{display:none;}
+.main-nav ul{display:flex;list-style:none;gap:4px;}
+.main-nav a{display:block;padding:10px 18px;color:rgba(255,255,255,0.85);font-weight:500;font-size:0.9rem;border-radius:var(--radius-full);transition:all 0.15s;}
+.main-nav a:hover,.main-nav a.active{color:var(--white);background:rgba(255,255,255,0.1);}
+.main-nav a.active{color:var(--gold-400);}
+.header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.icon-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);color:var(--white);font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.icon-btn:hover{background:var(--gold-500);color:var(--brand-900);transform:scale(1.05);}
+.menu-btn{display:flex;}
+.mobile-nav{position:fixed;top:0;right:-100%;width:min(85vw,360px);height:100dvh;background:var(--brand-900);z-index:1001;padding:calc(var(--header-h) + 32px) 28px 32px;transition:right 0.5s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;box-shadow:-10px 0 40px rgba(0,0,0,0.4);}
+.mobile-nav.open{right:0;}
+.mobile-nav ul{list-style:none;}
+.mobile-nav li{border-bottom:1px solid rgba(255,255,255,0.08);}
+.mobile-nav a{display:flex;align-items:center;gap:12px;padding:18px 0;color:rgba(255,255,255,0.9);font-size:1.05rem;font-weight:500;transition:all 0.15s;}
+.mobile-nav a:hover,.mobile-nav a.active{color:var(--gold-400);padding-left:8px;}
+.mobile-nav a i{width:24px;color:var(--gold-500);}
+.nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:1000;opacity:0;visibility:hidden;transition:all var(--transition);}
+.nav-overlay.show{opacity:1;visibility:visible;}
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Property Services Kenya | Spatio Property Services">
-  <meta name="twitter:description" content="Verified properties for sale & rent. Professional land surveying & real estate consultancy in Kenya.">
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 32px;border:none;border-radius:var(--radius-full);font-family:var(--font-body);font-weight:600;font-size:0.95rem;line-height:1;cursor:pointer;transition:all var(--transition);white-space:nowrap;min-height:48px;}
+.btn-primary{background:linear-gradient(135deg,var(--gold-500),var(--gold-600));color:var(--brand-900);box-shadow:0 8px 24px rgba(212,160,23,0.3);}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(212,160,23,0.4);color:var(--brand-900);}
+.btn-whatsapp{background:#25D366;color:var(--white);box-shadow:0 8px 24px rgba(37,211,102,0.3);}
+.btn-whatsapp:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(37,211,102,0.4);color:var(--white);}
+.btn-secondary{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,0.3);}
+.btn-secondary:hover{background:var(--white);color:var(--brand-900);border-color:var(--white);}
+.btn-outline{background:transparent;color:var(--brand-600);border:2px solid var(--brand-600);}
+[data-theme="dark"] .btn-outline{color:var(--gold-400);border-color:var(--gold-400);}
+.btn-outline:hover{background:var(--brand-600);color:var(--white);}
+.btn-sm{padding:10px 22px;font-size:0.85rem;min-height:40px;}
+.btn-lg{padding:18px 40px;font-size:1.05rem;min-height:56px;}
 
-  <meta name="theme-color" content="#0d3b3b" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0a1a1a" media="(prefers-color-scheme: dark)">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
+/* Hero */
+.hero{position:relative;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:calc(var(--header-h) + 60px) var(--container-pad) 80px;background:linear-gradient(135deg,rgba(10,46,46,0.92),rgba(15,74,74,0.85)),url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&auto=format&fit=crop&q=80') center/cover no-repeat;color:var(--white);text-align:center;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(212,160,23,0.15),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(26,138,122,0.2),transparent 60%);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,var(--white),transparent);pointer-events:none;}
+[data-theme="dark"] .hero::after{background:linear-gradient(to top,var(--brand-900),transparent);}
+.hero-content{position:relative;z-index:2;max-width:900px;animation:heroFadeIn 1s ease-out;}
+@keyframes heroFadeIn{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:rgba(212,160,23,0.15);border:1px solid rgba(212,160,23,0.3);border-radius:var(--radius-full);font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-400);margin-bottom:24px;backdrop-filter:blur(10px);}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.4rem,7vw,4.5rem);font-weight:700;line-height:1.1;margin-bottom:24px;text-shadow:0 4px 30px rgba(0,0,0,0.3);}
+.hero h1 em{font-style:normal;color:var(--gold-400);}
+.hero p{font-size:clamp(1rem,2.5vw,1.25rem);line-height:1.7;color:rgba(255,255,255,0.85);max-width:640px;margin:0 auto 40px;}
+.hero-actions{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;}
+.hero-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:48px;margin-top:64px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.12);}
+.hero-stat-value{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--gold-400);line-height:1;margin-bottom:6px;}
+.hero-stat-label{font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.6);font-weight:500;}
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    "name": "Spatio Property Services",
-    "image": "https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg",
-    "url": "https://spatiopropertyservices.co.ke",
-    "telephone": "+254782424154",
-    "email": "info.spske@gmail.com",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Nairobi",
-      "addressLocality": "Nairobi",
-      "addressCountry": "KE"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": -1.286389,
-      "longitude": 36.817223
-    },
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      "opens": "08:00",
-      "closes": "18:00"
-    },
-    "priceRange": "$$",
-    "areaServed": ["KE"]
-  }
-  </script>
+/* Section */
+.section{padding:clamp(64px,10vw,120px) 0;}
+.section-header{text-align:center;max-width:680px;margin:0 auto clamp(40px,6vw,64px);}
+.section-label{display:inline-flex;align-items:center;gap:8px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--brand-500);margin-bottom:16px;}
+.section-label::before,.section-label::after{content:'';width:24px;height:2px;background:var(--gold-500);border-radius:2px;}
+[data-theme="dark"] .section-label{color:var(--gold-400);}
+.section-title{font-family:var(--font-display);font-size:clamp(1.9rem,5vw,3rem);font-weight:700;line-height:1.15;color:var(--ink-900);margin-bottom:16px;}
+[data-theme="dark"] .section-title{color:var(--white);}
+.section-title em{font-style:normal;color:var(--brand-500);}
+[data-theme="dark"] .section-title em{color:var(--gold-400);}
+.section-desc{font-size:1.05rem;color:var(--ink-500);}
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+/* Property Cards */
+.services-grid,.featured-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:28px;}
+.property-card{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:all var(--transition);border:1px solid var(--ink-200);cursor:pointer;position:relative;display:flex;flex-direction:column;}
+[data-theme="dark"] .property-card{background:var(--brand-700);border-color:rgba(255,255,255,0.06);}
+.property-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);}
+.property-img-wrap{position:relative;height:220px;overflow:hidden;background:var(--ink-100);}
+.property-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;}
+.property-card:hover .property-img-wrap img{transform:scale(1.08);}
+.property-badge{position:absolute;top:16px;left:16px;padding:6px 14px;border-radius:var(--radius-full);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;z-index:2;}
+.badge-new{background:var(--gold-500);color:var(--brand-900);box-shadow:0 4px 12px rgba(212,160,23,0.4);}
+.card-photo-count{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);color:var(--white);padding:5px 10px;border-radius:var(--radius-full);font-size:0.72rem;font-weight:700;display:flex;align-items:center;gap:5px;z-index:2;}
+.property-body{padding:22px;flex:1;display:flex;flex-direction:column;}
+.property-location{display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--ink-500);margin-bottom:8px;}
+.property-location i{color:var(--gold-500);font-size:0.75rem;}
+.property-title{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--ink-900);margin-bottom:10px;line-height:1.3;}
+[data-theme="dark"] .property-title{color:var(--white);}
+.property-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--ink-200);margin-top:auto;}
+.property-price{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--brand-600);}
+[data-theme="dark"] .property-price{color:var(--gold-400);}
+.property-price small{display:block;font-family:var(--font-body);font-size:0.7rem;font-weight:500;color:var(--ink-400);text-transform:uppercase;}
 
-  <style>
-    :root {
-      --brand-900: #0a2e2e;
-      --brand-800: #0d3b3b;
-      --brand-700: #0f4a4a;
-      --brand-600: #136f63;
-      --brand-500: #1a8a7a;
-      --brand-400: #2da88f;
-      --brand-300: #5bc4a8;
-      --brand-200: #a8e0cf;
-      --brand-100: #e0f5ee;
-      --brand-50: #f0faf7;
-      
-      --gold-600: #b8860b;
-      --gold-500: #d4a017;
-      --gold-400: #e6b422;
-      --gold-300: #f0c94a;
-      --gold-100: #fef9e7;
-      
-      --ink-900: #0f172a;
-      --ink-800: #1e293b;
-      --ink-700: #334155;
-      --ink-600: #475569;
-      --ink-500: #64748b;
-      --ink-400: #94a3b8;
-      --ink-300: #cbd5e1;
-      --ink-200: #e2e8f0;
-      --ink-100: #f1f5f9;
-      --ink-50: #f8fafc;
-      --white: #ffffff;
-      
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --info: #3b82f6;
-      
-      --header-h: 76px;
-      --max-width: 1320px;
-      --container-pad: clamp(16px, 4vw, 48px);
-      
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 20px;
-      --radius-full: 9999px;
-      
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-      --shadow-md: 0 6px 20px rgba(0,0,0,0.08);
-      --shadow-lg: 0 16px 40px rgba(0,0,0,0.1);
-      --shadow-xl: 0 24px 60px rgba(0,0,0,0.14);
-      --shadow-focus: 0 0 0 4px rgba(19,111,99,0.18);
-      
-      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-      --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
-      
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    }
+/* Skeleton */
+.skeleton{background:linear-gradient(90deg,var(--ink-200) 25%,var(--ink-100) 37%,var(--ink-200) 63%);background-size:400% 100%;animation:skeleton 1.4s ease infinite;border-radius:var(--radius-lg);height:380px;}
+@keyframes skeleton{0%{background-position:100% 0;}100%{background-position:0 0;}}
 
-    [data-theme="dark"] {
-      --brand-900: #0a1a1a;
-      --brand-800: #0d2525;
-      --brand-700: #103030;
-      --brand-600: #1a5254;
-      --brand-500: #1a8a7a;
-      --brand-400: #2da88f;
-      --brand-300: #5bc4a8;
-      --brand-200: #1a3a3a;
-      --brand-100: #0f2a2a;
-      --brand-50: #0a1f1f;
-      
-      --gold-600: #e6b422;
-      --gold-500: #f0c94a;
-      --gold-400: #f7e08a;
-      
-      --ink-900: #f8fafc;
-      --ink-800: #f1f5f9;
-      --ink-700: #e2e8f0;
-      --ink-600: #cbd5e1;
-      --ink-500: #94a3b8;
-      --ink-400: #64748b;
-      --ink-300: #475569;
-      --ink-200: #334155;
-      --ink-100: #1e293b;
-      --ink-50: #0f172a;
-      --white: #161b22;
-    }
+/* Filter Chips */
+.filter-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:32px;}
+.filter-chip{padding:8px 20px;border-radius:var(--radius-full);background:var(--white);border:2px solid var(--ink-200);color:var(--ink-600);font-weight:600;font-size:0.85rem;transition:all 0.2s;}
+.filter-chip:hover{border-color:var(--gold-500);color:var(--brand-700);}
+.filter-chip.active{background:var(--gold-500);color:var(--brand-900);border-color:var(--gold-500);box-shadow:0 4px 12px rgba(212,160,23,0.3);}
+[data-theme="dark"] .filter-chip{background:var(--brand-700);border-color:rgba(255,255,255,0.1);color:var(--ink-600);}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-      -webkit-text-size-adjust: 100%;
-      scroll-padding-top: calc(var(--header-h) + 20px);
-    }
-    
-    body {
-      font-family: var(--font-body);
-      line-height: 1.7;
-      color: var(--ink-800);
-      background: var(--white);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
-      max-width: 100vw;
-      transition: background var(--transition), color var(--transition);
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-    
-    [data-theme="dark"] body { background: var(--brand-900); color: var(--ink-800); }
-    
-    img, video, iframe { max-width: 100%; height: auto; display: block; }
-    a { color: inherit; text-decoration: none; transition: color var(--transition-fast); }
-    a:hover { color: var(--brand-500); }
-    button { font-family: inherit; cursor: pointer; }
-    
-    ::selection { background: var(--brand-200); color: var(--brand-900); }
-    [data-theme="dark"] ::selection { background: var(--gold-500); color: var(--brand-900); }
+/* Table */
+.table-wrap{overflow-x:auto;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);border:1px solid var(--ink-200);}
+.listing-table{width:100%;border-collapse:collapse;background:var(--white);min-width:900px;}
+[data-theme="dark"] .listing-table{background:var(--brand-700);}
+.listing-table th{background:var(--brand-800);color:var(--white);font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;padding:16px 18px;text-align:left;white-space:nowrap;}
+.listing-table td{padding:16px 18px;border-bottom:1px solid var(--ink-200);font-size:0.9rem;color:var(--ink-700);white-space:nowrap;}
+.listing-table tbody tr:hover{background:var(--ink-50);}
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:var(--radius-full);font-size:0.72rem;font-weight:700;text-transform:uppercase;}
+.status-active{background:rgba(16,185,129,0.12);color:var(--success);}
+.status-sold{background:rgba(239,68,68,0.12);color:var(--danger);}
+.status-rented{background:rgba(245,158,11,0.12);color:var(--warning);}
+.status-pending{background:rgba(59,130,246,0.12);color:var(--info);}
+.type-badge{display:inline-block;padding:4px 12px;border-radius:var(--radius-full);font-size:0.72rem;font-weight:600;background:var(--brand-100);color:var(--brand-700);}
 
-    .visually-hidden {
-      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-    }
-    
-    .skip-link {
-      position: absolute; top: -100px; left: 16px; background: var(--gold-500);
-      color: var(--brand-900); padding: 12px 24px; z-index: 10000; 
-      transition: top var(--transition-fast); border-radius: var(--radius-md);
-      font-weight: 600;
-    }
-    .skip-link:focus { top: 16px; }
-    
-    :focus-visible {
-      outline: 3px solid var(--brand-400);
-      outline-offset: 2px;
-      border-radius: 4px;
-    }
-    [data-theme="dark"] :focus-visible { outline-color: var(--gold-400); }
+/* Map */
+.map-section{padding:0 0 clamp(64px,10vw,120px);}
+.map-wrap{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--ink-200);height:480px;}
+#propertyMap{width:100%;height:100%;}
 
-    .container {
-      width: 100%;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding-left: var(--container-pad);
-      padding-right: var(--container-pad);
-    }
+/* Quiz Section (NEW - Find Perfect Property) */
+.quiz-section{background:linear-gradient(135deg,var(--brand-50) 0%,var(--brand-100) 100%);padding:clamp(64px,10vw,120px) 0;}
+[data-theme="dark"] .quiz-section{background:linear-gradient(135deg,var(--brand-800) 0%,var(--brand-700) 100%);}
+.quiz-container{max-width:820px;margin:0 auto;background:var(--white);border-radius:24px;box-shadow:var(--shadow-xl);padding:50px 45px;position:relative;}
+[data-theme="dark"] .quiz-container{background:var(--brand-800);}
+.quiz-progress{display:flex;justify-content:space-between;margin-bottom:35px;position:relative;}
+.quiz-progress::before{content:'';position:absolute;top:16px;left:5%;right:5%;height:2px;background:var(--ink-200);z-index:0;}
+.quiz-progress .step{width:34px;height:34px;border-radius:50%;background:var(--ink-200);color:var(--ink-500);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:0.85rem;position:relative;z-index:1;transition:all 0.3s ease;}
+.quiz-progress .step.active{background:var(--gold-500);color:var(--brand-900);transform:scale(1.15);box-shadow:0 4px 12px rgba(212,160,23,0.4);}
+.quiz-progress .step.completed{background:var(--brand-500);color:var(--white);}
+.quiz-step{display:none;animation:quizFade 0.4s ease;}
+.quiz-step.active{display:block;}
+@keyframes quizFade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.quiz-step h3{font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--ink-900);margin-bottom:10px;}
+[data-theme="dark"] .quiz-step h3{color:var(--white);}
+.quiz-step .subtitle{color:var(--ink-500);margin-bottom:30px;font-size:0.95rem;}
+.quiz-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin-bottom:30px;}
+.quiz-option{padding:18px;border:2px solid var(--ink-200);border-radius:var(--radius-md);cursor:pointer;text-align:center;font-family:var(--font-body);font-weight:600;font-size:0.95rem;color:var(--ink-800);transition:all 0.25s ease;background:var(--white);}
+[data-theme="dark"] .quiz-option{background:var(--brand-700);color:var(--ink-700);border-color:rgba(255,255,255,0.1);}
+.quiz-option:hover{border-color:var(--gold-500);background:rgba(212,160,23,0.05);transform:translateY(-2px);}
+.quiz-option.selected{border-color:var(--gold-500);background:var(--gold-500);color:var(--brand-900);box-shadow:0 4px 12px rgba(212,160,23,0.3);}
+.quiz-option i{display:block;font-size:1.5rem;margin-bottom:8px;color:var(--gold-500);}
+.quiz-option.selected i{color:var(--brand-900);}
+.quiz-nav{display:flex;justify-content:space-between;gap:15px;}
+.quiz-nav .btn{min-width:120px;}
+.quiz-nav .btn:disabled{opacity:0.4;cursor:not-allowed;transform:none !important;box-shadow:none !important;}
+.quiz-result{display:none;text-align:center;animation:quizFade 0.4s ease;}
+.quiz-result.active{display:block;}
+.quiz-result h3{font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:var(--brand-600);margin-bottom:10px;}
+[data-theme="dark"] .quiz-result h3{color:var(--gold-400);}
+.quiz-match{background:linear-gradient(135deg,var(--gold-500) 0%,var(--gold-400) 100%);border-radius:16px;padding:30px;margin:30px 0;box-shadow:0 8px 24px rgba(212,160,23,0.3);text-align:left;}
+.quiz-match .label{font-family:var(--font-body);font-weight:700;font-size:0.75rem;color:var(--brand-900);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;opacity:0.7;}
+.quiz-match h4{font-family:var(--font-display);font-size:1.6rem;color:var(--brand-900);margin-bottom:8px;}
+.quiz-match p{color:var(--brand-900);font-weight:600;margin-bottom:20px;}
+.quiz-alternatives{text-align:left;background:var(--ink-50);border-radius:12px;padding:25px;margin-top:20px;}
+[data-theme="dark"] .quiz-alternatives{background:var(--brand-900);}
+.quiz-alternatives h5{font-family:var(--font-display);font-size:1rem;color:var(--ink-900);margin-bottom:15px;}
+[data-theme="dark"] .quiz-alternatives h5{color:var(--white);}
+.quiz-alt-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--ink-200);gap:12px;}
+[data-theme="dark"] .quiz-alt-item{border-color:rgba(255,255,255,0.08);}
+.quiz-alt-item:last-child{border-bottom:none;}
+.quiz-alt-item strong{font-family:var(--font-display);color:var(--brand-700);}
+[data-theme="dark"] .quiz-alt-item strong{color:var(--gold-400);}
 
-    /* Header */
-    .site-header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      background: rgba(10, 46, 46, 0.92);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      transition: background var(--transition), box-shadow var(--transition);
-      padding-top: env(safe-area-inset-top);
-    }
-    .site-header.scrolled { background: rgba(10, 46, 46, 0.98); box-shadow: var(--shadow-lg); }
-    [data-theme="dark"] .site-header { background: rgba(10, 26, 26, 0.92); }
-    
-    .header-inner {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; height: var(--header-h); max-width: var(--max-width);
-      margin: 0 auto; padding: 0 var(--container-pad);
-    }
-    .brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-    .brand-logo {
-      width: 48px; height: 48px; border-radius: 50%; object-fit: cover;
-      border: 2px solid var(--gold-500); transition: transform var(--transition);
-    }
-    .brand:hover .brand-logo { transform: scale(1.05) rotate(5deg); }
-    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-    .brand-name {
-      font-family: var(--font-display); font-size: 1.25rem;
-      font-weight: 700; color: var(--white); letter-spacing: -0.02em;
-    }
-    .brand-name span { color: var(--gold-400); }
-    .brand-tagline {
-      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em;
-      color: var(--ink-400); font-weight: 500;
-    }
-    .main-nav { display: none; }
-    .main-nav ul { display: flex; list-style: none; gap: 4px; }
-    .main-nav a {
-      display: block; padding: 10px 18px; color: rgba(255,255,255,0.85);
-      font-weight: 500; font-size: 0.9rem; border-radius: var(--radius-full);
-      transition: all var(--transition-fast);
-    }
-    .main-nav a:hover, .main-nav a.active { color: var(--white); background: rgba(255,255,255,0.1); }
-    .main-nav a.active { color: var(--gold-400); }
-    .header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-    .icon-btn {
-      width: 44px; height: 44px; border-radius: 50%; border: none;
-      background: rgba(255,255,255,0.1); color: var(--white); font-size: 1rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: all var(--transition-fast);
-    }
-    .icon-btn:hover { background: var(--gold-500); color: var(--brand-900); transform: scale(1.05); }
-    .menu-btn { display: flex; }
-    .mobile-nav {
-      position: fixed; top: 0; right: -100%; width: min(85vw, 360px);
-      height: 100vh; height: 100dvh; background: var(--brand-900); z-index: 1001;
-      padding: calc(var(--header-h) + 32px) 28px 32px;
-      transition: right var(--transition-slow); overflow-y: auto;
-      box-shadow: -10px 0 40px rgba(0,0,0,0.4);
-    }
-    .mobile-nav.open { right: 0; }
-    .mobile-nav ul { list-style: none; }
-    .mobile-nav li { border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .mobile-nav a {
-      display: flex; align-items: center; gap: 12px; padding: 18px 0;
-      color: rgba(255,255,255,0.9); font-size: 1.05rem; font-weight: 500;
-      transition: all var(--transition-fast);
-    }
-    .mobile-nav a:hover, .mobile-nav a.active { color: var(--gold-400); padding-left: 8px; }
-    .mobile-nav a i { width: 24px; color: var(--gold-500); font-size: 1.1rem; }
-    .nav-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px); z-index: 1000; opacity: 0;
-      visibility: hidden; transition: all var(--transition);
-    }
-    .nav-overlay.show { opacity: 1; visibility: visible; }
+/* Toast */
+.toast-container{position:fixed;top:20px;right:20px;z-index:3000;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:calc(100vw - 40px);}
+.toast{background:var(--white);color:var(--ink-800);padding:14px 18px;border-radius:var(--radius-md);box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:12px;min-width:280px;max-width:400px;border-left:4px solid var(--info);pointer-events:auto;animation:toastIn 0.3s ease;font-size:0.9rem;}
+@keyframes toastIn{from{opacity:0;transform:translateX(100%);}to{opacity:1;transform:translateX(0);}}
+.toast.hide{animation:toastOut 0.3s ease forwards;}
+@keyframes toastOut{to{opacity:0;transform:translateX(100%);}}
+.toast.success{border-left-color:var(--success);}
+.toast.success .toast-icon{color:var(--success);}
+.toast.error{border-left-color:var(--danger);}
+.toast.error .toast-icon{color:var(--danger);}
+.toast.warning{border-left-color:var(--warning);}
+.toast.warning .toast-icon{color:var(--warning);}
+.toast.info .toast-icon{color:var(--info);}
+.toast-icon{font-size:1.15rem;flex-shrink:0;}
+.toast-content{flex:1;min-width:0;}
+.toast-title{font-weight:600;margin-bottom:2px;}
+.toast-msg{font-size:0.82rem;color:var(--ink-500);word-break:break-all;}
 
-    /* Buttons */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 10px; padding: 14px 32px; border: none;
-      border-radius: var(--radius-full); font-family: var(--font-body);
-      font-weight: 600; font-size: 0.95rem; line-height: 1;
-      cursor: pointer; transition: all var(--transition);
-      text-decoration: none; white-space: nowrap;
-      position: relative; overflow: hidden; min-height: 48px;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
-      color: var(--brand-900); box-shadow: 0 8px 24px rgba(212,160,23,0.3);
-    }
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 32px rgba(212,160,23,0.4);
-      color: var(--brand-900);
-    }
-    .btn-whatsapp {
-      background: #25D366;
-      color: var(--white); box-shadow: 0 8px 24px rgba(37,211,102,0.3);
-    }
-    .btn-whatsapp:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 32px rgba(37,211,102,0.4);
-      color: var(--white);
-    }
-    .btn-secondary {
-      background: transparent; color: var(--white);
-      border: 2px solid rgba(255,255,255,0.3);
-    }
-    .btn-secondary:hover { background: var(--white); color: var(--brand-900); border-color: var(--white); }
-    .btn-outline {
-      background: transparent; color: var(--brand-600);
-      border: 2px solid var(--brand-600);
-    }
-    [data-theme="dark"] .btn-outline { color: var(--gold-400); border-color: var(--gold-400); }
-    .btn-outline:hover { background: var(--brand-600); color: var(--white); }
-    [data-theme="dark"] .btn-outline:hover { background: var(--gold-400); color: var(--brand-900); }
-    .btn-sm { padding: 10px 22px; font-size: 0.85rem; min-height: 40px; }
-    .btn-lg { padding: 18px 40px; font-size: 1.05rem; min-height: 56px; }
+/* Modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(10,20,20,0.7);backdrop-filter:blur(6px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto;}
+.modal-backdrop.show{display:flex;}
+.modal{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);width:100%;max-width:520px;max-height:calc(100vh - 40px);display:flex;flex-direction:column;animation:modalIn 0.3s ease;margin:auto;}
+[data-theme="dark"] .modal{background:var(--brand-700);}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--ink-200);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;}
+.modal-title{font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--ink-900);display:flex;align-items:center;gap:10px;}
+[data-theme="dark"] .modal-title{color:var(--white);}
+.modal-title i{color:var(--gold-500);}
+.modal-close{width:36px;height:36px;border-radius:var(--radius-md);background:var(--ink-100);color:var(--ink-600);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all var(--transition);flex-shrink:0;}
+.modal-close:hover{background:var(--danger);color:var(--white);}
+.modal-body{padding:24px;overflow-y:auto;flex:1;}
 
-    /* Hero */
-    .hero {
-      position: relative; min-height: 100vh; min-height: 100dvh;
-      display: flex; align-items: center; justify-content: center;
-      padding: calc(var(--header-h) + 60px) var(--container-pad) 80px;
-      background: linear-gradient(135deg, rgba(10,46,46,0.92) 0%, rgba(15,74,74,0.85) 100%),
-                  url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&auto=format&fit=crop&q=80') center/cover no-repeat;
-      color: var(--white); text-align: center; overflow: hidden;
-    }
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 30% 20%, rgba(212,160,23,0.15) 0%, transparent 60%),
-                  radial-gradient(ellipse at 70% 80%, rgba(26,138,122,0.2) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .hero::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-      height: 200px; background: linear-gradient(to top, var(--white), transparent);
-      pointer-events: none;
-    }
-    [data-theme="dark"] .hero::after { background: linear-gradient(to top, var(--brand-900), transparent); }
-    .hero-content { position: relative; z-index: 2; max-width: 900px; animation: heroFadeIn 1s ease-out; }
-    @keyframes heroFadeIn {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 8px 20px; background: rgba(212,160,23,0.15);
-      border: 1px solid rgba(212,160,23,0.3); border-radius: var(--radius-full);
-      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--gold-300);
-      margin-bottom: 24px; backdrop-filter: blur(10px);
-    }
-    .hero-badge i { font-size: 0.7rem; }
-    .hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(2.4rem, 7vw, 4.5rem);
-      font-weight: 700; line-height: 1.1; margin-bottom: 24px;
-      letter-spacing: -0.02em; text-shadow: 0 4px 30px rgba(0,0,0,0.3);
-    }
-    .hero h1 em { font-style: normal; color: var(--gold-400); position: relative; }
-    .hero h1 em::after {
-      content: ''; position: absolute; bottom: 4px; left: 0; right: 0;
-      height: 8px; background: rgba(212,160,23,0.25);
-      border-radius: 4px; z-index: -1;
-    }
-    .hero p {
-      font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.7;
-      color: rgba(255,255,255,0.85); max-width: 640px; margin: 0 auto 40px;
-    }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
-    .hero-stats {
-      display: flex; flex-wrap: wrap; justify-content: center;
-      gap: 48px; margin-top: 64px; padding-top: 40px;
-      border-top: 1px solid rgba(255,255,255,0.12);
-    }
-    .hero-stat { text-align: center; }
-    .hero-stat-value {
-      font-family: var(--font-display); font-size: 2rem;
-      font-weight: 700; color: var(--gold-400); line-height: 1; margin-bottom: 6px;
-    }
-    .hero-stat-label {
-      font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.6); font-weight: 500;
-    }
-    .hero-scroll {
-      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-      z-index: 3; color: rgba(255,255,255,0.5); font-size: 1.5rem;
-      animation: bounce 2s infinite;
-    }
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-      40% { transform: translateX(-50%) translateY(-10px); }
-      60% { transform: translateX(-50%) translateY(-5px); }
-    }
+/* Forms */
+.form-field{margin-bottom:18px;}
+.form-field label{display:block;font-size:0.8rem;font-weight:600;color:var(--ink-700);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;}
+.form-field input,.form-field select,.form-field textarea{width:100%;padding:12px 14px;border:1.5px solid var(--ink-200);border-radius:var(--radius-md);font-family:inherit;font-size:0.95rem;background:var(--white);color:var(--ink-900);transition:all var(--transition);min-height:46px;}
+[data-theme="dark"] .form-field input,[data-theme="dark"] .form-field select,[data-theme="dark"] .form-field textarea{background:var(--brand-800);border-color:rgba(255,255,255,0.1);color:var(--white);}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{outline:none;border-color:var(--brand-500);box-shadow:0 0 0 4px rgba(26,138,122,0.12);}
+.form-field .req{color:var(--danger);}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 
-    /* Sections */
-    .section { padding: clamp(64px, 10vw, 120px) 0; }
-    .section-header { text-align: center; max-width: 680px; margin: 0 auto clamp(40px, 6vw, 64px); }
-    .section-label {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.15em; color: var(--brand-500); margin-bottom: 16px;
-    }
-    .section-label::before, .section-label::after {
-      content: ''; width: 24px; height: 2px;
-      background: var(--gold-500); border-radius: 2px;
-    }
-    [data-theme="dark"] .section-label { color: var(--gold-400); }
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(1.9rem, 5vw, 3rem);
-      font-weight: 700; line-height: 1.15; color: var(--ink-900);
-      letter-spacing: -0.02em; margin-bottom: 16px;
-    }
-    [data-theme="dark"] .section-title { color: var(--ink-900); }
-    .section-title em { font-style: normal; color: var(--brand-500); position: relative; }
-    [data-theme="dark"] .section-title em { color: var(--gold-400); }
-    .section-desc { font-size: 1.05rem; color: var(--ink-500); line-height: 1.7; }
+/* Portal Tabs */
+.portal-tabs{display:flex;gap:4px;padding:4px;background:var(--ink-100);border-radius:var(--radius-md);margin-bottom:24px;}
+.portal-tab{flex:1;padding:12px;border-radius:var(--radius-sm);font-weight:600;font-size:0.9rem;color:var(--ink-600);transition:all var(--transition);}
+.portal-tab.active{background:var(--white);color:var(--brand-600);box-shadow:var(--shadow-sm);}
+[data-theme="dark"] .portal-tab.active{background:var(--brand-800);color:var(--gold-400);}
+.portal-panel{display:none;}
+.portal-panel.active{display:block;}
 
-    /* Services */
-    .services { background: var(--ink-50); }
-    [data-theme="dark"] .services { background: var(--brand-800); }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-      gap: 28px;
-    }
-    .service-card {
-      background: var(--white); border-radius: var(--radius-lg);
-      overflow: hidden; box-shadow: var(--shadow-sm);
-      transition: all var(--transition); border: 1px solid var(--ink-200);
-      display: flex; flex-direction: column; position: relative;
-    }
-    [data-theme="dark"] .service-card { background: var(--brand-700); border-color: rgba(255,255,255,0.06); }
-    .service-card:hover {
-      transform: translateY(-8px); box-shadow: var(--shadow-xl);
-      border-color: var(--brand-300);
-    }
-    .service-img-wrap { position: relative; height: 220px; overflow: hidden; }
-    .service-img-wrap img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform var(--transition-slow);
-    }
-    .service-card:hover .service-img-wrap img { transform: scale(1.08); }
-    .service-img-wrap::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(10,46,46,0.7), transparent 60%);
-    }
-    .service-number {
-      position: absolute; top: 16px; right: 16px;
-      width: 44px; height: 44px; background: var(--gold-500);
-      color: var(--brand-900); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 1.1rem; z-index: 2;
-    }
-    .service-body { padding: 28px; flex: 1; display: flex; flex-direction: column; }
-    .service-body h3 {
-      font-family: var(--font-display); font-size: 1.35rem;
-      font-weight: 700; color: var(--ink-900); margin-bottom: 12px;
-    }
-    [data-theme="dark"] .service-body h3 { color: var(--white); }
-    .service-body p {
-      color: var(--ink-500); font-size: 0.95rem;
-      line-height: 1.7; margin-bottom: 24px; flex: 1;
-    }
-    [data-theme="dark"] .service-body p { color: var(--ink-400); }
-    .service-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      color: var(--brand-600); font-weight: 600; font-size: 0.9rem;
-      transition: all var(--transition-fast);
-    }
-    [data-theme="dark"] .service-link { color: var(--gold-400); }
-    .service-link:hover { gap: 12px; color: var(--gold-600); }
-    .service-link i { transition: transform var(--transition-fast); }
-    .service-link:hover i { transform: translateX(4px); }
+/* Location Picker */
+.location-picker-wrap{position:relative;}
+.location-search-input{width:100%;padding:12px 14px 12px 42px;border:1.5px solid var(--ink-200);border-radius:var(--radius-md);font-size:0.95rem;font-family:inherit;background:var(--white);color:var(--ink-900);min-height:46px;}
+[data-theme="dark"] .location-search-input{background:var(--brand-800);border-color:rgba(255,255,255,0.1);color:var(--white);}
+.location-search-input:focus{outline:none;border-color:var(--brand-500);box-shadow:0 0 0 4px rgba(26,138,122,0.12);}
+.location-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ink-400);pointer-events:none;}
+.map-picker{height:240px;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--ink-200);margin-top:10px;}
+.map-hint{font-size:0.78rem;color:var(--ink-500);margin-top:6px;display:flex;align-items:center;gap:6px;}
 
-    /* Featured Grid */
-    .featured-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-      gap: 28px;
-    }
-    .property-card {
-      background: var(--white); border-radius: var(--radius-lg);
-      overflow: hidden; box-shadow: var(--shadow-sm);
-      transition: all var(--transition); border: 1px solid var(--ink-200);
-      cursor: pointer; position: relative;
-      display: flex; flex-direction: column;
-    }
-    [data-theme="dark"] .property-card { background: var(--brand-700); border-color: rgba(255,255,255,0.06); }
-    .property-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); }
-    .property-img-wrap {
-      position: relative; height: 220px; overflow: hidden; background: var(--ink-100);
-    }
-    .property-img-wrap img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform var(--transition-slow);
-    }
-    .property-card:hover .property-img-wrap img { transform: scale(1.08); }
-    .property-badge {
-      position: absolute; top: 16px; left: 16px;
-      padding: 6px 14px; border-radius: var(--radius-full);
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; z-index: 2;
-    }
-    .badge-new {
-      background: var(--gold-500); color: var(--brand-900);
-      box-shadow: 0 4px 12px rgba(212,160,23,0.4);
-    }
-    .card-photo-count {
-      position: absolute; bottom: 12px; right: 12px;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-      color: var(--white); padding: 5px 10px;
-      border-radius: var(--radius-full); font-size: 0.72rem;
-      font-weight: 700; display: flex; align-items: center; gap: 5px; z-index: 2;
-    }
-    .card-photo-count i { font-size: 0.7rem; }
-    .property-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
-    .property-location {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 0.8rem; color: var(--ink-500); margin-bottom: 8px;
-    }
-    .property-location i { color: var(--gold-500); font-size: 0.75rem; }
-    .property-title {
-      font-family: var(--font-display); font-size: 1.15rem;
-      font-weight: 700; color: var(--ink-900); margin-bottom: 10px;
-      line-height: 1.3; display: -webkit-box;
-      -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    }
-    [data-theme="dark"] .property-title { color: var(--white); }
-    .property-footer {
-      display: flex; align-items: center; justify-content: space-between;
-      padding-top: 16px; border-top: 1px solid var(--ink-200); margin-top: auto;
-    }
-    [data-theme="dark"] .property-footer { border-color: rgba(255,255,255,0.08); }
-    .property-price {
-      font-family: var(--font-display); font-size: 1.25rem;
-      font-weight: 700; color: var(--brand-600);
-    }
-    [data-theme="dark"] .property-price { color: var(--gold-400); }
-    .property-price small {
-      display: block; font-family: var(--font-body); font-size: 0.7rem;
-      font-weight: 500; color: var(--ink-400); text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
+/* Gallery Modal */
+.admin-gallery-modal{position:fixed;inset:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(8px);z-index:3500;display:none;flex-direction:column;padding:20px;}
+.admin-gallery-modal.show{display:flex;}
+.admin-gallery-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 8px 16px;color:var(--white);flex-shrink:0;}
+.admin-gallery-header h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--white);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.admin-gallery-stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:0;margin-bottom:16px;}
+.admin-gallery-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:var(--radius-lg);box-shadow:0 30px 80px rgba(0,0,0,0.5);}
+.admin-gallery-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);color:var(--white);font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--transition);z-index:2;}
+.admin-gallery-nav:hover{background:var(--gold-500);color:var(--brand-900);}
+.admin-gallery-nav:disabled{opacity:0.25;cursor:not-allowed;}
+.admin-gallery-prev{left:16px;}
+.admin-gallery-next{right:16px;}
+.admin-gallery-counter{padding:6px 14px;background:rgba(255,255,255,0.12);border-radius:var(--radius-full);font-size:0.85rem;font-weight:600;color:var(--white);white-space:nowrap;}
+.admin-gallery-thumbs{display:flex;gap:10px;overflow-x:auto;padding:8px 4px;justify-content:center;flex-shrink:0;}
+.admin-gallery-thumb{width:72px;height:72px;border-radius:var(--radius-md);overflow:hidden;border:2px solid transparent;cursor:pointer;transition:all var(--transition);flex-shrink:0;padding:0;background:none;}
+.admin-gallery-thumb img{width:100%;height:100%;object-fit:cover;}
+.admin-gallery-thumb.active{border-color:var(--gold-500);box-shadow:0 0 0 3px rgba(212,160,23,0.3);}
+.admin-gallery-close{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.12);color:var(--white);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all var(--transition);}
+.admin-gallery-close:hover{background:var(--danger);transform:rotate(90deg);}
 
-    /* Skeleton */
-    .skeleton {
-      background: linear-gradient(90deg, var(--ink-200) 25%, var(--ink-100) 37%, var(--ink-200) 63%);
-      background-size: 400% 100%; animation: skeleton 1.4s ease infinite;
-      border-radius: var(--radius-lg); height: 380px;
-    }
-    [data-theme="dark"] .skeleton {
-      background: linear-gradient(90deg, var(--brand-700) 25%, var(--brand-600) 37%, var(--brand-700) 63%);
-      background-size: 400% 100%;
-    }
-    @keyframes skeleton {
-      0% { background-position: 100% 0; }
-      100% { background-position: 0 0; }
-    }
+/* Pre-chat bubble */
+.prechat-bubble{position:fixed;bottom:100px;right:24px;background:var(--white);border-radius:20px 20px 4px 20px;padding:20px;max-width:340px;box-shadow:var(--shadow-xl);z-index:998;opacity:0;transform:translateY(20px) scale(0.9);pointer-events:none;transition:all 0.4s ease;border:2px solid var(--gold-500);}
+[data-theme="dark"] .prechat-bubble{background:var(--brand-700);color:var(--white);}
+.prechat-bubble.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+.prechat-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+.prechat-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold-500),var(--gold-600));display:flex;align-items:center;justify-content:center;color:var(--brand-900);font-size:1.2rem;}
+.prechat-close{color:var(--ink-500);font-size:0.9rem;padding:5px;border-radius:50%;transition:all 0.2s;}
+.prechat-close:hover{background:var(--ink-100);color:var(--ink-800);}
+.prechat-message{font-size:0.95rem;color:var(--ink-700);margin-bottom:15px;line-height:1.5;}
+[data-theme="dark"] .prechat-message{color:var(--ink-600);}
+.prechat-quick{display:flex;flex-wrap:wrap;gap:8px;}
+.prechat-quick button{padding:8px 14px;border-radius:var(--radius-full);background:var(--ink-100);color:var(--brand-700);font-weight:700;font-size:0.75rem;text-transform:uppercase;transition:all 0.2s;}
+[data-theme="dark"] .prechat-quick button{background:var(--brand-800);color:var(--gold-400);}
+.prechat-quick button:hover{background:var(--gold-500);color:var(--brand-900);transform:translateY(-2px);}
 
-    /* Filters */
-    .filters-section {
-      position: sticky; top: var(--header-h); z-index: 100;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--ink-200);
-      padding: 20px 0; box-shadow: var(--shadow-sm);
-    }
-    [data-theme="dark"] .filters-section {
-      background: rgba(10,46,46,0.95);
-      border-color: rgba(255,255,255,0.08);
-    }
-    .filters-inner {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px; align-items: center;
-    }
-    .filter-field { position: relative; }
-    .filter-field i {
-      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
-      color: var(--ink-400); font-size: 0.9rem; pointer-events: none;
-    }
-    .filter-field input, .filter-field select {
-      width: 100%; padding: 14px 16px 14px 44px;
-      border: 1.5px solid var(--ink-200); border-radius: var(--radius-md);
-      font-family: var(--font-body); font-size: 0.9rem;
-      color: var(--ink-800); background: var(--white);
-      transition: all var(--transition-fast); min-height: 50px;
-      -webkit-appearance: none; -moz-appearance: none; appearance: none;
-    }
-    [data-theme="dark"] .filter-field input, [data-theme="dark"] .filter-field select {
-      background: var(--brand-700); border-color: rgba(255,255,255,0.1); color: var(--white);
-    }
-    .filter-field select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 16px center;
-      padding-right: 40px;
-    }
-    .filter-field input:focus, .filter-field select:focus {
-      outline: none; border-color: var(--brand-400); box-shadow: var(--shadow-focus);
-    }
+/* WhatsApp float */
+.whatsapp-float{position:fixed;right:24px;bottom:24px;width:60px;height:60px;border-radius:50%;background:#25D366;color:var(--white);display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 8px 28px rgba(37,211,102,0.4);z-index:999;transition:all var(--transition);}
+.whatsapp-float:hover{transform:scale(1.1) rotate(8deg);color:var(--white);}
+.whatsapp-float::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,0.4);animation:whatsappPulse 2s infinite;}
+@keyframes whatsappPulse{0%{transform:scale(1);opacity:1;}100%{transform:scale(1.3);opacity:0;}}
 
-    /* Table */
-    .table-wrap {
-      overflow-x: auto; -webkit-overflow-scrolling: touch;
-      border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
-      border: 1px solid var(--ink-200);
-    }
-    [data-theme="dark"] .table-wrap { border-color: rgba(255,255,255,0.08); }
-    .listing-table {
-      width: 100%; border-collapse: collapse;
-      background: var(--white); min-width: 900px;
-    }
-    [data-theme="dark"] .listing-table { background: var(--brand-700); }
-    .listing-table th {
-      background: var(--brand-800); color: var(--white);
-      font-weight: 600; font-size: 0.8rem; text-transform: uppercase;
-      letter-spacing: 0.06em; padding: 16px 18px;
-      text-align: left; white-space: nowrap;
-      position: sticky; top: 0;
-    }
-    .listing-table td {
-      padding: 16px 18px; border-bottom: 1px solid var(--ink-200);
-      font-size: 0.9rem; color: var(--ink-700); white-space: nowrap;
-    }
-    [data-theme="dark"] .listing-table td {
-      border-color: rgba(255,255,255,0.06); color: var(--ink-600);
-    }
-    .listing-table tr:last-child td { border-bottom: none; }
-    .listing-table tbody tr { transition: background var(--transition-fast); }
-    .listing-table tbody tr:hover { background: var(--ink-50); }
-    [data-theme="dark"] .listing-table tbody tr:hover { background: var(--brand-600); }
-    .status-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 4px 12px; border-radius: var(--radius-full);
-      font-size: 0.72rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.05em;
-    }
-    .status-active { background: rgba(16,185,129,0.12); color: var(--success); }
-    .status-sold { background: rgba(239,68,68,0.12); color: var(--danger); }
-    .status-rented { background: rgba(245,158,11,0.12); color: var(--warning); }
-    .status-badge::before {
-      content: ''; width: 6px; height: 6px;
-      border-radius: 50%; background: currentColor;
-    }
-    .type-badge {
-      display: inline-block; padding: 4px 12px;
-      border-radius: var(--radius-full); font-size: 0.72rem;
-      font-weight: 600; background: var(--brand-100); color: var(--brand-700);
-    }
-    [data-theme="dark"] .type-badge { background: var(--brand-600); color: var(--brand-200); }
+/* Footer */
+.site-footer{background:var(--brand-900);color:rgba(255,255,255,0.6);padding:64px 0 32px;border-top:1px solid rgba(255,255,255,0.06);}
+.footer-grid{display:grid;grid-template-columns:1fr;gap:40px;margin-bottom:48px;}
+@media(min-width:768px){.footer-grid{grid-template-columns:2fr 1fr 1fr 1fr;}}
+.footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.footer-brand img{width:44px;height:44px;border-radius:50%;border:2px solid var(--gold-500);}
+.footer-brand-name{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--white);}
+.footer-brand-name span{color:var(--gold-400);}
+.footer-desc{font-size:0.9rem;line-height:1.7;max-width:340px;}
+.footer-heading{font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:20px;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.footer-links a{color:rgba(255,255,255,0.6);font-size:0.9rem;display:inline-flex;align-items:center;gap:8px;transition:all 0.15s;}
+.footer-links a:hover{color:var(--gold-400);padding-left:4px;}
+.footer-links a i{font-size:0.7rem;color:var(--gold-500);}
+.footer-bottom{padding-top:32px;border-top:1px solid rgba(255,255,255,0.06);display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;font-size:0.85rem;}
 
-    /* Map */
-    .map-section { padding: 0 0 clamp(64px, 10vw, 120px); }
-    .map-wrap {
-      border-radius: var(--radius-lg); overflow: hidden;
-      box-shadow: var(--shadow-lg); border: 1px solid var(--ink-200);
-      height: 480px;
-    }
-    [data-theme="dark"] .map-wrap { border-color: rgba(255,255,255,0.08); }
-    #propertyMap { width: 100%; height: 100%; }
-    .leaflet-popup-content-wrapper {
-      border-radius: var(--radius-md) !important;
-      box-shadow: var(--shadow-lg) !important;
-      padding: 0 !important; overflow: hidden;
-    }
-    .leaflet-popup-content { margin: 0 !important; width: 240px !important; }
-
-    /* About */
-    .about-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; }
-    .about-visual {
-      position: relative; border-radius: var(--radius-lg);
-      overflow: hidden; height: 420px; box-shadow: var(--shadow-xl);
-    }
-    .about-visual img { width: 100%; height: 100%; object-fit: cover; }
-    .about-visual::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(10,46,46,0.3), transparent 60%);
-    }
-    .about-experience {
-      position: absolute; bottom: 24px; left: 24px; right: 24px;
-      background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
-      border-radius: var(--radius-md); padding: 20px 24px;
-      display: flex; align-items: center; gap: 16px;
-      z-index: 2; box-shadow: var(--shadow-lg);
-    }
-    [data-theme="dark"] .about-experience { background: rgba(10,46,46,0.95); color: var(--white); }
-    .about-experience-icon {
-      width: 52px; height: 52px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
-      color: var(--brand-900); display: flex; align-items: center;
-      justify-content: center; font-size: 1.3rem; flex-shrink: 0;
-    }
-    .about-experience-text strong {
-      display: block; font-family: var(--font-display);
-      font-size: 1.2rem; font-weight: 700; color: var(--ink-900); line-height: 1.2;
-    }
-    [data-theme="dark"] .about-experience-text strong { color: var(--white); }
-    .about-experience-text span { font-size: 0.8rem; color: var(--ink-500); }
-    .about-content h3 {
-      font-family: var(--font-display);
-      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-      font-weight: 700; color: var(--ink-900);
-      margin-bottom: 20px; line-height: 1.2;
-    }
-    [data-theme="dark"] .about-content h3 { color: var(--white); }
-    .about-content p {
-      color: var(--ink-500); font-size: 1.02rem;
-      line-height: 1.8; margin-bottom: 28px;
-    }
-    .about-features {
-      list-style: none;
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px; margin-bottom: 32px;
-    }
-    .about-features li {
-      display: flex; align-items: flex-start; gap: 12px;
-      font-size: 0.95rem; color: var(--ink-700); font-weight: 500;
-    }
-    [data-theme="dark"] .about-features li { color: var(--ink-600); }
-    .about-features i {
-      color: var(--brand-500); font-size: 1.1rem;
-      margin-top: 3px; flex-shrink: 0;
-    }
-    [data-theme="dark"] .about-features i { color: var(--gold-400); }
-
-    /* Contact */
-    .contact {
-      background: linear-gradient(135deg, var(--brand-900) 0%, var(--brand-800) 100%);
-      color: var(--white); position: relative; overflow: hidden;
-    }
-    .contact::before {
-      content: ''; position: absolute; top: -50%; right: -20%;
-      width: 600px; height: 600px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(212,160,23,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .contact .section-title { color: var(--white); }
-    .contact .section-title em { color: var(--gold-400); }
-    .contact .section-desc { color: rgba(255,255,255,0.7); }
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr;
-      gap: 48px; position: relative; z-index: 2;
-    }
-    .contact-info h3 {
-      font-family: var(--font-display); font-size: 1.6rem;
-      font-weight: 700; color: var(--white); margin-bottom: 16px;
-    }
-    .contact-info > p {
-      color: rgba(255,255,255,0.7); margin-bottom: 32px; line-height: 1.7;
-    }
-    .contact-methods { display: flex; flex-direction: column; gap: 20px; }
-    .contact-method {
-      display: flex; align-items: center; gap: 16px;
-      padding: 18px 20px; background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--radius-md); transition: all var(--transition);
-    }
-    .contact-method:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: rgba(212,160,23,0.3); transform: translateX(6px);
-    }
-    .contact-method-icon {
-      width: 48px; height: 48px; border-radius: var(--radius-md);
-      background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
-      color: var(--brand-900); display: flex; align-items: center;
-      justify-content: center; font-size: 1.1rem; flex-shrink: 0;
-    }
-    .contact-method-text strong {
-      display: block; font-size: 0.8rem; text-transform: uppercase;
-      letter-spacing: 0.08em; color: var(--gold-400); margin-bottom: 2px;
-    }
-    .contact-method-text span { color: var(--white); font-weight: 500; font-size: 1rem; }
-    .whatsapp-btn {
-      display: inline-flex; align-items: center; gap: 14px;
-      padding: 18px 32px; background: #25D366; color: var(--white);
-      border-radius: var(--radius-full); font-weight: 700; font-size: 1rem;
-      box-shadow: 0 12px 32px rgba(37,211,102,0.3);
-      transition: all var(--transition); margin-bottom: 32px;
-    }
-    .whatsapp-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 40px rgba(37,211,102,0.4);
-      color: var(--white);
-    }
-    .whatsapp-btn i { font-size: 1.5rem; }
-
-    /* Contact Form */
-    .contact-form-wrap {
-      background: var(--white); border-radius: var(--radius-lg);
-      padding: 36px; box-shadow: var(--shadow-xl);
-    }
-    [data-theme="dark"] .contact-form-wrap { background: var(--brand-700); }
-    .contact-form-wrap h3 {
-      font-family: var(--font-display); font-size: 1.4rem;
-      font-weight: 700; color: var(--ink-900); margin-bottom: 8px;
-    }
-    [data-theme="dark"] .contact-form-wrap h3 { color: var(--white); }
-    .contact-form-wrap > p {
-      color: var(--ink-500); font-size: 0.9rem; margin-bottom: 24px;
-    }
-    .form-group { margin-bottom: 18px; }
-    .form-group label {
-      display: block; font-size: 0.85rem; font-weight: 600;
-      color: var(--ink-700); margin-bottom: 8px;
-    }
-    [data-theme="dark"] .form-group label { color: var(--ink-600); }
-    .form-group label .req { color: var(--danger); margin-left: 2px; }
-    .form-control {
-      width: 100%; padding: 14px 18px;
-      border: 1.5px solid var(--ink-200); border-radius: var(--radius-md);
-      font-family: var(--font-body); font-size: 0.95rem;
-      color: var(--ink-800); background: var(--white);
-      transition: all var(--transition-fast); min-height: 50px;
-    }
-    [data-theme="dark"] .form-control {
-      background: var(--brand-800); border-color: rgba(255,255,255,0.1); color: var(--white);
-    }
-    .form-control:focus {
-      outline: none; border-color: var(--brand-400); box-shadow: var(--shadow-focus);
-    }
-    .form-control::placeholder { color: var(--ink-400); }
-    textarea.form-control { min-height: 110px; resize: vertical; }
-
-    .form-select-wrap { position: relative; }
-    .form-select-wrap i {
-      position: absolute; left: 16px; top: 50%;
-      transform: translateY(-50%); color: var(--brand-500);
-      font-size: 0.9rem; pointer-events: none;
-    }
-    .form-select-wrap select {
-      padding-left: 42px; cursor: pointer;
-      -webkit-appearance: none; -moz-appearance: none; appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 16px center;
-      padding-right: 40px;
-    }
-    .form-grid-2 {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-    }
-
-    .contact-form-note {
-      display: flex; align-items: flex-start; gap: 10px;
-      padding: 12px 14px; background: rgba(37,211,102,0.08);
-      border: 1px solid rgba(37,211,102,0.2);
-      border-radius: var(--radius-md); margin-bottom: 18px;
-      font-size: 0.82rem; color: var(--ink-600); line-height: 1.5;
-    }
-    .contact-form-note i {
-      color: #25D366; font-size: 1rem;
-      margin-top: 1px; flex-shrink: 0;
-    }
-    [data-theme="dark"] .contact-form-note {
-      background: rgba(37,211,102,0.1); color: var(--ink-500);
-    }
-
-    .btn-whatsapp-full {
-      width: 100%; padding: 16px 32px;
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 12px; background: #25D366; color: var(--white);
-      border: none; border-radius: var(--radius-md);
-      font-family: var(--font-body); font-weight: 700;
-      font-size: 1rem; cursor: pointer;
-      transition: all var(--transition); min-height: 54px;
-      box-shadow: 0 8px 24px rgba(37,211,102,0.3);
-    }
-    .btn-whatsapp-full:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 32px rgba(37,211,102,0.4);
-    }
-    .btn-whatsapp-full i { font-size: 1.3rem; }
-
-    /* Footer */
-    .site-footer {
-      background: var(--brand-900); color: rgba(255,255,255,0.6);
-      padding: 64px 0 32px; border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .footer-grid {
-      display: grid; grid-template-columns: 1fr;
-      gap: 40px; margin-bottom: 48px;
-    }
-    .footer-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-    .footer-brand img {
-      width: 44px; height: 44px; border-radius: 50%;
-      border: 2px solid var(--gold-500);
-    }
-    .footer-brand-name {
-      font-family: var(--font-display); font-size: 1.15rem;
-      font-weight: 700; color: var(--white);
-    }
-    .footer-brand-name span { color: var(--gold-400); }
-    .footer-desc {
-      font-size: 0.9rem; line-height: 1.7;
-      max-width: 340px; margin-bottom: 20px;
-    }
-    .footer-socials { display: flex; gap: 10px; }
-    .footer-socials a {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: rgba(255,255,255,0.08); color: var(--white);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; transition: all var(--transition-fast);
-    }
-    .footer-socials a:hover {
-      background: var(--gold-500); color: var(--brand-900);
-      transform: translateY(-3px);
-    }
-    .footer-heading {
-      font-family: var(--font-display); font-size: 1.05rem;
-      font-weight: 700; color: var(--white); margin-bottom: 20px;
-    }
-    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .footer-links a {
-      color: rgba(255,255,255,0.6); font-size: 0.9rem;
-      transition: all var(--transition-fast);
-      display: inline-flex; align-items: center; gap: 8px;
-    }
-    .footer-links a:hover { color: var(--gold-400); padding-left: 4px; }
-    .footer-links a i { font-size: 0.7rem; color: var(--gold-500); }
-    .footer-bottom {
-      padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06);
-      display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
-      justify-content: space-between; font-size: 0.85rem;
-    }
-    .footer-bottom a { color: var(--gold-400); }
-    .footer-bottom a:hover { color: var(--gold-300); }
-
-    /* WhatsApp Float */
-    .whatsapp-float {
-      position: fixed; right: 24px; bottom: 24px;
-      width: 60px; height: 60px; border-radius: 50%;
-      background: #25D366; color: var(--white);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem; box-shadow: 0 8px 28px rgba(37,211,102,0.4);
-      z-index: 999; transition: all var(--transition);
-      right: calc(24px + env(safe-area-inset-right));
-      bottom: calc(24px + env(safe-area-inset-bottom));
-    }
-    .whatsapp-float:hover {
-      transform: scale(1.1) rotate(8deg);
-      box-shadow: 0 12px 36px rgba(37,211,102,0.5);
-      color: var(--white);
-    }
-    .whatsapp-float::before {
-      content: ''; position: absolute; inset: -4px;
-      border-radius: 50%; border: 2px solid rgba(37,211,102,0.4);
-      animation: whatsappPulse 2s infinite;
-    }
-    @keyframes whatsappPulse {
-      0% { transform: scale(1); opacity: 1; }
-      100% { transform: scale(1.3); opacity: 0; }
-    }
-
-    /* ===== PHOTO GALLERY MODAL ===== */
-    .gallery-modal {
-      position: fixed; inset: 0;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      z-index: 3000; display: none; flex-direction: column;
-      padding: 20px; padding-top: calc(20px + env(safe-area-inset-top));
-      padding-bottom: calc(20px + env(safe-area-inset-bottom));
-    }
-    .gallery-modal.show { display: flex; animation: fadeIn 0.25s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    .gallery-header {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; padding: 8px 8px 20px; flex-shrink: 0; color: var(--white);
-    }
-    .gallery-title {
-      font-family: var(--font-display); font-size: 1.15rem;
-      font-weight: 700; color: var(--white);
-      display: flex; flex-direction: column; gap: 2px;
-      min-width: 0; flex: 1;
-    }
-    .gallery-title small {
-      font-family: var(--font-body); font-size: 0.78rem;
-      color: rgba(255,255,255,0.6); font-weight: 400;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .gallery-counter {
-      padding: 6px 14px; background: rgba(255,255,255,0.12);
-      border-radius: var(--radius-full); font-size: 0.85rem;
-      font-weight: 600; color: var(--white); white-space: nowrap;
-    }
-    .gallery-close {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: rgba(255,255,255,0.12); border: none;
-      color: var(--white); font-size: 1.2rem; cursor: pointer;
-      transition: all var(--transition); display: flex;
-      align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .gallery-close:hover { background: var(--danger); transform: rotate(90deg); }
-
-    .gallery-stage {
-      flex: 1; position: relative; display: flex;
-      align-items: center; justify-content: center;
-      min-height: 0; margin-bottom: 16px;
-    }
-    .gallery-image {
-      max-width: 100%; max-height: 100%; object-fit: contain;
-      border-radius: var(--radius-lg);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-      animation: imgIn 0.3s ease;
-    }
-    @keyframes imgIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    .gallery-nav {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 52px; height: 52px; border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      border: none; color: var(--white); font-size: 1.1rem;
-      cursor: pointer; transition: all var(--transition);
-      display: flex; align-items: center; justify-content: center; z-index: 2;
-    }
-    .gallery-nav:hover {
-      background: var(--gold-500); color: var(--brand-900);
-      transform: translateY(-50%) scale(1.1);
-    }
-    .gallery-nav:disabled { opacity: 0.25; cursor: not-allowed; }
-    .gallery-nav:disabled:hover {
-      background: rgba(255,255,255,0.15); color: var(--white);
-      transform: translateY(-50%) scale(1);
-    }
-    .gallery-prev { left: 16px; }
-    .gallery-next { right: 16px; }
-
-    .gallery-thumbs {
-      display: flex; gap: 10px; overflow-x: auto;
-      padding: 8px 4px 12px;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,255,0.3) transparent;
-      flex-shrink: 0; justify-content: center;
-      scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
-    }
-    .gallery-thumbs::-webkit-scrollbar { height: 6px; }
-    .gallery-thumbs::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.3); border-radius: 3px;
-    }
-    .gallery-thumb {
-      width: 72px; height: 72px; border-radius: var(--radius-md);
-      overflow: hidden; border: 2px solid transparent;
-      cursor: pointer; transition: all var(--transition);
-      flex-shrink: 0; padding: 0; background: none;
-    }
-    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .gallery-thumb:hover {
-      border-color: rgba(212,160,23,0.5); transform: translateY(-2px);
-    }
-    .gallery-thumb.active {
-      border-color: var(--gold-500);
-      box-shadow: 0 0 0 3px rgba(212,160,23,0.3);
-    }
-
-    @media (max-width: 600px) {
-      .gallery-nav { width: 42px; height: 42px; font-size: 0.9rem; }
-      .gallery-prev { left: 8px; }
-      .gallery-next { right: 8px; }
-      .gallery-thumb { width: 60px; height: 60px; }
-      .gallery-header { padding: 4px 4px 12px; }
-      .gallery-title { font-size: 0.95rem; }
-    }
-
-    /* Cookie */
-    .cookie-banner {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: var(--white); border-top: 1px solid var(--ink-200);
-      padding: 20px 24px;
-      padding-bottom: calc(20px + env(safe-area-inset-bottom));
-      z-index: 1500; display: none; flex-wrap: wrap;
-      align-items: center; justify-content: space-between;
-      gap: 16px; box-shadow: 0 -8px 32px rgba(0,0,0,0.1);
-      animation: slideUp 0.4s ease;
-    }
-    [data-theme="dark"] .cookie-banner {
-      background: var(--brand-800); border-color: rgba(255,255,255,0.08);
-    }
-    .cookie-banner.show { display: flex; }
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
-    .cookie-text {
-      flex: 1; min-width: 280px; font-size: 0.9rem;
-      color: var(--ink-600); line-height: 1.6;
-    }
-    [data-theme="dark"] .cookie-text { color: var(--ink-500); }
-    .cookie-actions { display: flex; gap: 12px; flex-shrink: 0; }
-    .cookie-btn {
-      padding: 12px 24px; border-radius: var(--radius-md);
-      font-weight: 600; font-size: 0.9rem; border: none;
-      cursor: pointer; transition: all var(--transition-fast); min-height: 44px;
-    }
-    .cookie-accept {
-      background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
-      color: var(--brand-900);
-    }
-    .cookie-decline { background: var(--ink-200); color: var(--ink-700); }
-    [data-theme="dark"] .cookie-decline { background: var(--brand-700); color: var(--ink-600); }
-    .cookie-btn:hover { transform: translateY(-2px); }
-
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @media (min-width: 768px) {
-      .main-nav { display: block; }
-      .menu-btn { display: none; }
-      .mobile-nav { display: none; }
-      .about-grid { grid-template-columns: 1fr 1fr; }
-      .about-visual { height: 520px; }
-      .contact-grid { grid-template-columns: 1fr 1fr; }
-      .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
-    }
-    @media (max-width: 767px) {
-      :root { --header-h: 68px; }
-      .brand-logo { width: 42px; height: 42px; }
-      .brand-name { font-size: 1.1rem; }
-      .brand-tagline { display: none; }
-      .hero { padding-top: calc(var(--header-h) + 40px); }
-      .hero-stats { gap: 32px; }
-      .hero-stat-value { font-size: 1.6rem; }
-      .hero-actions { flex-direction: column; align-items: stretch; }
-      .hero-actions .btn { width: 100%; }
-      .map-wrap { height: 360px; }
-      .contact-form-wrap { padding: 24px; }
-      .form-grid-2 { grid-template-columns: 1fr; gap: 0; }
-    }
-    @media (max-width: 480px) {
-      :root { --header-h: 64px; }
-      .brand-logo { width: 38px; height: 38px; }
-      .brand-name { font-size: 1rem; }
-      .hero h1 { font-size: 2rem; }
-      .hero-stats { gap: 24px; flex-direction: column; }
-      .service-card { border-radius: var(--radius-md); }
-      .service-img-wrap { height: 180px; }
-      .service-body { padding: 20px; }
-      .property-img-wrap { height: 180px; }
-      .property-body { padding: 18px; }
-      .whatsapp-float {
-        width: 54px; height: 54px; font-size: 1.4rem;
-        right: 16px; bottom: 16px;
-      }
-      .cookie-banner { padding: 16px; flex-direction: column; text-align: center; }
-      .cookie-actions { width: 100%; justify-content: center; }
-      .cookie-btn { flex: 1; max-width: 140px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-    @media print {
-      .site-header, .whatsapp-float, .cookie-banner, .filters-section,
-      .icon-btn, .mobile-nav, .nav-overlay, .map-wrap, .hero-scroll,
-      .gallery-modal { display: none !important; }
-      body { background: white; color: black; }
-    }
-  </style>
+/* Responsive */
+@media(min-width:768px){
+  .main-nav{display:block;}
+  .menu-btn{display:none;}
+  .mobile-nav{display:none;}
+}
+@media(max-width:767px){
+  :root{--header-h:68px;}
+  .brand-logo{width:42px;height:42px;}
+  .brand-name{font-size:1.1rem;}
+  .brand-tagline{display:none;}
+  .hero{padding-top:calc(var(--header-h) + 40px);}
+  .hero-stats{gap:32px;}
+  .hero-stat-value{font-size:1.6rem;}
+  .hero-actions{flex-direction:column;align-items:stretch;}
+  .hero-actions .btn{width:100%;}
+  .form-grid-2{grid-template-columns:1fr;}
+  .map-wrap{height:360px;}
+  .quiz-container{padding:35px 25px;}
+  .quiz-options{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:480px){
+  :root{--header-h:64px;}
+  .brand-logo{width:38px;height:38px;}
+  .brand-name{font-size:1rem;}
+  .hero h1{font-size:2rem;}
+  .hero-stats{gap:24px;flex-direction:column;}
+  .whatsapp-float{width:54px;height:54px;font-size:1.4rem;right:16px;bottom:16px;}
+  .prechat-bubble{right:15px;max-width:calc(100% - 30px);bottom:80px;}
+  .quiz-options{grid-template-columns:1fr;}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}
+}
+</style>
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie consent">
-    <p class="cookie-text">
-      We use cookies to enhance your experience and analyze site traffic. 
-      By continuing, you agree to our use of cookies.
-    </p>
-    <div class="cookie-actions">
-      <button class="cookie-btn cookie-decline" id="cookieDecline">Decline</button>
-      <button class="cookie-btn cookie-accept" id="cookieAccept">Accept</button>
-    </div>
-  </div>
+<div class="toast-container" id="toastContainer"></div>
 
-  <header class="site-header" id="siteHeader">
-    <div class="header-inner">
-      <a href="/" class="brand" aria-label="Spatio Property Services Home">
-        <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg"
-             alt="Spatio Property Services" class="brand-logo" width="48" height="48" loading="eager">
-        <div class="brand-text">
-          <span class="brand-name">Spatio<span>Property</span></span>
-          <span class="brand-tagline">Surveying & Consultancy</span>
-        </div>
-      </a>
-
-      <nav class="main-nav" aria-label="Primary navigation">
-        <ul>
-          <li><a href="#home" class="active">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#featured">Featured</a></li>
-          <li><a href="#listings">Listings</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-
-      <div class="header-actions">
-        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
-          <i class="fas fa-moon" aria-hidden="true"></i>
-        </button>
-        <button class="icon-btn menu-btn" id="menuToggle" aria-controls="mobileNav" aria-expanded="false" aria-label="Open navigation">
-          <i class="fas fa-bars" aria-hidden="true"></i>
-        </button>
+<!-- Header -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#" class="brand" aria-label="Spatio Home">
+      <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio" class="brand-logo" width="48" height="48">
+      <div class="brand-text">
+        <span class="brand-name">Spatio<span>Property</span></span>
+        <span class="brand-tagline">Surveying & Consultancy</span>
       </div>
-    </div>
-
-    <nav class="mobile-nav" id="mobileNav" aria-hidden="true" aria-label="Mobile navigation">
+    </a>
+    <nav class="main-nav" aria-label="Primary">
       <ul>
-        <li><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#services"><i class="fas fa-briefcase"></i> Services</a></li>
-        <li><a href="#featured"><i class="fas fa-star"></i> Featured</a></li>
-        <li><a href="#listings"><i class="fas fa-building"></i> Listings</a></li>
-        <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
-        <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#quiz">Find Property</a></li>
+        <li><a href="#featured">Featured</a></li>
+        <li><a href="#listings">Listings</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-    <div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
-  </header>
+    <div class="header-actions">
+      <button class="icon-btn" id="clientPortalBtn" title="Client Portal" aria-label="Client Portal">
+        <i class="fas fa-user-circle"></i>
+      </button>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+      <button class="icon-btn menu-btn" id="menuToggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+    <ul>
+      <li><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="#services"><i class="fas fa-briefcase"></i> Services</a></li>
+      <li><a href="#quiz"><i class="fas fa-magic"></i> Find Property</a></li>
+      <li><a href="#featured"><i class="fas fa-star"></i> Featured</a></li>
+      <li><a href="#listings"><i class="fas fa-building"></i> Listings</a></li>
+      <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+      <li><a href="#" id="mobileClientPortal"><i class="fas fa-user-circle"></i> Client Portal</a></li>
+    </ul>
+  </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
+</header>
 
-  <main id="main-content">
-    <section class="hero" id="home" aria-label="Hero">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <i class="fas fa-award"></i> Trusted Since 2015
+<main id="main-content">
+<!-- Hero -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fas fa-award"></i> Trusted Since 2015</div>
+    <h1>Property Solutions, <em>Surveying</em> & Consultancy</h1>
+    <p>We connect buyers, sellers, landlords and tenants while delivering professional surveying, mapping and property consultancy across Kenya.</p>
+    <div class="hero-actions">
+      <a href="#quiz" class="btn btn-primary btn-lg"><i class="fas fa-magic"></i> Find My Property</a>
+      <a href="#listings" class="btn btn-secondary btn-lg"><i class="fas fa-search"></i> Browse Listings</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-value">500+</div><div class="hero-stat-label">Properties Sold</div></div>
+      <div class="hero-stat"><div class="hero-stat-value">300+</div><div class="hero-stat-label">Surveys Completed</div></div>
+      <div class="hero-stat"><div class="hero-stat-value">98%</div><div class="hero-stat-label">Client Satisfaction</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section" id="services" style="background:var(--ink-50);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">Comprehensive <em>Property Services</em></h2>
+      <p class="section-desc">From property transactions to professional surveying and legal consultancy.</p>
+    </div>
+    <div class="services-grid">
+      <article class="property-card" style="cursor:default;">
+        <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1605146769289-440113cc3d00?w=800&auto=format&fit=crop&q=80" alt="Property Bazaar" loading="lazy"></div>
+        <div class="property-body">
+          <h3 class="property-title">Property Bazaar</h3>
+          <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Renting and letting, buying and selling of verified properties across Kenya.</p>
+          <a href="#listings" class="btn btn-outline btn-sm" style="align-self:flex-start;">View Listings <i class="fas fa-arrow-right"></i></a>
         </div>
-        <h1>Property Solutions, <em>Surveying</em> & Consultancy</h1>
-        <p>
-          We connect buyers, sellers, landlords and tenants while delivering 
-          professional surveying, mapping and property consultancy across Kenya.
-        </p>
-        <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary btn-lg">
-            <i class="fas fa-comments"></i> Talk to Us
-          </a>
-          <a href="#listings" class="btn btn-secondary btn-lg">
-            <i class="fas fa-search"></i> Browse Listings
-          </a>
+      </article>
+      <article class="property-card" style="cursor:default;">
+        <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1628155858736-bacadae33a88?w=800&auto=format&fit=crop&q=80" alt="Surveying" loading="lazy"></div>
+        <div class="property-body">
+          <h3 class="property-title">Surveying & Mapping</h3>
+          <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Boundary confirmation, physical planning, valuation and GIS mapping.</p>
+          <a href="#contact" class="btn btn-outline btn-sm" style="align-self:flex-start;">Learn More <i class="fas fa-arrow-right"></i></a>
         </div>
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <div class="hero-stat-value">500+</div>
-            <div class="hero-stat-label">Properties Sold</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-value">300+</div>
-            <div class="hero-stat-label">Surveys Completed</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-value">98%</div>
-            <div class="hero-stat-label">Client Satisfaction</div>
-          </div>
+      </article>
+      <article class="property-card" style="cursor:default;">
+        <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1765020553734-2c050ddb9494?w=800&auto=format&fit=crop&q=80" alt="Consultancy" loading="lazy"></div>
+        <div class="property-body">
+          <h3 class="property-title">Consultancy</h3>
+          <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Legal transactions, official processes and auctioneering services.</p>
+          <a href="#contact" class="btn btn-outline btn-sm" style="align-self:flex-start;">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NEW: FIND YOUR PERFECT PROPERTY QUIZ (like Savanna's "Find My Safari")
+     ═══════════════════════════════════════════════════════════ -->
+<section class="quiz-section" id="quiz">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Find Your Match</div>
+      <h2 class="section-title">Find Your Perfect <em>Property</em></h2>
+      <p class="section-desc">Answer 4 quick questions and we'll match you with the ideal property or service.</p>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-progress" id="quizProgress">
+        <div class="step active" data-step="1">1</div>
+        <div class="step" data-step="2">2</div>
+        <div class="step" data-step="3">3</div>
+        <div class="step" data-step="4">4</div>
+      </div>
+
+      <!-- Step 1: Budget -->
+      <div class="quiz-step active" data-step="1">
+        <h3>What's Your Budget?</h3>
+        <p class="subtitle">Per property (in Kenyan Shillings)</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-value="budget"><i class="fas fa-wallet"></i>Under 1M</div>
+          <div class="quiz-option" data-value="mid"><i class="fas fa-money-bill-wave"></i>1M – 5M</div>
+          <div class="quiz-option" data-value="premium"><i class="fas fa-crown"></i>5M – 20M</div>
+          <div class="quiz-option" data-value="luxury"><i class="fas fa-gem"></i>20M+</div>
+        </div>
+        <div class="quiz-nav">
+          <span></span>
+          <button class="btn btn-primary" onclick="nextQuizStep(1)" disabled id="quizNext1">Next</button>
         </div>
       </div>
-      <a href="#services" class="hero-scroll" aria-label="Scroll to services">
-        <i class="fas fa-chevron-down"></i>
-      </a>
-    </section>
 
-    <section class="section services" id="services" aria-label="Services">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">What We Do</div>
-          <h2 class="section-title">Comprehensive <em>Property Services</em></h2>
-          <p class="section-desc">
-            From property transactions to professional surveying and legal consultancy, 
-            we deliver integrated solutions tailored to your needs.
-          </p>
+      <!-- Step 2: Purpose -->
+      <div class="quiz-step" data-step="2">
+        <h3>What Are You Looking For?</h3>
+        <p class="subtitle">Choose your primary goal</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-value="buy"><i class="fas fa-home"></i>Buy Property</div>
+          <div class="quiz-option" data-value="rent"><i class="fas fa-key"></i>Rent Property</div>
+          <div class="quiz-option" data-value="sell"><i class="fas fa-tag"></i>Sell My Property</div>
+          <div class="quiz-option" data-value="survey"><i class="fas fa-drafting-compass"></i>Land Survey</div>
         </div>
-
-        <div class="services-grid">
-          <article class="service-card reveal">
-            <div class="service-img-wrap">
-              <img src="https://images.unsplash.com/photo-1605146769289-440113cc3d00?w=800&auto=format&fit=crop&q=80"
-                   alt="Property Bazaar Services" loading="lazy" width="400" height="220">
-              <span class="service-number">01</span>
-            </div>
-            <div class="service-body">
-              <h3>Property Bazaar</h3>
-              <p>Renting and letting, buying and selling of properties, and verified property listings across Kenya.</p>
-              <a class="service-link" href="property-bazaar.html">
-                Learn more <i class="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          </article>
-
-          <article class="service-card reveal">
-            <div class="service-img-wrap">
-              <img src="https://images.unsplash.com/photo-1628155858736-bacadae33a88?w=800&auto=format&fit=crop&q=80"
-                   alt="Surveying & Mapping" loading="lazy" width="400" height="220">
-              <span class="service-number">02</span>
-            </div>
-            <div class="service-body">
-              <h3>Surveying & Mapping</h3>
-              <p>Boundary confirmation, physical planning, valuation, GIS mapping, and title-related surveys.</p>
-              <a class="service-link" href="surveying-mapping.html">
-                Learn more <i class="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          </article>
-
-          <article class="service-card reveal">
-            <div class="service-img-wrap">
-              <img src="https://images.unsplash.com/photo-1765020553734-2c050ddb9494?w=800&auto=format&fit=crop&q=80"
-                   alt="Consultancy Services" loading="lazy" width="400" height="220">
-              <span class="service-number">03</span>
-            </div>
-            <div class="service-body">
-              <h3>Consultancy</h3>
-              <p>Legal transactions, official office processes, and auctioneering through registered partners.</p>
-              <a class="service-link" href="consultancy-services.html">
-                Learn more <i class="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          </article>
+        <div class="quiz-nav">
+          <button class="btn btn-outline" onclick="prevQuizStep(2)">Back</button>
+          <button class="btn btn-primary" onclick="nextQuizStep(2)" disabled id="quizNext2">Next</button>
         </div>
       </div>
-    </section>
 
-    <section class="section" id="featured" aria-label="Featured Listings">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">Fresh On The Market</div>
-          <h2 class="section-title">New <em>Listings</em></h2>
-          <p class="section-desc">The latest properties added to our portfolio, updated daily.</p>
+      <!-- Step 3: Property Type -->
+      <div class="quiz-step" data-step="3">
+        <h3>Preferred Property Type?</h3>
+        <p class="subtitle">Pick what suits you best</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-value="apartment"><i class="fas fa-building"></i>Apartment</div>
+          <div class="quiz-option" data-value="land"><i class="fas fa-mountain"></i>Land / Plot</div>
+          <div class="quiz-option" data-value="villa"><i class="fas fa-house-chimney"></i>Villa / Townhouse</div>
+          <div class="quiz-option" data-value="office"><i class="fas fa-briefcase"></i>Office Space</div>
         </div>
-        <div class="featured-grid" id="featuredContainer" role="list">
-          <div class="skeleton" role="status"><span class="visually-hidden">Loading...</span></div>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
+        <div class="quiz-nav">
+          <button class="btn btn-outline" onclick="prevQuizStep(3)">Back</button>
+          <button class="btn btn-primary" onclick="nextQuizStep(3)" disabled id="quizNext3">Next</button>
         </div>
       </div>
-    </section>
 
-    <div class="filters-section">
-      <div class="container">
-        <div class="filters-inner">
-          <div class="filter-field">
-            <i class="fas fa-map-marker-alt"></i>
-            <input type="text" id="searchLocation" placeholder="Search by location..." aria-label="Search by location">
-          </div>
-          <div class="filter-field">
-            <i class="fas fa-home"></i>
-            <select id="filterType" aria-label="Filter by property type">
-              <option value="">All Types</option>
-              <option value="Apartment">Apartment</option>
-              <option value="Plot">Plot</option>
-              <option value="Land">Land</option>
-              <option value="Residential Plot">Residential Plot</option>
-              <option value="Commercial Land">Commercial Land</option>
-              <option value="Agricultural Land">Agricultural Land</option>
-              <option value="Townhouse">Townhouse</option>
-              <option value="Villa">Villa</option>
-              <option value="Office Space">Office Space</option>
-            </select>
-          </div>
-          <div class="filter-field">
-            <i class="fas fa-tag"></i>
-            <select id="filterCategory" aria-label="Filter by category">
-              <option value="">All Categories</option>
-              <option value="For Sale">For Sale</option>
-              <option value="To Let">To Let</option>
-            </select>
-          </div>
+      <!-- Step 4: Location -->
+      <div class="quiz-step" data-step="4">
+        <h3>Preferred Location?</h3>
+        <p class="subtitle">Where would you like to be?</p>
+        <div class="quiz-options">
+          <div class="quiz-option" data-value="nairobi"><i class="fas fa-city"></i>Nairobi</div>
+          <div class="quiz-option" data-value="coast"><i class="fas fa-umbrella-beach"></i>Coast (Mombasa/Diani)</div>
+          <div class="quiz-option" data-value="central"><i class="fas fa-tree"></i>Central (Nakuru/Nanyuki)</div>
+          <div class="quiz-option" data-value="anywhere"><i class="fas fa-globe-africa"></i>Anywhere in Kenya</div>
+        </div>
+        <div class="quiz-nav">
+          <button class="btn btn-outline" onclick="prevQuizStep(4)">Back</button>
+          <button class="btn btn-primary" onclick="showQuizResult()" disabled id="quizNext4">See My Match</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="quiz-result" id="quizResult">
+        <i class="fas fa-check-circle" style="font-size:3rem;color:var(--success);margin-bottom:15px;"></i>
+        <h3>Your Perfect Match!</h3>
+        <p class="subtitle">Based on your answers, here's what we recommend</p>
+        <div class="quiz-match" id="quizMatch"></div>
+        <div class="quiz-alternatives" id="quizAlternatives"></div>
+        <div style="margin-top:25px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn btn-outline" onclick="restartQuiz()"><i class="fas fa-redo"></i> Start Over</button>
+          <button class="btn btn-primary" onclick="sendQuizToWhatsApp()"><i class="fas fa-paper-plane"></i> Send to WhatsApp</button>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <section class="section" id="listings" aria-label="All Listings">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">Our Portfolio</div>
-          <h2 class="section-title">Available <em>Properties & Lands</em></h2>
-        </div>
-        <div id="listingsContainer">
-          <div class="loading" style="text-align:center;padding:3rem;color:var(--ink-500);">
-            <i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:1rem;display:block;"></i>
-            Loading listings...
-          </div>
-        </div>
+<!-- Featured -->
+<section class="section" id="featured">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Fresh On The Market</div>
+      <h2 class="section-title">New <em>Listings</em></h2>
+      <p class="section-desc">The latest properties added to our portfolio.</p>
+    </div>
+    <div class="featured-grid" id="featuredContainer">
+      <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Listings -->
+<section class="section" id="listings" style="background:var(--ink-50);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Our Portfolio</div>
+      <h2 class="section-title">Available <em>Properties & Lands</em></h2>
+    </div>
+
+    <div class="filter-chips" id="filterChips">
+      <button class="filter-chip active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="For Sale">For Sale</button>
+      <button class="filter-chip" data-filter="To Let">To Let</button>
+      <button class="filter-chip" data-filter="Apartment">Apartments</button>
+      <button class="filter-chip" data-filter="Land">Land / Plots</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px;">
+      <input type="text" id="searchLocation" placeholder="Search location..." class="location-search-input" style="padding-left:14px;">
+      <select id="filterType" class="location-search-input" style="padding-left:14px;">
+        <option value="">All Types</option>
+        <option>Apartment</option><option>Plot</option><option>Land</option>
+        <option>Residential Plot</option><option>Commercial Land</option>
+        <option>Agricultural Land</option><option>Townhouse</option>
+        <option>Villa</option><option>Office Space</option>
+      </select>
+      <select id="filterCategory" class="location-search-input" style="padding-left:14px;">
+        <option value="">All Categories</option>
+        <option>For Sale</option><option>To Let</option>
+      </select>
+    </div>
+
+    <div id="listingsContainer">
+      <div style="text-align:center;padding:3rem;color:var(--ink-500);">
+        <i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:1rem;display:block;"></i>
+        Loading listings...
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="map-section" aria-label="Property Locations">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label">Explore</div>
-          <h2 class="section-title">Property <em>Locations</em></h2>
-        </div>
-        <div class="map-wrap">
-          <div id="propertyMap" role="region" aria-label="Interactive satellite map of property locations"></div>
-        </div>
-      </div>
-    </section>
+<!-- Map Section (Satellite view) -->
+<section class="map-section" style="background:var(--white);padding-top:60px;">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Explore</div>
+      <h2 class="section-title">Property <em>Locations</em></h2>
+      <p class="section-desc">Satellite view of all available properties across Kenya.</p>
+    </div>
+    <div class="map-wrap">
+      <div id="propertyMap" role="region" aria-label="Interactive satellite map of property locations"></div>
+    </div>
+  </div>
+</section>
 
-    <section class="section" id="about" aria-label="About Us">
-      <div class="container">
-        <div class="about-grid">
-          <div class="about-visual reveal">
-            <img src="https://images.unsplash.com/photo-1649145058041-f3e2ed855990?w=800&auto=format&fit=crop&q=80"
-                 alt="Spatio Property Services team in the field" loading="lazy">
-            <div class="about-experience">
-              <div class="about-experience-icon">
-                <i class="fas fa-award"></i>
-              </div>
-              <div class="about-experience-text">
-                <strong>10+ Years</strong>
-                <span>Of combined industry experience</span>
-              </div>
-            </div>
-          </div>
-          <div class="about-content reveal">
-            <div class="section-label" style="justify-content:flex-start;">About Spatio</div>
-            <h3>Trusted Property & Land Professionals</h3>
-            <p>
-              Spatio Property Services provides integrated solutions in real estate, 
-              surveying, mapping and consultancy — ensuring transparency, accuracy 
-              and value for every client.
-            </p>
-            <ul class="about-features">
-              <li><i class="fas fa-check-circle"></i> Verified property listings</li>
-              <li><i class="fas fa-check-circle"></i> Professional surveying</li>
-              <li><i class="fas fa-check-circle"></i> Legal transaction support</li>
-              <li><i class="fas fa-check-circle"></i> Client-focused delivery</li>
-            </ul>
-            <div style="display:flex;flex-wrap:wrap;gap:12px;">
-              <a href="#contact" class="btn btn-primary">
-                <i class="fas fa-comments"></i> Get in Touch
-              </a>
-              <a href="about-us.html" class="btn btn-outline">
-                More About Us <i class="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section contact" id="contact" aria-label="Contact">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-label" style="color:var(--gold-400);">Get In Touch</div>
-          <h2 class="section-title">Let's <em>Talk</em></h2>
-          <p class="section-desc">Reach out for property inquiries, surveys, or consultancy.</p>
-        </div>
-
-        <div class="contact-grid">
-          <div class="contact-info">
-            <h3>Talk to Us on WhatsApp</h3>
-            <p>Click below to chat directly with one of our representatives — we typically respond within minutes.</p>
-            
-            <a class="whatsapp-btn" href="https://wa.me/254782424154?text=Hello%20Spatio%20Property%20Services%2C%20I%20need%20help%20with%20..." 
-               target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-              <i class="fab fa-whatsapp"></i>
-              <span>
-                <strong style="display:block;">Chat on WhatsApp</strong>
-                <small style="display:block;opacity:0.9;font-weight:500;">+254 782 424 154</small>
-              </span>
-            </a>
-
-            <div class="contact-methods">
-              <div class="contact-method">
-                <div class="contact-method-icon"><i class="fas fa-phone"></i></div>
-                <div class="contact-method-text">
-                  <strong>Call Us</strong>
-                  <span><a href="tel:+254782424154" style="color:inherit;">+254 782 424 154</a></span>
-                </div>
-              </div>
-              <div class="contact-method">
-                <div class="contact-method-icon"><i class="fas fa-envelope"></i></div>
-                <div class="contact-method-text">
-                  <strong>Email</strong>
-                  <span><a href="mailto:info.spske@gmail.com" style="color:inherit;">info.spske@gmail.com</a></span>
-                </div>
-              </div>
-              <div class="contact-method">
-                <div class="contact-method-icon"><i class="fas fa-map-marker-alt"></i></div>
-                <div class="contact-method-text">
-                  <strong>Location</strong>
-                  <span>Nairobi, Kenya</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <form class="contact-form-wrap" id="contactForm" aria-label="Contact form">
-            <h3>Send Us a Message</h3>
-            <p>Fill in the form and we'll reach out via WhatsApp instantly.</p>
-
-            <div class="contact-form-note">
-              <i class="fab fa-whatsapp"></i>
-              <span>This form submits directly to WhatsApp — no waiting for email replies.</span>
-            </div>
-
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label for="cfName">Full Name <span class="req">*</span></label>
-                <input type="text" id="cfName" name="name" class="form-control" placeholder="John Doe" required>
-              </div>
-              <div class="form-group">
-                <label for="cfPhone">Phone Number <span class="req">*</span></label>
-                <input type="tel" id="cfPhone" name="phone" class="form-control" placeholder="+254 7XX XXX XXX" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="cfEmail">Email Address</label>
-              <input type="email" id="cfEmail" name="email" class="form-control" placeholder="you@example.com">
-            </div>
-
-            <div class="form-group">
-              <label for="cfService">Service Required <span class="req">*</span></label>
-              <div class="form-select-wrap">
-                <i class="fas fa-briefcase"></i>
-                <select id="cfService" name="service" class="form-control" required>
-                  <option value="">— Select a service —</option>
-                  <optgroup label="Property Bazaar">
-                    <option value="Buying a Property">Buying a Property</option>
-                    <option value="Selling a Property">Selling a Property</option>
-                    <option value="Renting a Property">Renting a Property</option>
-                    <option value="Letting My Property">Letting My Property</option>
-                    <option value="Property Valuation">Property Valuation</option>
-                  </optgroup>
-                  <optgroup label="Surveying & Mapping">
-                    <option value="Boundary & Area Confirmation">Boundary & Area Confirmation</option>
-                    <option value="Physical Planning">Physical Planning</option>
-                    <option value="Land Valuation">Land Valuation</option>
-                    <option value="GIS Mapping & Data">GIS Mapping & Data</option>
-                    <option value="Title Deed Processing">Title Deed Processing</option>
-                    <option value="Subdivision / Amalgamation">Subdivision / Amalgamation</option>
-                  </optgroup>
-                  <optgroup label="Consultancy">
-                    <option value="Legal Transaction Support">Legal Transaction Support</option>
-                    <option value="Land Dispute Representation">Land Dispute Representation</option>
-                    <option value="Auctioneering Services">Auctioneering Services</option>
-                    <option value="NEMA / Physical Planning Guidance">NEMA / Physical Planning Guidance</option>
-                  </optgroup>
-                  <optgroup label="Other">
-                    <option value="General Inquiry">General Inquiry</option>
-                    <option value="Other (Specify in message)">Other (Specify in message)</option>
-                  </optgroup>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="cfProperty">Property / Location (Optional)</label>
-              <input type="text" id="cfProperty" name="property" class="form-control" placeholder="e.g. Karen, Nairobi — 50x100 plot">
-            </div>
-
-            <div class="form-group">
-              <label for="cfMessage">Additional Details <span class="req">*</span></label>
-              <textarea id="cfMessage" name="message" class="form-control" rows="4" 
-                        placeholder="Tell us more about your requirements..." required></textarea>
-            </div>
-
-            <button type="submit" class="btn-whatsapp-full" id="cfSubmit">
-              <i class="fab fa-whatsapp"></i>
-              <span>Send via WhatsApp</span>
-            </button>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-brand">
-            <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio">
-            <span class="footer-brand-name">Spatio<span>Property</span></span>
-          </div>
-          <p class="footer-desc">
-            Integrated property, surveying and consultancy services across Kenya. 
-            Connecting buyers, sellers, landlords and landowners with integrity.
-          </p>
-          <div class="footer-socials">
-            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-        </div>
-        <div>
-          <h4 class="footer-heading">Services</h4>
-          <ul class="footer-links">
-            <li><a href="property-bazaar.html"><i class="fas fa-chevron-right"></i> Property Bazaar</a></li>
-            <li><a href="surveying-mapping.html"><i class="fas fa-chevron-right"></i> Surveying & Mapping</a></li>
-            <li><a href="consultancy-services.html"><i class="fas fa-chevron-right"></i> Consultancy</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="footer-heading">Company</h4>
-          <ul class="footer-links">
-            <li><a href="about-us.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
-            <li><a href="#listings"><i class="fas fa-chevron-right"></i> Listings</a></li>
-            <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="footer-heading">Contact</h4>
-          <ul class="footer-links">
-            <li><a href="tel:+254782424154"><i class="fas fa-phone"></i> +254 782 424 154</a></li>
-            <li><a href="mailto:info.spske@gmail.com"><i class="fas fa-envelope"></i> info.spske@gmail.com</a></li>
-            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>&copy; <span id="year"></span> Spatio Property Services. All Rights Reserved.</span>
-        <a href="#home" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
-          <i class="fas fa-arrow-up"></i> Back to Top
+<!-- Contact -->
+<section class="section" id="contact" style="background:linear-gradient(135deg,var(--brand-900),var(--brand-800));color:var(--white);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label" style="color:var(--gold-400);">Get In Touch</div>
+      <h2 class="section-title" style="color:var(--white);">Let's <em>Talk</em></h2>
+      <p class="section-desc" style="color:rgba(255,255,255,0.7);">Reach out for property inquiries, surveys, or consultancy.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px;max-width:900px;margin:0 auto;">
+      <div>
+        <h3 style="font-family:var(--font-display);color:var(--white);margin-bottom:16px;">Talk to Us on WhatsApp</h3>
+        <p style="color:rgba(255,255,255,0.7);margin-bottom:24px;">Click below to chat directly with our team — we respond within minutes.</p>
+        <a href="https://wa.me/254782424154?text=Hello%20Spatio%20Property%20Services" target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg" style="width:100%;justify-content:center;">
+          <i class="fab fa-whatsapp" style="font-size:1.4rem;"></i> Chat on WhatsApp
         </a>
       </div>
-    </div>
-  </footer>
-
-  <a class="whatsapp-float" href="https://wa.me/254782424154?text=Hello%20Spatio%20Property%20Services%2C%20I%20need%20assistance..."
-     target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-  </a>
-
-  <!-- PHOTO GALLERY MODAL -->
-  <div class="gallery-modal" id="galleryModal" role="dialog" aria-modal="true" aria-label="Property photo gallery">
-    <div class="gallery-header">
-      <div class="gallery-title">
-        <span id="galleryTitle">Property Photos</span>
-        <small id="gallerySubtitle"></small>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:center;gap:14px;padding:16px;background:rgba(255,255,255,0.05);border-radius:var(--radius-md);">
+          <div style="width:46px;height:46px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--gold-500),var(--gold-600));color:var(--brand-900);display:flex;align-items:center;justify-content:center;"><i class="fas fa-phone"></i></div>
+          <div><small style="color:var(--gold-400);text-transform:uppercase;font-size:0.75rem;letter-spacing:0.08em;">Call</small><div style="color:var(--white);font-weight:600;">+254 782 424 154</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:16px;background:rgba(255,255,255,0.05);border-radius:var(--radius-md);">
+          <div style="width:46px;height:46px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--gold-500),var(--gold-600));color:var(--brand-900);display:flex;align-items:center;justify-content:center;"><i class="fas fa-envelope"></i></div>
+          <div><small style="color:var(--gold-400);text-transform:uppercase;font-size:0.75rem;letter-spacing:0.08em;">Email</small><div style="color:var(--white);font-weight:600;">info.spske@gmail.com</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:16px;background:rgba(255,255,255,0.05);border-radius:var(--radius-md);">
+          <div style="width:46px;height:46px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--gold-500),var(--gold-600));color:var(--brand-900);display:flex;align-items:center;justify-content:center;"><i class="fas fa-map-marker-alt"></i></div>
+          <div><small style="color:var(--gold-400);text-transform:uppercase;font-size:0.75rem;letter-spacing:0.08em;">Location</small><div style="color:var(--white);font-weight:600;">Nairobi, Kenya</div></div>
+        </div>
       </div>
-      <div class="gallery-counter" id="galleryCounter">1 / 1</div>
-      <button class="gallery-close" id="galleryClose" aria-label="Close gallery">
-        <i class="fas fa-times"></i>
-      </button>
     </div>
-
-    <div class="gallery-stage">
-      <button class="gallery-nav gallery-prev" id="galleryPrev" aria-label="Previous photo">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <img class="gallery-image" id="galleryImage" src="" alt="Property photo">
-      <button class="gallery-nav gallery-next" id="galleryNext" aria-label="Next photo">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
-
-    <div class="gallery-thumbs" id="galleryThumbs"></div>
   </div>
+</section>
+</main>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio">
+          <span class="footer-brand-name">Spatio<span>Property</span></span>
+        </div>
+        <p class="footer-desc">Integrated property, surveying and consultancy services across Kenya. Connecting buyers, sellers, landlords and landowners with integrity.</p>
+      </div>
+      <div><h4 class="footer-heading">Services</h4><ul class="footer-links"><li><a href="#services"><i class="fas fa-chevron-right"></i> Property Bazaar</a></li><li><a href="#services"><i class="fas fa-chevron-right"></i> Surveying & Mapping</a></li><li><a href="#services"><i class="fas fa-chevron-right"></i> Consultancy</a></li></ul></div>
+      <div><h4 class="footer-heading">Company</h4><ul class="footer-links"><li><a href="#home"><i class="fas fa-chevron-right"></i> About Us</a></li><li><a href="#quiz"><i class="fas fa-chevron-right"></i> Find Property</a></li><li><a href="#listings"><i class="fas fa-chevron-right"></i> Listings</a></li><li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a></li></ul></div>
+      <div><h4 class="footer-heading">Contact</h4><ul class="footer-links"><li><a href="tel:+254782424154"><i class="fas fa-phone"></i> +254 782 424 154</a></li><li><a href="mailto:info.spske@gmail.com"><i class="fas fa-envelope"></i> info.spske@gmail.com</a></li><li><a href="#"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Spatio Property Services. All Rights Reserved.</span>
+      <span style="color:var(--gold-400);">Made in Kenya 🇰🇪</span>
+    </div>
+  </div>
+</footer>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const $ = (id) => document.getElementById(id);
-    const qsa = (s, p = document) => Array.from(p.querySelectorAll(s));
+<a href="https://wa.me/254782424154?text=Hello%20Spatio" target="_blank" rel="noopener" class="whatsapp-float" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
-    // ===== Get property photos =====
-    function getPropertyPhotos(item) {
-      if (Array.isArray(item.photos) && item.photos.length > 0) {
-        return item.photos.filter(Boolean);
-      }
-      if (item.photo_url) return [item.photo_url];
-      return [];
-    }
+<!-- Pre-chat Bubble (links to quiz, NOT WhatsApp) -->
+<div class="prechat-bubble" id="prechatBubble">
+  <div class="prechat-header">
+    <div class="prechat-avatar"><i class="fas fa-magic"></i></div>
+    <button class="prechat-close" id="prechatClose" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="prechat-message">Hi! 👋 Need help finding the right property? Let's start with a quick match quiz.</div>
+  <div class="prechat-quick">
+    <button data-quiz="budget">Set Budget</button>
+    <button data-quiz="buy">I Want to Buy</button>
+    <button data-quiz="rent">I Want to Rent</button>
+    <button data-quiz="survey">Land Survey</button>
+  </div>
+</div>
 
-    // ===== Cookie Consent =====
-    const cookieBanner = $('cookieBanner');
-    if (!localStorage.getItem('cookiesAccepted')) {
-      setTimeout(() => cookieBanner.classList.add('show'), 1500);
-    }
-    $('cookieAccept')?.addEventListener('click', () => {
-      localStorage.setItem('cookiesAccepted', 'true');
-      cookieBanner.classList.remove('show');
-    });
-    $('cookieDecline')?.addEventListener('click', () => {
-      localStorage.setItem('cookiesAccepted', 'declined');
-      cookieBanner.classList.remove('show');
-    });
+<!-- Client Portal Modal -->
+<div class="modal-backdrop" id="clientPortalModal" role="dialog" aria-modal="true">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header">
+      <h2 class="modal-title"><i class="fas fa-user-circle"></i> Client Portal</h2>
+      <button class="modal-close" data-close-portal><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="portal-tabs">
+        <button class="portal-tab active" data-tab="signup">Sign Up</button>
+        <button class="portal-tab" data-tab="login">Log In</button>
+      </div>
 
-    // ===== Theme Toggle =====
-    const themeToggle = $('themeToggle');
-    const html = document.documentElement;
-    const savedTheme = localStorage.getItem('theme');
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
-      html.setAttribute('data-theme', 'dark');
-      updateThemeIcon(true);
-    }
-    
-    function updateThemeIcon(isDark) {
-      const icon = themeToggle?.querySelector('i');
-      if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-    }
-    
-    themeToggle?.addEventListener('click', () => {
-      const isDark = html.getAttribute('data-theme') === 'dark';
-      const newTheme = isDark ? 'light' : 'dark';
-      html.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      updateThemeIcon(!isDark);
-    });
-
-    // ===== Mobile Menu =====
-    const menuToggle = $('menuToggle');
-    const mobileNav = $('mobileNav');
-    const navOverlay = $('navOverlay');
-    
-    function openMenu() {
-      mobileNav.classList.add('open');
-      navOverlay.classList.add('show');
-      document.body.style.overflow = 'hidden';
-      menuToggle.setAttribute('aria-expanded', 'true');
-      menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-    }
-    
-    function closeMenu() {
-      mobileNav.classList.remove('open');
-      navOverlay.classList.remove('show');
-      document.body.style.overflow = '';
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-    }
-    
-    menuToggle?.addEventListener('click', () => {
-      mobileNav.classList.contains('open') ? closeMenu() : openMenu();
-    });
-    navOverlay?.addEventListener('click', closeMenu);
-    mobileNav?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeMenu();
-    });
-
-    // ===== Header scroll =====
-    const header = $('siteHeader');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 50);
-    }, { passive: true });
-
-    // ===== Reveal animations =====
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    // ===== Contact Form → WhatsApp =====
-    const WHATSAPP_NUMBER = '254782424154';
-
-    $('contactForm')?.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const name = $('cfName').value.trim();
-      const phone = $('cfPhone').value.trim();
-      const email = $('cfEmail').value.trim();
-      const service = $('cfService').value;
-      const property = $('cfProperty').value.trim();
-      const message = $('cfMessage').value.trim();
-
-      // Validate
-      if (!name || !phone || !service || !message) {
-        alert('Please fill in all required fields (name, phone, service, message).');
-        return;
-      }
-
-      // Build a nicely formatted WhatsApp message
-      const lines = [
-        `*New Inquiry — Spatio Property Services*`,
-        ``,
-        `*Name:* ${name}`,
-        `*Phone:* ${phone}`,
-      ];
-
-      if (email) lines.push(`*Email:* ${email}`);
-      lines.push(`*Service Required:* ${service}`);
-      if (property) lines.push(`*Property/Location:* ${property}`);
-      lines.push(``, `*Message:*`, message);
-      lines.push(``, `— Sent from spatiopropertyservices.co.ke`);
-
-      const text = lines.join('\n');
-      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-
-      // Visual feedback
-      const btn = $('cfSubmit');
-      const originalHTML = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening WhatsApp...';
-      btn.disabled = true;
-
-      // Open WhatsApp
-      window.open(waUrl, '_blank', 'noopener');
-
-      // Reset button after a moment
-      setTimeout(() => {
-        btn.innerHTML = originalHtml;
-        btn.disabled = false;
-      }, 1500);
-    });
-
-    // ===== Map =====
-    let map, markers = {}, featuredMarkers = {};
-    
-    function initMap() {
-      const mapEl = $('propertyMap');
-      if (!mapEl) return;
-      
-      map = L.map('propertyMap', {
-        center: [-1.286389, 36.817223],
-        zoom: 7,
-        scrollWheelZoom: false,
-        zoomControl: true,
-        attributionControl: true
-      });
-      
-      L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        {
-          maxZoom: 19,
-          maxNativeZoom: 19,
-          attribution: 'Tiles &copy; Esri'
-        }
-      ).addTo(map);
-    }
-
-    // ===== Supabase (UPDATED) =====
-    const supabaseUrl = 'https://fvathemgswgejrsmrpos.supabase.co';
-    const supabaseAnonKey = 'sb_publishable_5ylQGyYA-xSW-T0aDGFQ0Q_V5vdo71-';
-    const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
-    let allProperties = [];
-
-    function addMarker(item, isFeatured = false) {
-      const lat = Number(item.lat), lng = Number(item.lng);
-      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
-      
-      const photos = getPropertyPhotos(item);
-      const cover = photos[0] || 'https://via.placeholder.com/300x200?text=No+Image';
-      const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-      const photoCount = photos.length;
-      
-      const popupContent = `
-        <div style="width:240px;font-family:Inter,sans-serif;">
-          <div style="position:relative;">
-            <img src="${cover}" style="width:100%;height:140px;object-fit:cover;" alt="${item.location}">
-            ${photoCount > 1 ? `<span style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.7);color:#fff;padding:3px 8px;border-radius:9999px;font-size:11px;font-weight:700;">📷 ${photoCount}</span>` : ''}
+      <div class="portal-panel active" id="signupPanel">
+        <form id="signupForm">
+          <div class="form-field">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" id="suName" required placeholder="John Doe">
           </div>
-          <div style="padding:14px;">
-            <h4 style="margin:0 0 4px;font-size:15px;color:#0a2e2e;font-weight:700;font-family:Playfair Display,serif;">${item.location || 'Property'}</h4>
-            <p style="margin:0 0 8px;font-size:12px;color:#64748b;">${item.type || ''} ${item.category ? '• ' + item.category : ''}</p>
-            <p style="margin:0 0 12px;font-weight:700;color:#136f63;font-size:14px;">${item.price || ''}</p>
-            <button onclick="window.__openGalleryFromMarker('${item.id}')" 
-               style="display:block;width:100%;background:#d4a017;color:white;text-align:center;padding:8px;border-radius:6px;border:none;font-weight:600;font-size:12px;cursor:pointer;margin-bottom:6px;">
-               View ${photoCount > 1 ? photoCount + ' ' : ''}Photos
-            </button>
-            <a href="${directionsUrl}" target="_blank" rel="noopener"
-               style="display:block;background:#0f4a4a;color:white;text-align:center;padding:8px;border-radius:6px;text-decoration:none;font-weight:600;font-size:12px;">
-               Get Directions
-            </a>
+          <div class="form-field">
+            <label>Phone Number <span class="req">*</span></label>
+            <input type="tel" id="suPhone" required placeholder="+254 7XX XXX XXX">
+          </div>
+          <div class="form-field">
+            <label>Password <span class="req">*</span></label>
+            <input type="password" id="suPassword" required minlength="6" placeholder="At least 6 characters">
+          </div>
+          <div class="form-field">
+            <label>Property Location <span class="req">*</span></label>
+            <input type="text" id="suLocation" required placeholder="e.g. Karen, Nairobi">
+          </div>
+          <div class="form-field">
+            <label>Property Type <span class="req">*</span></label>
+            <select id="suPropertyType" required>
+              <option value="">— Select type —</option>
+              <option>Apartment</option><option>Plot</option><option>Land</option>
+              <option>Residential Plot</option><option>Commercial Land</option>
+              <option>Agricultural Land</option><option>Townhouse</option>
+              <option>Villa</option><option>Office Space</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+            <i class="fas fa-user-plus"></i> Create Account
+          </button>
+        </form>
+      </div>
+
+      <div class="portal-panel" id="loginPanel">
+        <form id="loginForm">
+          <div class="form-field">
+            <label>Phone Number <span class="req">*</span></label>
+            <input type="tel" id="liPhone" required placeholder="+254 7XX XXX XXX">
+          </div>
+          <div class="form-field">
+            <label>Password <span class="req">*</span></label>
+            <input type="password" id="liPassword" required placeholder="Your password">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+            <i class="fas fa-sign-in-alt"></i> Log In
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Client Dashboard Modal -->
+<div class="modal-backdrop" id="clientDashboardModal" role="dialog" aria-modal="true">
+  <div class="modal" style="max-width:780px;">
+    <div class="modal-header">
+      <h2 class="modal-title"><i class="fas fa-user-circle"></i> My Dashboard</h2>
+      <button class="modal-close" id="closeDashboard"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;padding:16px;background:var(--ink-50);border-radius:var(--radius-md);">
+        <div>
+          <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--ink-900);" id="dashName">John Doe</div>
+          <div style="color:var(--ink-500);font-size:0.85rem;" id="dashPhone">+254 7XX XXX XXX</div>
+        </div>
+        <button class="btn btn-outline btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+        <h3 style="font-family:var(--font-display);font-size:1.1rem;">My Listings</h3>
+        <button class="btn btn-primary btn-sm" id="addClientListingBtn"><i class="fas fa-plus"></i> Add Listing</button>
+      </div>
+      <div id="clientListingsContainer">
+        <p style="text-align:center;color:var(--ink-500);padding:2rem;">No listings yet. Click "Add Listing" to submit your first property.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Client Add Listing Modal -->
+<div class="modal-backdrop" id="clientListingModal" role="dialog" aria-modal="true">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-header">
+      <h2 class="modal-title"><i class="fas fa-plus-circle"></i> Add New Listing</h2>
+      <button class="modal-close" id="closeClientListing"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div style="background:rgba(59,130,246,0.08);border-left:4px solid var(--info);padding:12px 16px;border-radius:var(--radius-md);font-size:0.85rem;margin-bottom:20px;">
+        <i class="fas fa-info-circle" style="color:var(--info);"></i>
+        Your listing will be reviewed by our admin before appearing publicly.
+      </div>
+      <form id="clientListingForm">
+        <div class="form-field">
+          <label>Property Title <span class="req">*</span></label>
+          <input type="text" id="clTitle" required placeholder="e.g. 3BR Apartment in Kilimani">
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Type <span class="req">*</span></label>
+            <select id="clType" required>
+              <option value="">— Select —</option>
+              <option>Apartment</option><option>Plot</option><option>Land</option>
+              <option>Residential Plot</option><option>Commercial Land</option>
+              <option>Agricultural Land</option><option>Townhouse</option>
+              <option>Villa</option><option>Office Space</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Category <span class="req">*</span></label>
+            <select id="clCategory" required>
+              <option value="">— Select —</option>
+              <option>For Sale</option><option>To Let</option>
+            </select>
           </div>
         </div>
-      `;
-      
-      const marker = L.marker([lat, lng]).addTo(map).bindPopup(popupContent);
-      if (isFeatured) featuredMarkers[item.id] = marker;
-      else markers[item.id] = marker;
-    }
-
-    window.__openGalleryFromMarker = (id) => {
-      const item = allProperties.find(p => String(p.id) === String(id));
-      if (!item) return;
-      const photos = getPropertyPhotos(item);
-      if (photos.length === 0) return;
-      gallery.open(
-        photos, 0,
-        item.location || 'Property Photos',
-        `${item.type || ''} ${item.category ? '• ' + item.category : ''} — ${item.price || ''}`.trim()
-      );
-    };
-
-    // ===== Gallery =====
-    const gallery = {
-      photos: [], index: 0, title: '', subtitle: '',
-      open(photos, startIndex = 0, title = 'Property Photos', subtitle = '') {
-        if (!photos || photos.length === 0) return;
-        this.photos = photos;
-        this.index = Math.max(0, Math.min(startIndex, photos.length - 1));
-        this.title = title;
-        this.subtitle = subtitle;
-        $('galleryModal').classList.add('show');
-        document.body.style.overflow = 'hidden';
-        this.render();
-      },
-      close() {
-        $('galleryModal').classList.remove('show');
-        document.body.style.overflow = '';
-      },
-      render() {
-        const img = $('galleryImage');
-        const counter = $('galleryCounter');
-        const titleEl = $('galleryTitle');
-        const subtitleEl = $('gallerySubtitle');
-        const prevBtn = $('galleryPrev');
-        const nextBtn = $('galleryNext');
-        const thumbsWrap = $('galleryThumbs');
-
-        img.src = this.photos[this.index];
-        counter.textContent = `${this.index + 1} / ${this.photos.length}`;
-        titleEl.textContent = this.title;
-        subtitleEl.textContent = this.subtitle || '';
-
-        prevBtn.disabled = this.index === 0;
-        nextBtn.disabled = this.index === this.photos.length - 1;
-
-        if (this.photos.length > 1) {
-          thumbsWrap.style.display = 'flex';
-          thumbsWrap.innerHTML = this.photos.map((url, i) => `
-            <button class="gallery-thumb ${i === this.index ? 'active' : ''}" data-index="${i}" aria-label="Photo ${i + 1}">
-              <img src="${url}" alt="" loading="lazy">
-            </button>
-          `).join('');
-
-          thumbsWrap.querySelectorAll('.gallery-thumb').forEach(btn => {
-            btn.addEventListener('click', () => {
-              this.index = parseInt(btn.dataset.index);
-              this.render();
-            });
-          });
-
-          const activeThumb = thumbsWrap.querySelector('.gallery-thumb.active');
-          if (activeThumb) {
-            activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-          }
-        } else {
-          thumbsWrap.style.display = 'none';
-          thumbsWrap.innerHTML = '';
-        }
-      },
-      next() { if (this.index < this.photos.length - 1) { this.index++; this.render(); } },
-      prev() { if (this.index > 0) { this.index--; this.render(); } },
-    };
-
-    $('galleryClose')?.addEventListener('click', () => gallery.close());
-    $('galleryPrev')?.addEventListener('click', () => gallery.prev());
-    $('galleryNext')?.addEventListener('click', () => gallery.next());
-
-    $('galleryModal')?.addEventListener('click', (e) => {
-      if (e.target.id === 'galleryModal') gallery.close();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (!$('galleryModal')?.classList.contains('show')) return;
-      if (e.key === 'Escape') gallery.close();
-      if (e.key === 'ArrowLeft') gallery.prev();
-      if (e.key === 'ArrowRight') gallery.next();
-    });
-
-    let touchStartX = 0;
-    $('galleryModal')?.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    $('galleryModal')?.addEventListener('touchend', (e) => {
-      const diff = e.changedTouches[0].screenX - touchStartX;
-      if (Math.abs(diff) > 50) {
-        if (diff < 0) gallery.next();
-        else gallery.prev();
-      }
-    }, { passive: true });
-
-    // ===== Load Featured =====
-    async function loadFeaturedListings() {
-      try {
-        const since = new Date(Date.now() - 86400000).toISOString();
-        const { data, error } = await supabaseClient
-          .from('properties').select('*')
-          .gte('created_at', since)
-          .order('created_at', { ascending: false })
-          .limit(3);
-        
-        if (error) throw error;
-        
-        const container = $('featuredContainer');
-        if (!data || data.length === 0) {
-          container.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--ink-500);padding:2rem;">No new listings today. Check back soon!</p>';
-          return;
-        }
-        
-        container.innerHTML = data.map(item => {
-          const photos = getPropertyPhotos(item);
-          const cover = photos[0] || 'https://via.placeholder.com/800x600?text=No+Image';
-          if (item.lat && item.lng) addMarker(item, true);
-          const photoCount = photos.length;
-
-          return `
-            <div class="property-card reveal" data-id="${item.id}" role="listitem" tabindex="0">
-              <div class="property-img-wrap">
-                <span class="property-badge badge-new">New</span>
-                ${photoCount > 1 ? `<span class="card-photo-count"><i class="fas fa-images"></i> ${photoCount}</span>` : ''}
-                <img src="${cover}" alt="${item.location}" loading="lazy" width="400" height="220">
-              </div>
-              <div class="property-body">
-                <div class="property-location"><i class="fas fa-map-marker-alt"></i> ${item.location}</div>
-                <h3 class="property-title">${item.type || 'Property'} ${item.category ? '• ' + item.category : ''}</h3>
-                <div class="property-footer">
-                  <div class="property-price">
-                    ${item.price || 'Price on request'}
-                    <small>${item.category || ''}</small>
-                  </div>
-                  <span class="btn btn-sm btn-outline" style="pointer-events:none;">
-                    <i class="fas fa-images"></i> View
-                  </span>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
-        
-        container.querySelectorAll('.property-card').forEach(card => {
-          card.addEventListener('click', function() {
-            const id = this.dataset.id;
-            const item = data.find(p => String(p.id) === String(id));
-            if (!item) return;
-            const photos = getPropertyPhotos(item);
-            if (photos.length === 0) return;
-            gallery.open(
-              photos, 0,
-              item.location || 'Property Photos',
-              `${item.type || ''} ${item.category ? '• ' + item.category : ''} — ${item.price || ''}`.trim()
-            );
-          });
-        });
-        
-        qsa('.reveal').forEach(el => revealObserver.observe(el));
-      } catch (err) {
-        console.error(err);
-        $('featuredContainer').innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--danger);padding:2rem;">Failed to load featured properties.</p>';
-      }
-    }
-
-    // ===== Load All =====
-    async function loadListings() {
-      try {
-        const { data, error } = await supabaseClient.from('properties').select('*').order('created_at', { ascending: false });
-        if (error) throw error;
-        allProperties = data || [];
-        renderListings(allProperties);
-      } catch (err) {
-        console.error(err);
-        $('listingsContainer').innerHTML = '<p style="text-align:center;color:var(--danger);padding:2rem;">Failed to load properties.</p>';
-      }
-    }
-
-    function renderListings(listings) {
-      const container = $('listingsContainer');
-      const search = $('searchLocation')?.value.toLowerCase() || '';
-      const type = $('filterType')?.value || '';
-      const cat = $('filterCategory')?.value || '';
-      
-      const filtered = listings.filter(item => {
-        const matchLoc = !search || item.location?.toLowerCase().includes(search);
-        const matchType = !type || item.type === type;
-        const matchCat = !cat || item.category === cat;
-        return matchLoc && matchType && matchCat;
-      });
-      
-      Object.keys(markers).forEach(id => {
-        if (map?.hasLayer(markers[id])) map.removeLayer(markers[id]);
-      });
-      markers = {};
-      filtered.forEach(item => {
-        if (item.lat && item.lng && !featuredMarkers[item.id]) addMarker(item, false);
-      });
-      
-      if (filtered.length === 0) {
-        container.innerHTML = '<p style="text-align:center;color:var(--ink-500);padding:3rem;">No matching listings found.</p>';
-        return;
-      }
-      
-      container.innerHTML = `
-        <div class="table-wrap">
-          <table class="listing-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Status</th>
-                <th>Location</th>
-                <th>Type</th>
-                <th>Category</th>
-                <th>Size</th>
-                <th>Price</th>
-                <th>Photos</th>
-                <th>Map</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${filtered.map((item, i) => {
-                const photos = getPropertyPhotos(item);
-                const photoCount = photos.length;
-                const status = (item.status || 'active').toLowerCase();
-                return `
-                  <tr data-id="${item.id}" data-lat="${item.lat}" data-lng="${item.lng}">
-                    <td>${i + 1}</td>
-                    <td><span class="status-badge status-${status}">${status}</span></td>
-                    <td><strong>${item.location}</strong></td>
-                    <td>${item.type || '—'}</td>
-                    <td><span class="type-badge">${item.category || '—'}</span></td>
-                    <td>${item.size || '—'}</td>
-                    <td style="color:var(--brand-600);font-weight:700;">${item.price || '—'}</td>
-                    <td>
-                      <button class="btn btn-sm btn-outline view-photo" data-id="${item.id}">
-                        <i class="fas fa-images"></i> View ${photoCount > 1 ? `(${photoCount})` : ''}
-                      </button>
-                    </td>
-                    <td>
-                      ${(item.lat && item.lng)
-                        ? `<button class="btn btn-sm btn-primary locate-on-map" data-id="${item.id}"><i class="fas fa-map-marker-alt"></i> Locate</button>`
-                        : '—'}
-                    </td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Price <span class="req">*</span></label>
+            <input type="text" id="clPrice" required placeholder="e.g. KES 5,000,000">
+          </div>
+          <div class="form-field">
+            <label>Size <span class="req">*</span></label>
+            <input type="text" id="clSize" required placeholder="e.g. 50x100 or 3BR">
+          </div>
         </div>
-      `;
-      
-      attachEventListeners();
+        <div class="form-field">
+          <label>Description</label>
+          <textarea id="clDescription" rows="3" placeholder="Describe the property..."></textarea>
+        </div>
+        <div class="form-field">
+          <label>Property Location <span class="req">*</span></label>
+          <div class="location-picker-wrap">
+            <i class="fas fa-search location-search-icon"></i>
+            <input type="text" class="location-search-input" id="clLocationSearch" placeholder="Search address (e.g. Karen, Nairobi)" autocomplete="off">
+          </div>
+          <div class="map-picker" id="clMapPicker"></div>
+          <div class="map-hint"><i class="fas fa-info-circle"></i> Search above or click on the map to set coordinates</div>
+          <input type="hidden" id="clLat">
+          <input type="hidden" id="clLng">
+          <input type="hidden" id="clFormattedLocation">
+        </div>
+        <div class="form-field">
+          <label>Property Photos <span class="req">*</span> (up to 6)</label>
+          <input type="file" id="clPhotos" accept="image/*" multiple>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+          <i class="fas fa-paper-plane"></i> Submit for Approval
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Gallery Modal -->
+<div class="admin-gallery-modal" id="galleryModal">
+  <div class="admin-gallery-header">
+    <h3 id="galleryTitle">Property Photos</h3>
+    <div class="admin-gallery-counter" id="galleryCounter">1 / 1</div>
+    <button class="admin-gallery-close" id="galleryClose" aria-label="Close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="admin-gallery-stage">
+    <button class="admin-gallery-nav admin-gallery-prev" id="galleryPrev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+    <img id="galleryImage" src="" alt="">
+    <button class="admin-gallery-nav admin-gallery-next" id="galleryNext" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+  </div>
+  <div class="admin-gallery-thumbs" id="galleryThumbs"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+'use strict';
+const SUPABASE_URL='https://fvathemgswgejrsmrpos.supabase.co';
+const SUPABASE_KEY='sb_publishable_5ylQGyYA-xSW-T0aDGFQ0Q_V5vdo71-';
+const STORAGE_BUCKET='property-photos';
+const MAX_CLIENT_PHOTOS=6;
+const WHATSAPP_NUMBER='254782424154';
+const supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=(id)=>document.getElementById(id);
+const qsa=(s,p=document)=>Array.from(p.querySelectorAll(s));
+
+/* ================= TOAST ================= */
+function toast(type,title,msg=''){
+  const icons={success:'fa-check-circle',error:'fa-exclamation-circle',warning:'fa-exclamation-triangle',info:'fa-info-circle'};
+  const el=document.createElement('div');
+  el.className=`toast ${type}`;
+  el.innerHTML=`<i class="fas ${icons[type]||icons.info} toast-icon"></i><div class="toast-content"><div class="toast-title">${title}</div>${msg?`<div class="toast-msg">${msg}</div>`:''}</div>`;
+  $('toastContainer').appendChild(el);
+  setTimeout(()=>{el.classList.add('hide');setTimeout(()=>el.remove(),300);},3500);
+}
+
+/* ================= THEME ================= */
+const html=document.documentElement;
+const savedTheme=localStorage.getItem('theme');
+const systemDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+if(savedTheme==='dark'||(!savedTheme&&systemDark)){html.setAttribute('data-theme','dark');$('themeToggle').querySelector('i').className='fas fa-sun';}
+$('themeToggle').addEventListener('click',()=>{
+  const isDark=html.getAttribute('data-theme')==='dark';
+  const next=isDark?'light':'dark';
+  html.setAttribute('data-theme',next);
+  localStorage.setItem('theme',next);
+  $('themeToggle').querySelector('i').className=isDark?'fas fa-moon':'fas fa-sun';
+});
+
+/* ================= MOBILE NAV ================= */
+const menuToggle=$('menuToggle'),mobileNav=$('mobileNav'),navOverlay=$('navOverlay');
+function openMenu(){mobileNav.classList.add('open');navOverlay.classList.add('show');document.body.style.overflow='hidden';menuToggle.innerHTML='<i class="fas fa-times"></i>';}
+function closeMenu(){mobileNav.classList.remove('open');navOverlay.classList.remove('show');document.body.style.overflow='';menuToggle.innerHTML='<i class="fas fa-bars"></i>';}
+menuToggle.addEventListener('click',()=>mobileNav.classList.contains('open')?closeMenu():openMenu());
+navOverlay.addEventListener('click',closeMenu);
+qsa('#mobileNav a').forEach(a=>a.addEventListener('click',closeMenu));
+window.addEventListener('scroll',()=>{$('siteHeader').classList.toggle('scrolled',window.scrollY>50);},{passive:true});
+
+/* ================= PRE-CHAT BUBBLE (links to QUIZ, not WhatsApp) ================= */
+setTimeout(()=>{if(!sessionStorage.getItem('prechatDismissed'))$('prechatBubble').classList.add('show');},10000);
+$('prechatClose').addEventListener('click',()=>{$('prechatBubble').classList.remove('show');sessionStorage.setItem('prechatDismissed','true');});
+
+qsa('.prechat-quick button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const hint=btn.dataset.quiz;
+    // Close the bubble
+    $('prechatBubble').classList.remove('show');
+    sessionStorage.setItem('prechatDismissed','true');
+    // Scroll to quiz
+    const quizSection=$('quiz');
+    if(quizSection){
+      const top=quizSection.getBoundingClientRect().top+window.pageYOffset-80;
+      window.scrollTo({top,behavior:'smooth'});
     }
-
-    function attachEventListeners() {
-      document.querySelectorAll('.view-photo').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.dataset.id;
-          const item = allProperties.find(p => String(p.id) === String(id));
-          if (!item) return;
-          const photos = getPropertyPhotos(item);
-          if (photos.length === 0) return;
-          gallery.open(
-            photos, 0,
-            item.location || 'Property Photos',
-            `${item.type || ''} ${item.category ? '• ' + item.category : ''} — ${item.price || ''}`.trim()
-          );
-        });
-      });
-      
-      document.querySelectorAll('.locate-on-map').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const row = btn.closest('tr');
-          const lat = parseFloat(row.dataset.lat), lng = parseFloat(row.dataset.lng), id = row.dataset.id;
-          if (lat && lng) {
-            document.querySelector('.map-section')?.scrollIntoView({ behavior: 'smooth' });
-            map?.flyTo([lat, lng], 16, { animate: true, duration: 1.5 });
-            setTimeout(() => {
-              const marker = markers[id] || featuredMarkers[id];
-              if (marker) marker.openPopup();
-            }, 1500);
-          }
-        });
-      });
+    // Optionally pre-select an answer based on hint
+    if(hint==='buy'||hint==='rent'||hint==='survey'){
+      // Pre-select on step 2 (Purpose)
+      setTimeout(()=>{
+        const option=document.querySelector(`.quiz-step[data-step="2"] .quiz-option[data-value="${hint}"]`);
+        if(option)option.click();
+      },700);
     }
-
-    function debounce(fn, wait) {
-      let t;
-      return function(...args) {
-        clearTimeout(t);
-        t = setTimeout(() => fn.apply(this, args), wait);
-      };
-    }
-    
-    const debouncedRender = debounce(() => renderListings(allProperties), 300);
-    $('searchLocation')?.addEventListener('input', debouncedRender);
-    $('filterType')?.addEventListener('change', debouncedRender);
-    $('filterCategory')?.addEventListener('change', debouncedRender);
-
-    $('year').textContent = new Date().getFullYear();
-
-    initMap();
-    loadFeaturedListings();
-    loadListings();
   });
-  </script>
+});
+
+/* ================= QUIZ (Find Perfect Property) ================= */
+const quizAnswers={};
+const recommendations={
+  apartment:{
+    title:'Modern Apartment Match',
+    desc:'Based on your preferences, we recommend exploring modern apartments in prime locations.',
+    price:'Contact us for pricing',
+    highlights:['Secure gated communities','Modern amenities','Prime locations','Flexible payment plans']
+  },
+  land:{
+    title:'Prime Land / Plot Match',
+    desc:'We recommend verified land parcels with clean titles and ready documentation.',
+    price:'Contact us for pricing',
+    highlights:['Verified title deeds','Ready for development','Surveyed boundaries','Clear ownership']
+  },
+  villa:{
+    title:'Luxury Villa / Townhouse Match',
+    desc:'Premium villas and townhouses in exclusive neighborhoods.',
+    price:'Contact us for pricing',
+    highlights:['Spacious interiors','Private gardens','Gated estates','High-end finishes']
+  },
+  office:{
+    title:'Commercial Office Match',
+    desc:'Professional office spaces in strategic business districts.',
+    price:'Contact us for pricing',
+    highlights:['Central locations','Ample parking','Modern facilities','Flexible lease terms']
+  },
+  survey:{
+    title:'Professional Surveying Service',
+    desc:'Our licensed surveyors handle boundary confirmation, subdivision, and title processing.',
+    price:'Contact us for a quote',
+    highlights:['Licensed surveyors','Fast turnaround','Accurate documentation','Nationwide coverage']
+  }
+};
+
+function nextQuizStep(step){
+  qsa('.quiz-step').forEach(s=>s.classList.remove('active'));
+  const next=document.querySelector(`.quiz-step[data-step="${step+1}"]`);
+  if(next)next.classList.add('active');
+  qsa('.quiz-progress .step').forEach(s=>{
+    const sNum=parseInt(s.dataset.step);
+    s.classList.toggle('active',sNum===step+1);
+    s.classList.toggle('completed',sNum<=step);
+  });
+}
+function prevQuizStep(step){
+  qsa('.quiz-step').forEach(s=>s.classList.remove('active'));
+  const prev=document.querySelector(`.quiz-step[data-step="${step-1}"]`);
+  if(prev)prev.classList.add('active');
+  qsa('.quiz-progress .step').forEach(s=>{
+    const sNum=parseInt(s.dataset.step);
+    s.classList.toggle('active',sNum===step-1);
+    s.classList.toggle('completed',sNum<step-1);
+  });
+}
+
+qsa('.quiz-option').forEach(opt=>{
+  opt.addEventListener('click',function(){
+    const parent=this.closest('.quiz-step');
+    parent.querySelectorAll('.quiz-option').forEach(o=>o.classList.remove('selected'));
+    this.classList.add('selected');
+    const stepNum=parseInt(parent.dataset.step);
+    const stepNames=['budget','purpose','type','location'];
+    quizAnswers[stepNames[stepNum-1]]=this.dataset.value;
+    const nextBtn=$(`quizNext${stepNum}`);
+    if(nextBtn)nextBtn.disabled=false;
+  });
+});
+
+function showQuizResult(){
+  qsa('.quiz-step').forEach(s=>s.classList.remove('active'));
+  qsa('.quiz-progress .step').forEach(s=>s.classList.add('completed'));
+
+  const purpose=quizAnswers.purpose;
+  const type=quizAnswers.type;
+  let key=type;
+  if(purpose==='survey')key='survey';
+  const rec=recommendations[key]||recommendations.apartment;
+
+  $('quizMatch').innerHTML=`
+    <div class="label">Perfect Match</div>
+    <h4>${rec.title}</h4>
+    <p>${rec.desc}</p>
+    <ul style="list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;">
+      ${rec.highlights.map(h=>`<li style="font-size:0.85rem;color:var(--brand-900);font-weight:600;">✓ ${h}</li>`).join('')}
+    </ul>
+  `;
+
+  const alternatives=[
+    {name:'Browse All Listings',desc:'See all available properties',action:'listings'},
+    {name:'Talk to an Agent',desc:'Get personalized help',action:'contact'}
+  ];
+  $('quizAlternatives').innerHTML=`
+    <h5>Next steps:</h5>
+    ${alternatives.map(a=>`
+      <div class="quiz-alt-item">
+        <div><strong>${a.name}</strong><br><small style="color:var(--ink-500);">${a.desc}</small></div>
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('${a.action}').scrollIntoView({behavior:'smooth'})">Go <i class="fas fa-arrow-right"></i></button>
+      </div>
+    `).join('')}
+  `;
+  $('quizResult').classList.add('active');
+}
+
+function restartQuiz(){
+  Object.keys(quizAnswers).forEach(k=>delete quizAnswers[k]);
+  qsa('.quiz-option').forEach(o=>o.classList.remove('selected'));
+  qsa('button[id^="quizNext"]').forEach(b=>b.disabled=true);
+  $('quizResult').classList.remove('active');
+  document.querySelector('.quiz-step[data-step="1"]').classList.add('active');
+  qsa('.quiz-progress .step').forEach((s,i)=>{
+    s.classList.toggle('active',i===0);
+    s.classList.remove('completed');
+  });
+}
+
+function sendQuizToWhatsApp(){
+  const budgetMap={budget:'Under 1M',mid:'1M-5M',premium:'5M-20M',luxury:'20M+'};
+  const purposeMap={buy:'Buy Property',rent:'Rent Property',sell:'Sell Property',survey:'Land Survey'};
+  const typeMap={apartment:'Apartment',land:'Land / Plot',villa:'Villa / Townhouse',office:'Office Space'};
+  const locMap={nairobi:'Nairobi',coast:'Coast (Mombasa/Diani)',central:'Central (Nakuru/Nanyuki)',anywhere:'Anywhere in Kenya'};
+
+  const lines=[
+    '🏠 *PROPERTY MATCH REQUEST* 🏠',
+    '━━━━━━━━━━━━━━━━━━━━',
+    '',
+    `💰 *Budget:* ${budgetMap[quizAnswers.budget]||'Not specified'}`,
+    `🎯 *Looking for:* ${purposeMap[quizAnswers.purpose]||'Not specified'}`,
+    `🏡 *Property Type:* ${typeMap[quizAnswers.type]||'Not specified'}`,
+    `📍 *Location:* ${locMap[quizAnswers.location]||'Not specified'}`,
+    '',
+    '━━━━━━━━━━━━━━━━━━━━',
+    '✅ Sent from Spatio Property Services website'
+  ];
+
+  const msg=encodeURIComponent(lines.join('\n'));
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
+  toast('success','Opening WhatsApp','Your match will be sent shortly.');
+}
+
+// Expose to global
+window.nextQuizStep=nextQuizStep;
+window.prevQuizStep=prevQuizStep;
+window.showQuizResult=showQuizResult;
+window.restartQuiz=restartQuiz;
+window.sendQuizToWhatsApp=sendQuizToWhatsApp;
+
+/* ================= HELPERS ================= */
+function getPhotos(item){
+  if(Array.isArray(item.photos)&&item.photos.length>0)return item.photos.filter(Boolean);
+  if(item.photo_url)return [item.photo_url];
+  return [];
+}
+function escapeHtml(s){if(s==null)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+/* ================= GALLERY ================= */
+const gallery={photos:[],index:0,title:'',
+  open(photos,idx=0,title='Property Photos'){
+    if(!photos||!photos.length)return;
+    this.photos=photos;this.index=Math.max(0,Math.min(idx,photos.length-1));this.title=title;
+    $('galleryModal').classList.add('show');document.body.style.overflow='hidden';this.render();
+  },
+  close(){$('galleryModal').classList.remove('show');document.body.style.overflow='';},
+  render(){
+    $('galleryImage').src=this.photos[this.index];
+    $('galleryCounter').textContent=`${this.index+1} / ${this.photos.length}`;
+    $('galleryTitle').textContent=this.title;
+    $('galleryPrev').disabled=this.index===0;
+    $('galleryNext').disabled=this.index===this.photos.length-1;
+    const t=$('galleryThumbs');
+    if(this.photos.length>1){
+      t.style.display='flex';
+      t.innerHTML=this.photos.map((u,i)=>`<button class="admin-gallery-thumb ${i===this.index?'active':''}" data-i="${i}"><img src="${u}" loading="lazy"></button>`).join('');
+      qsa('.admin-gallery-thumb',t).forEach(b=>b.addEventListener('click',()=>{this.index=+b.dataset.i;this.render();}));
+    }else{t.style.display='none';t.innerHTML='';}
+  },
+  next(){if(this.index<this.photos.length-1){this.index++;this.render();}},
+  prev(){if(this.index>0){this.index--;this.render();}}
+};
+$('galleryClose').addEventListener('click',()=>gallery.close());
+$('galleryPrev').addEventListener('click',()=>gallery.prev());
+$('galleryNext').addEventListener('click',()=>gallery.next());
+$('galleryModal').addEventListener('click',e=>{if(e.target.id==='galleryModal')gallery.close();});
+document.addEventListener('keydown',e=>{
+  if(!$('galleryModal').classList.contains('show'))return;
+  if(e.key==='Escape')gallery.close();
+  if(e.key==='ArrowLeft')gallery.prev();
+  if(e.key==='ArrowRight')gallery.next();
+});
+
+/* ================= CLIENT PORTAL ================= */
+const CLIENT_SESSION_KEY='spatio_client_session';
+let currentClient=null;
+
+function openPortal(){
+  if(currentClient){openDashboard();}else{$('clientPortalModal').classList.add('show');document.body.style.overflow='hidden';}
+}
+$('clientPortalBtn').addEventListener('click',openPortal);
+$('mobileClientPortal').addEventListener('click',(e)=>{e.preventDefault();closeMenu();openPortal();});
+
+qsa('.portal-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    qsa('.portal-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    qsa('.portal-panel').forEach(p=>p.classList.remove('active'));
+    $(tab.dataset.tab+'Panel').classList.add('active');
+  });
+});
+
+qsa('[data-close-portal]').forEach(b=>b.addEventListener('click',()=>{
+  $('clientPortalModal').classList.remove('show');
+  document.body.style.overflow='';
+}));
+
+async function hashPassword(pw){
+  const enc=new TextEncoder().encode(pw+'spatio-salt-2026');
+  const buf=await crypto.subtle.digest('SHA-256',enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+$('signupForm').addEventListener('submit',async(e)=>{
+  e.preventDefault();
+  const name=$('suName').value.trim();
+  const phone=$('suPhone').value.trim();
+  const password=$('suPassword').value;
+  const location=$('suLocation').value.trim();
+  const propertyType=$('suPropertyType').value;
+
+  if(!name||!phone||!password||!location||!propertyType){toast('error','Missing fields','Please fill all required fields.');return;}
+  if(password.length<6){toast('error','Weak password','Password must be at least 6 characters.');return;}
+
+  const passwordHash=await hashPassword(password);
+
+  try{
+    const {data:existing,error:checkErr}=await supabase.from('clients').select('id').eq('phone',phone).maybeSingle();
+    if(checkErr&&checkErr.code!=='PGRST116')throw checkErr;
+    if(existing){toast('error','Phone already registered','Please log in instead.');return;}
+
+    const {data,error}=await supabase.from('clients').insert([{
+      name,phone,password_hash:passwordHash,
+      property_location:location,property_type:propertyType,
+      status:'active'
+    }]).select().single();
+    if(error)throw error;
+
+    currentClient=data;
+    localStorage.setItem(CLIENT_SESSION_KEY,JSON.stringify({id:data.id,phone:data.phone}));
+    toast('success','Account created!','Welcome, '+name);
+    $('clientPortalModal').classList.remove('show');
+    document.body.style.overflow='';
+    setTimeout(openDashboard,300);
+  }catch(err){
+    console.error(err);
+    toast('error','Signup failed',err.message||'Please try again.');
+  }
+});
+
+$('loginForm').addEventListener('submit',async(e)=>{
+  e.preventDefault();
+  const phone=$('liPhone').value.trim();
+  const password=$('liPassword').value;
+  if(!phone||!password){toast('error','Missing fields','Enter phone and password.');return;}
+
+  try{
+    const {data,error}=await supabase.from('clients').select('*').eq('phone',phone).maybeSingle();
+    if(error)throw error;
+    if(!data){toast('error','Account not found','Please sign up first.');return;}
+
+    const inputHash=await hashPassword(password);
+    if(inputHash!==data.password_hash){toast('error','Wrong password','Please check and try again.');return;}
+
+    currentClient=data;
+    localStorage.setItem(CLIENT_SESSION_KEY,JSON.stringify({id:data.id,phone:data.phone}));
+    toast('success','Welcome back!','Logged in as '+data.name);
+    $('clientPortalModal').classList.remove('show');
+    document.body.style.overflow='';
+    setTimeout(openDashboard,300);
+  }catch(err){
+    console.error(err);
+    toast('error','Login failed',err.message||'Please try again.');
+  }
+});
+
+(async function restoreSession(){
+  try{
+    const saved=localStorage.getItem(CLIENT_SESSION_KEY);
+    if(!saved)return;
+    const {id}=JSON.parse(saved);
+    const {data,error}=await supabase.from('clients').select('*').eq('id',id).maybeSingle();
+    if(error||!data){localStorage.removeItem(CLIENT_SESSION_KEY);return;}
+    currentClient=data;
+  }catch(e){console.warn('Session restore failed',e);}
+})();
+
+function openDashboard(){
+  if(!currentClient)return;
+  $('dashName').textContent=currentClient.name;
+  $('dashPhone').textContent=currentClient.phone;
+  $('clientDashboardModal').classList.add('show');
+  document.body.style.overflow='hidden';
+  loadClientListings();
+}
+
+$('closeDashboard').addEventListener('click',()=>{
+  $('clientDashboardModal').classList.remove('show');
+  document.body.style.overflow='';
+});
+
+$('logoutBtn').addEventListener('click',()=>{
+  currentClient=null;
+  localStorage.removeItem(CLIENT_SESSION_KEY);
+  $('clientDashboardModal').classList.remove('show');
+  document.body.style.overflow='';
+  toast('info','Logged out','See you next time!');
+});
+
+async function loadClientListings(){
+  if(!currentClient)return;
+  const container=$('clientListingsContainer');
+  container.innerHTML='<p style="text-align:center;color:var(--ink-500);padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Loading...</p>';
+  try{
+    const {data,error}=await supabase.from('properties').select('*').eq('client_id',currentClient.id).order('created_at',{ascending:false});
+    if(error)throw error;
+    if(!data||!data.length){
+      container.innerHTML='<p style="text-align:center;color:var(--ink-500);padding:2rem;">No listings yet. Click "Add Listing" to submit your first property.</p>';
+      return;
+    }
+    container.innerHTML=data.map(item=>{
+      const status=(item.status||'pending').toLowerCase();
+      const statusColors={pending:'#3b82f6',active:'#10b981',sold:'#ef4444',rented:'#f59e0b',rejected:'#ef4444'};
+      const color=statusColors[status]||'#3b82f6';
+      return `
+        <div style="border:1px solid var(--ink-200);border-radius:var(--radius-md);padding:16px;margin-bottom:12px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;">
+          <div style="flex:1;min-width:200px;">
+            <div style="font-weight:700;margin-bottom:4px;">${escapeHtml(item.type||'Property')} — ${escapeHtml(item.location||'')}</div>
+            <div style="font-size:0.85rem;color:var(--ink-500);">${escapeHtml(item.price||'')} • ${escapeHtml(item.size||'')}</div>
+          </div>
+          <span style="padding:4px 12px;border-radius:var(--radius-full);background:${color}20;color:${color};font-size:0.72rem;font-weight:700;text-transform:uppercase;">${status}</span>
+        </div>
+      `;
+    }).join('');
+  }catch(err){
+    console.error(err);
+    container.innerHTML='<p style="text-align:center;color:var(--danger);padding:2rem;">Failed to load listings.</p>';
+  }
+}
+
+$('addClientListingBtn').addEventListener('click',()=>{
+  $('clientListingModal').classList.add('show');
+  document.body.style.overflow='hidden';
+  setTimeout(initClientMapPicker,250);
+});
+$('closeClientListing').addEventListener('click',()=>{
+  $('clientListingModal').classList.remove('show');
+  document.body.style.overflow='';
+  $('clientListingForm').reset();
+  if(clientMarker&&clientMap){clientMap.removeLayer(clientMarker);clientMarker=null;}
+});
+
+/* ================= SATELLITE LOCATION PICKER ================= */
+let clientMap=null,clientMarker=null;
+const goldPin=L.divIcon({
+  className:'',
+  html:`<div style="width:32px;height:32px;border-radius:50% 50% 50% 0;background:#d4a017;transform:rotate(-45deg);box-shadow:0 3px 10px rgba(0,0,0,0.4);border:3px solid white;position:relative;"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:10px;height:10px;border-radius:50%;background:#0a2e2e;"></div></div>`,
+  iconSize:[32,32],iconAnchor:[16,32]
+});
+
+function initClientMapPicker(){
+  if(clientMap)return;
+  const el=$('clMapPicker');
+  if(!el)return;
+  clientMap=L.map('clMapPicker',{center:[-1.286389,36.817223],zoom:11,scrollWheelZoom:true});
+  // SATELLITE VIEW (Esri World Imagery) - same as original
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles &copy; Esri'}).addTo(clientMap);
+  clientMap.on('click',e=>{const {lat,lng}=e.latlng;setClientMarker(lat,lng);});
+}
+function setClientMarker(lat,lng){
+  if(!clientMap)return;
+  if(clientMarker){clientMarker.setLatLng([lat,lng]);}
+  else{clientMarker=L.marker([lat,lng],{icon:goldPin}).addTo(clientMap);}
+  clientMap.setView([lat,lng],16);
+  $('clLat').value=lat.toFixed(6);
+  $('clLng').value=lng.toFixed(6);
+}
+
+let searchTimer;
+$('clLocationSearch').addEventListener('input',e=>{
+  clearTimeout(searchTimer);
+  const q=e.target.value.trim();
+  if(q.length<3)return;
+  searchTimer=setTimeout(async()=>{
+    try{
+      const res=await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(q+', Kenya')}`);
+      const results=await res.json();
+      if(results&&results.length){
+        const r=results[0];
+        setClientMarker(parseFloat(r.lat),parseFloat(r.lon));
+        $('clFormattedLocation').value=r.display_name;
+        toast('info','Location found',r.display_name.substring(0,80)+'...');
+      }
+    }catch(err){console.warn('Geocode failed',err);}
+  },700);
+});
+
+/* ================= CLIENT LISTING SUBMIT ================= */
+$('clientListingForm').addEventListener('submit',async(e)=>{
+  e.preventDefault();
+  if(!currentClient){toast('error','Not logged in','Please log in first.');return;}
+  const title=$('clTitle').value.trim();
+  const type=$('clType').value;
+  const category=$('clCategory').value;
+  const price=$('clPrice').value.trim();
+  const size=$('clSize').value.trim();
+  const description=$('clDescription').value.trim();
+  const lat=$('clLat').value;
+  const lng=$('clLng').value;
+  const locationName=$('clFormattedLocation').value||$('clLocationSearch').value||'Location set on map';
+  const files=$('clPhotos').files;
+
+  if(!title||!type||!category||!price||!size){toast('error','Missing fields','Please fill all required fields.');return;}
+  if(!lat||!lng){toast('error','Location required','Please pick a location on the map.');return;}
+  if(!files.length){toast('error','Photos required','Please upload at least one photo.');return;}
+  if(files.length>MAX_CLIENT_PHOTOS){toast('warning','Too many photos',`Max ${MAX_CLIENT_PHOTOS} photos.`);return;}
+
+  const btn=e.target.querySelector('button[type="submit"]');
+  const orig=btn.innerHTML;
+  btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Uploading...';
+
+  try{
+    const urls=await Promise.all(Array.from(files).map(async(file,i)=>{
+      const ext=file.name.split('.').pop().toLowerCase();
+      const fileName=`client-${currentClient.id}-${Date.now()}-${i}.${ext}`;
+      const {error}=await supabase.storage.from(STORAGE_BUCKET).upload(fileName,file,{cacheControl:'3600',upsert:false});
+      if(error)throw error;
+      const {data}=supabase.storage.from(STORAGE_BUCKET).getPublicUrl(fileName);
+      return data.publicUrl;
+    }));
+
+    const {error}=await supabase.from('properties').insert([{
+      location:locationName,
+      type,category,price,size,
+      description:description||title,
+      status:'pending',
+      lat:parseFloat(lat),lng:parseFloat(lng),
+      photos:urls,
+      photo_url:urls[0],
+      client_id:currentClient.id,
+      submitted_by:'client'
+    }]);
+    if(error)throw error;
+
+    toast('success','Submitted!','Your listing is pending admin approval.');
+    $('clientListingModal').classList.remove('show');
+    document.body.style.overflow='';
+    $('clientListingForm').reset();
+    if(clientMarker&&clientMap){clientMap.removeLayer(clientMarker);clientMarker=null;}
+    loadClientListings();
+  }catch(err){
+    console.error(err);
+    toast('error','Submission failed',err.message||'Please try again.');
+  }finally{
+    btn.disabled=false;btn.innerHTML=orig;
+  }
+});
+
+/* ================= LOAD FEATURED ================= */
+async function loadFeatured(){
+  try{
+    const since=new Date(Date.now()-7*86400000).toISOString();
+    const {data,error}=await supabase.from('properties').select('*')
+      .eq('status','active').gte('created_at',since)
+      .order('created_at',{ascending:false}).limit(3);
+    if(error)throw error;
+    const c=$('featuredContainer');
+    if(!data||!data.length){
+      c.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--ink-500);padding:2rem;">No new listings. Check back soon!</p>';
+      return;
+    }
+    c.innerHTML=data.map(item=>propertyCardHTML(item,true)).join('');
+    attachCardEvents(c,data);
+  }catch(err){
+    console.error(err);
+    $('featuredContainer').innerHTML='<p style="text-align:center;color:var(--danger);padding:2rem;">Failed to load.</p>';
+  }
+}
+
+function propertyCardHTML(item,isNew){
+  const photos=getPhotos(item);
+  const cover=photos[0]||'https://via.placeholder.com/400x300?text=No+Image';
+  const pc=photos.length;
+  return `
+    <article class="property-card" data-id="${item.id}">
+      <div class="property-img-wrap">
+        ${isNew?'<span class="property-badge badge-new">New</span>':''}
+        <img src="${cover}" alt="${escapeHtml(item.location||'')}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+        ${pc>1?`<span class="card-photo-count"><i class="fas fa-images"></i> ${pc}</span>`:''}
+      </div>
+      <div class="property-body">
+        <div class="property-location"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(item.location||'Unknown')}</div>
+        <h3 class="property-title">${escapeHtml(item.type||'Property')} ${item.category?'• '+escapeHtml(item.category):''}</h3>
+        <div class="property-footer">
+          <div class="property-price">${escapeHtml(item.price||'Price on request')}<small>${escapeHtml(item.category||'')}</small></div>
+          <span class="btn btn-sm btn-outline" style="pointer-events:none;"><i class="fas fa-images"></i> View</span>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function attachCardEvents(container,data){
+  qsa('.property-card',container).forEach(card=>{
+    card.addEventListener('click',function(){
+      const id=this.dataset.id;
+      const item=data.find(p=>String(p.id)===String(id));
+      if(!item)return;
+      const photos=getPhotos(item);
+      if(!photos.length){toast('warning','No photos','This property has no photos yet.');return;}
+      gallery.open(photos,0,item.location||'Property Photos');
+    });
+  });
+}
+
+/* ================= LOAD ALL LISTINGS ================= */
+let allProperties=[];
+let publicMap=null;
+const publicMarkers={};
+
+async function loadListings(){
+  try{
+    const {data,error}=await supabase.from('properties').select('*')
+      .eq('status','active').order('created_at',{ascending:false});
+    if(error)throw error;
+    allProperties=data||[];
+    renderListings();
+    renderPublicMap();
+  }catch(err){
+    console.error(err);
+    $('listingsContainer').innerHTML='<p style="text-align:center;color:var(--danger);padding:2rem;">Failed to load properties.</p>';
+  }
+}
+
+function renderListings(){
+  const container=$('listingsContainer');
+  const search=($('searchLocation')?.value||'').toLowerCase();
+  const type=$('filterType')?.value||'';
+  const cat=$('filterCategory')?.value||'';
+  const chip=qsa('.filter-chip').find(c=>c.classList.contains('active'))?.dataset.filter||'all';
+
+  const filtered=allProperties.filter(item=>{
+    if(search&&!(item.location||'').toLowerCase().includes(search))return false;
+    if(type&&item.type!==type)return false;
+    if(cat&&item.category!==cat)return false;
+    if(chip!=='all'){
+      if(['For Sale','To Let'].includes(chip)&&item.category!==chip)return false;
+      if(chip==='Apartment'&&item.type!=='Apartment')return false;
+      if(chip==='Land'&&!['Plot','Land','Residential Plot','Commercial Land','Agricultural Land'].includes(item.type))return false;
+    }
+    return true;
+  });
+
+  if(!filtered.length){
+    container.innerHTML='<p style="text-align:center;color:var(--ink-500);padding:3rem;">No matching listings found.</p>';
+    return;
+  }
+
+  container.innerHTML=`
+    <div class="table-wrap">
+      <table class="listing-table">
+        <thead><tr>
+          <th>#</th><th>Status</th><th>Location</th><th>Type</th>
+          <th>Category</th><th>Size</th><th>Price</th><th>Actions</th>
+        </tr></thead>
+        <tbody>
+          ${filtered.map((item,i)=>{
+            const photos=getPhotos(item);
+            const pc=photos.length;
+            const status=(item.status||'active').toLowerCase();
+            const lat=Number(item.lat),lng=Number(item.lng);
+            const hasCoords=Number.isFinite(lat)&&Number.isFinite(lng);
+            return `
+              <tr data-id="${item.id}" data-lat="${item.lat}" data-lng="${item.lng}">
+                <td>${i+1}</td>
+                <td><span class="status-badge status-${status}">${status}</span></td>
+                <td><strong>${escapeHtml(item.location||'—')}</strong></td>
+                <td>${escapeHtml(item.type||'—')}</td>
+                <td><span class="type-badge">${escapeHtml(item.category||'—')}</span></td>
+                <td>${escapeHtml(item.size||'—')}</td>
+                <td style="color:var(--brand-600);font-weight:700;">${escapeHtml(item.price||'—')}</td>
+                <td style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="btn btn-sm btn-outline view-photo" data-id="${item.id}"><i class="fas fa-images"></i> View ${pc>1?`(${pc})`:''}</button>
+                  ${hasCoords?`<button class="btn btn-sm btn-primary locate-on-map" data-id="${item.id}"><i class="fas fa-map-marker-alt"></i> Locate</button>`:''}
+                </td>
+              </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  qsa('.view-photo',container).forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const item=allProperties.find(p=>String(p.id)===String(btn.dataset.id));
+      if(!item)return;
+      const photos=getPhotos(item);
+      if(!photos.length){toast('warning','No photos','This property has no photos.');return;}
+      gallery.open(photos,0,item.location||'Property Photos');
+    });
+  });
+
+  // Locate on map button (scrolls to map + opens popup) — RETAINED as in original
+  qsa('.locate-on-map',container).forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const row=btn.closest('tr');
+      const lat=parseFloat(row.dataset.lat);
+      const lng=parseFloat(row.dataset.lng);
+      const id=row.dataset.id;
+      if(!Number.isFinite(lat)||!Number.isFinite(lng))return;
+      const mapSection=document.querySelector('.map-section');
+      if(mapSection)mapSection.scrollIntoView({behavior:'smooth'});
+      if(publicMap){
+        publicMap.flyTo([lat,lng],16,{animate:true,duration:1.5});
+        setTimeout(()=>{
+          const marker=publicMarkers[id];
+          if(marker)marker.openPopup();
+        },1500);
+      }
+    });
+  });
+}
+
+/* ================= PUBLIC SATELLITE MAP ================= */
+function renderPublicMap(){
+  const el=$('propertyMap');
+  if(!el)return;
+  if(!publicMap){
+    publicMap=L.map('propertyMap',{
+      center:[-1.286389,36.817223],
+      zoom:7,
+      scrollWheelZoom:false
+    });
+    // SATELLITE VIEW - maintained as in original
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
+      maxZoom:19,
+      maxNativeZoom:19,
+      attribution:'Tiles &copy; Esri'
+    }).addTo(publicMap);
+  }
+
+  // Clear old markers
+  Object.values(publicMarkers).forEach(m=>{if(publicMap.hasLayer(m))publicMap.removeLayer(m);});
+  Object.keys(publicMarkers).forEach(k=>delete publicMarkers[k]);
+
+  allProperties.forEach(item=>{
+    const lat=Number(item.lat),lng=Number(item.lng);
+    if(!Number.isFinite(lat)||!Number.isFinite(lng))return;
+    const photos=getPhotos(item);
+    const cover=photos[0]||'https://via.placeholder.com/300x200?text=No+Image';
+    const directionsUrl=`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+    const photoCount=photos.length;
+    const popup=`
+      <div style="width:240px;font-family:Inter,sans-serif;">
+        <img src="${cover}" style="width:100%;height:140px;object-fit:cover;" alt="">
+        <div style="padding:14px;">
+          <h4 style="margin:0 0 4px;font-size:15px;color:#0a2e2e;font-weight:700;font-family:Playfair Display,serif;">${escapeHtml(item.location||'Property')}</h4>
+          <p style="margin:0 0 8px;font-size:12px;color:#64748b;">${escapeHtml(item.type||'')} ${item.category?'• '+escapeHtml(item.category):''}</p>
+          <p style="margin:0 0 12px;font-weight:700;color:#136f63;font-size:14px;">${escapeHtml(item.price||'')}</p>
+          ${photoCount>0?`<button onclick="window.__openPublicGallery('${item.id}')" style="display:block;width:100%;background:#d4a017;color:white;text-align:center;padding:8px;border-radius:6px;border:none;font-weight:600;font-size:12px;cursor:pointer;margin-bottom:6px;">View ${photoCount>1?photoCount+' ':''}Photos</button>`:''}
+          <a href="${directionsUrl}" target="_blank" rel="noopener" style="display:block;background:#0f4a4a;color:white;text-align:center;padding:8px;border-radius:6px;text-decoration:none;font-weight:600;font-size:12px;">Get Directions</a>
+        </div>
+      </div>
+    `;
+    const marker=L.marker([lat,lng]).addTo(publicMap).bindPopup(popup);
+    publicMarkers[item.id]=marker;
+  });
+}
+
+window.__openPublicGallery=function(id){
+  const item=allProperties.find(p=>String(p.id)===String(id));
+  if(!item)return;
+  const photos=getPhotos(item);
+  if(!photos.length)return;
+  gallery.open(photos,0,item.location||'Property Photos');
+};
+
+let debTimer;
+function debouncedRender(){clearTimeout(debTimer);debTimer=setTimeout(renderListings,250);}
+$('searchLocation').addEventListener('input',debouncedRender);
+$('filterType').addEventListener('change',renderListings);
+$('filterCategory').addEventListener('change',renderListings);
+qsa('.filter-chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    qsa('.filter-chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    renderListings();
+  });
+});
+
+/* ================= INIT ================= */
+document.addEventListener('DOMContentLoaded',()=>{
+  $('year').textContent=new Date().getFullYear();
+  loadFeatured();
+  loadListings();
+});
+})();
+</script>
 </body>
 </html>
