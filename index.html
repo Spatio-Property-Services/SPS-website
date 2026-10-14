@@ -97,7 +97,7 @@
     .btn-sm{padding:10px 22px;font-size:0.85rem;min-height:40px;}
     .btn-lg{padding:18px 40px;font-size:1.05rem;min-height:56px;}
 
-    /* Hero – REVAMPED with corporate colored background */
+    /* Hero */
     .hero{position:relative;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:calc(var(--header-h) + 60px) var(--container-pad) 80px;color:var(--white);text-align:center;overflow:hidden;background:var(--brand-900);}
     .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(212,160,23,0.12),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(26,138,122,0.18),transparent 60%);pointer-events:none;z-index:1;}
     .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,var(--white),transparent);pointer-events:none;z-index:1;}
@@ -184,7 +184,7 @@
     .map-section{padding:0 0 clamp(64px,10vw,120px);}
     .map-wrap{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--ink-200);height:480px;position:relative;}
     #propertyMap{width:100%;height:100%;}
-    .county-tooltip{background:rgba(10,46,46,0.9)!important;color:#fff!important;border:1px solid var(--gold-500)!important;border-radius:6px!important;padding:4px 12px!important;font-weight:600!important;font-size:0.8rem!important;box-shadow:0 4px 12px rgba(0,0,0,0.3)!important;}
+    .county-tooltip{background:rgba(10,46,46,0.95)!important;color:#fff!important;border:1px solid var(--gold-500)!important;border-radius:6px!important;padding:4px 12px!important;font-weight:600!important;font-size:0.8rem!important;box-shadow:0 4px 12px rgba(0,0,0,0.3)!important;}
     .county-tooltip::before{border-top-color:var(--gold-500)!important;}
 
     /* Quiz Section */
@@ -437,13 +437,11 @@
 </header>
 
 <main id="main-content">
-<!-- Hero – Revamped with corporate animated background -->
+<!-- Hero -->
 <section class="hero" id="home">
-  <!-- Backslide background with corporate colors and opacity -->
   <div class="hero-bg-slider" id="heroBgSlider"></div>
 
   <div class="hero-content">
-    <!-- Centered Logo -->
     <div class="hero-logo-center">
       <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio Property Services" width="100" height="100">
       <div class="hero-brand-name">Spatio<span>Property</span></div>
@@ -927,7 +925,7 @@ navOverlay.addEventListener('click',closeMenu);
 qsa('#mobileNav a').forEach(a=>a.addEventListener('click',closeMenu));
 window.addEventListener('scroll',()=>{$('siteHeader').classList.toggle('scrolled',window.scrollY>50);},{passive:true});
 
-/* ================= HERO BACKSLIDE BACKGROUND — CORPORATE COLORS ================= */
+/* ================= HERO BACKSLIDE BACKGROUND ================= */
 const heroSlides = [
   'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&auto=format&fit=crop&q=80',
   'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&auto=format&fit=crop&q=80',
@@ -1489,67 +1487,74 @@ function renderListings(){
     });
   });
 }
-/* ================= PUBLIC SATELLITE MAP WITH KENYAN COUNTY OVERLAY ================= */
+
+/* ================= PUBLIC SATELLITE MAP WITH KENYAN COUNTY OVERLAY FROM LOCAL GEOJSON ================= */
 function renderPublicMap(){
   const el=$('propertyMap');if(!el)return;
   if(!publicMap){
-    publicMap=L.map('propertyMap',{center:[-1.286389,36.817223],zoom:7,scrollWheelZoom:false});
-    // Satellite base
+    publicMap=L.map('propertyMap',{center:[-1.286389,36.817223],zoom:6,scrollWheelZoom:false});
+    // Satellite base layer
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
-      maxZoom:19,maxNativeZoom:19,attribution:'Tiles &copy; Esri'
+      maxZoom:19,
+      maxNativeZoom:19,
+      attribution:'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     }).addTo(publicMap);
-    // Full Kenyan counties GeoJSON overlay (simplified for demo)
-    // In production, load from a proper GeoJSON file or API
-    const kenyaCounties = {
-      "type":"FeatureCollection",
-      "features":[
-        {"type":"Feature","properties":{"name":"Nairobi"},"geometry":{"type":"Polygon","coordinates":[[[36.6,-1.4],[36.9,-1.4],[36.9,-1.2],[36.6,-1.2],[36.6,-1.4]]]}},
-        {"type":"Feature","properties":{"name":"Mombasa"},"geometry":{"type":"Polygon","coordinates":[[[39.6,-4.1],[39.8,-4.1],[39.8,-3.9],[39.6,-3.9],[39.6,-4.1]]]}},
-        {"type":"Feature","properties":{"name":"Kisumu"},"geometry":{"type":"Polygon","coordinates":[[[34.7,-0.2],[34.9,-0.2],[34.9,0.0],[34.7,0.0],[34.7,-0.2]]]}},
-        {"type":"Feature","properties":{"name":"Nakuru"},"geometry":{"type":"Polygon","coordinates":[[[36.0,-0.4],[36.3,-0.4],[36.3,-0.1],[36.0,-0.1],[36.0,-0.4]]]}},
-        {"type":"Feature","properties":{"name":"Kiambu"},"geometry":{"type":"Polygon","coordinates":[[[36.7,-1.2],[37.0,-1.2],[37.0,-0.9],[36.7,-0.9],[36.7,-1.2]]]}},
-        {"type":"Feature","properties":{"name":"Machakos"},"geometry":{"type":"Polygon","coordinates":[[[37.2,-1.6],[37.6,-1.6],[37.6,-1.3],[37.2,-1.3],[37.2,-1.6]]]}},
-        {"type":"Feature","properties":{"name":"Kajiado"},"geometry":{"type":"Polygon","coordinates":[[[36.5,-2.1],[37.0,-2.1],[37.0,-1.7],[36.5,-1.7],[36.5,-2.1]]]}},
-        {"type":"Feature","properties":{"name":"Nyeri"},"geometry":{"type":"Polygon","coordinates":[[[36.7,-0.6],[37.0,-0.6],[37.0,-0.3],[36.7,-0.3],[36.7,-0.6]]]}},
-        {"type":"Feature","properties":{"name":"Meru"},"geometry":{"type":"Polygon","coordinates":[[[37.5,0.0],[38.0,0.0],[38.0,0.4],[37.5,0.4],[37.5,0.0]]]}},
-        {"type":"Feature","properties":{"name":"Kakamega"},"geometry":{"type":"Polygon","coordinates":[[[34.6,0.2],[34.9,0.2],[34.9,0.5],[34.6,0.5],[34.6,0.2]]]}},
-        {"type":"Feature","properties":{"name":"Bungoma"},"geometry":{"type":"Polygon","coordinates":[[[34.4,0.5],[34.8,0.5],[34.8,0.8],[34.4,0.8],[34.4,0.5]]]}},
-        {"type":"Feature","properties":{"name":"Kisii"},"geometry":{"type":"Polygon","coordinates":[[[34.7,-0.8],[35.0,-0.8],[35.0,-0.5],[34.7,-0.5],[34.7,-0.8]]]}},
-        {"type":"Feature","properties":{"name":"Turkana"},"geometry":{"type":"Polygon","coordinates":[[[35.0,3.0],[36.0,3.0],[36.0,4.0],[35.0,4.0],[35.0,3.0]]]}},
-        {"type":"Feature","properties":{"name":"Garissa"},"geometry":{"type":"Polygon","coordinates":[[[39.0,-1.0],[40.0,-1.0],[40.0,0.0],[39.0,0.0],[39.0,-1.0]]]}},
-        {"type":"Feature","properties":{"name":"Lamu"},"geometry":{"type":"Polygon","coordinates":[[[40.5,-2.5],[41.0,-2.5],[41.0,-1.8],[40.5,-1.8],[40.5,-2.5]]]}},
-        {"type":"Feature","properties":{"name":"Kilifi"},"geometry":{"type":"Polygon","coordinates":[[[39.5,-3.8],[40.0,-3.8],[40.0,-3.0],[39.5,-3.0],[39.5,-3.8]]]}},
-        {"type":"Feature","properties":{"name":"Taita Taveta"},"geometry":{"type":"Polygon","coordinates":[[[37.8,-3.8],[38.5,-3.8],[38.5,-3.0],[37.8,-3.0],[37.8,-3.8]]]}}
-      ]
-    };
-    L.geoJSON(kenyaCounties,{
-      style:function(feature){
-        return {
-          color:'#d4a017',
-          weight:2,
-          opacity:0.8,
-          fillColor:'#d4a017',
-          fillOpacity:0.08,
-          dashArray:'6,4'
-        };
-      },
-      onEachFeature:function(feature,layer){
-        if(feature.properties && feature.properties.name){
-          layer.bindTooltip(feature.properties.name,{
-            permanent:false,
-            direction:'center',
-            className:'county-tooltip',
-            sticky:true
-          });
-          layer.on('mouseover',function(){this.setStyle({fillOpacity:0.2,weight:3,color:'#e6b422'});});
-          layer.on('mouseout',function(){this.setStyle({fillOpacity:0.08,weight:2,color:'#d4a017'});});
-        }
-      }
-    }).addTo(publicMap);
+
+    // Fetch and overlay Kenya Counties GeoJSON from local file
+    fetch('kenyan-counties.geojson')
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to load kenyan-counties.geojson');
+        return response.json();
+      })
+      .then(geojsonData => {
+        L.geoJSON(geojsonData, {
+          style: function (feature) {
+            return {
+              color: "#d4a017",      // Gold border color for counties
+              weight: 2,             // Border width
+              opacity: 0.8,
+              fillColor: "#d4a017",  // Fill color
+              fillOpacity: 0.08,     // Keep low so satellite shows through
+              dashArray: '6,4'
+            };
+          },
+          onEachFeature: function (feature, layer) {
+            // Show county name on hover/click
+            var countyName = feature.properties && (
+              feature.properties.COUNTY ||
+              feature.properties.county ||
+              feature.properties.NAME ||
+              feature.properties.name ||
+              'County'
+            );
+            layer.bindTooltip(countyName, {
+              permanent: false,
+              direction: 'center',
+              className: 'county-tooltip',
+              sticky: true
+            });
+            layer.bindPopup('<strong>County:</strong> ' + countyName);
+            layer.on('mouseover', function () {
+              this.setStyle({ fillOpacity: 0.2, weight: 3, color: '#e6b422' });
+            });
+            layer.on('mouseout', function () {
+              this.setStyle({ fillOpacity: 0.08, weight: 2, color: '#d4a017' });
+            });
+          }
+        }).addTo(publicMap);
+        console.log('✅ Kenyan county boundaries loaded from kenyan-counties.geojson');
+      })
+      .catch(err => {
+        console.warn('⚠️ Could not load kenyan-counties.geojson:', err.message);
+        toast('warning', 'County overlay unavailable', 'Could not load kenyan-counties.geojson. Ensure the file is in the same folder as index.html.');
+      });
   }
+
   // Clear old markers
   Object.values(publicMarkers).forEach(m=>{if(publicMap.hasLayer(m))publicMap.removeLayer(m);});
   Object.keys(publicMarkers).forEach(k=>delete publicMarkers[k]);
+
+  // Add property markers
   allProperties.forEach(item=>{
     const lat=Number(item.lat),lng=Number(item.lng);
     if(!Number.isFinite(lat)||!Number.isFinite(lng))return;
