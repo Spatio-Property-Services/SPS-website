@@ -66,9 +66,10 @@
     .brand-tagline{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--ink-400);font-weight:500;}
     .main-nav{display:none;}
     .main-nav ul{display:flex;list-style:none;gap:4px;}
-    .main-nav a{display:block;padding:10px 18px;color:rgba(255,255,255,0.85);font-weight:500;font-size:0.9rem;border-radius:var(--radius-full);transition:all 0.15s;}
-    .main-nav a:hover,.main-nav a.active{color:var(--white);background:rgba(255,255,255,0.1);}
-    .main-nav a.active{color:var(--gold-400);}
+    .main-nav a{display:block;padding:10px 18px;color:rgba(255,255,255,0.85);font-weight:500;font-size:0.9rem;border-radius:var(--radius-full);transition:all 0.15s;position:relative;}
+    .main-nav a:hover{color:var(--white);background:rgba(255,255,255,0.1);}
+    .main-nav a.active{color:var(--gold-400);background:rgba(212,160,23,0.12);}
+    .main-nav a.active::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--gold-400);border-radius:2px;}
     .header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
     .icon-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);color:var(--white);font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
     .icon-btn:hover{background:var(--gold-500);color:var(--brand-900);transform:scale(1.05);}
@@ -79,6 +80,7 @@
     .mobile-nav li{border-bottom:1px solid rgba(255,255,255,0.08);}
     .mobile-nav a{display:flex;align-items:center;gap:12px;padding:18px 0;color:rgba(255,255,255,0.9);font-size:1.05rem;font-weight:500;transition:all 0.15s;}
     .mobile-nav a:hover,.mobile-nav a.active{color:var(--gold-400);padding-left:8px;}
+    .mobile-nav a.active{background:rgba(212,160,23,0.08);border-left:3px solid var(--gold-400);padding-left:16px;}
     .mobile-nav a i{width:24px;color:var(--gold-500);}
     .nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:1000;opacity:0;visibility:hidden;transition:all var(--transition);}
     .nav-overlay.show{opacity:1;visibility:visible;}
@@ -397,7 +399,7 @@
 <!-- Header -->
 <header class="site-header" id="siteHeader">
   <div class="header-inner">
-    <a href="#" class="brand" aria-label="Spatio Home">
+    <a href="#home" class="brand" aria-label="Spatio Home" data-nav-link="home">
       <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio" class="brand-logo" width="48" height="48">
       <div class="brand-text">
         <span class="brand-name">Spatio<span>Property</span></span>
@@ -406,12 +408,12 @@
     </a>
     <nav class="main-nav" aria-label="Primary">
       <ul>
-        <li><a href="#home" class="active">Home</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#quiz">Find Property</a></li>
-        <li><a href="#featured">Featured</a></li>
-        <li><a href="#listings">Listings</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#home" data-nav-link="home" class="active">Home</a></li>
+        <li><a href="#services" data-nav-link="services">Services</a></li>
+        <li><a href="#quiz" data-nav-link="quiz">Find Property</a></li>
+        <li><a href="#featured" data-nav-link="featured">Featured</a></li>
+        <li><a href="#listings" data-nav-link="listings">Listings</a></li>
+        <li><a href="#contact" data-nav-link="contact">Contact</a></li>
       </ul>
     </nav>
     <div class="header-actions">
@@ -424,12 +426,12 @@
   </div>
   <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
     <ul>
-      <li><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></li>
-      <li><a href="#services"><i class="fas fa-briefcase"></i> Services</a></li>
-      <li><a href="#quiz"><i class="fas fa-magic"></i> Find Property</a></li>
-      <li><a href="#featured"><i class="fas fa-star"></i> Featured</a></li>
-      <li><a href="#listings"><i class="fas fa-building"></i> Listings</a></li>
-      <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+      <li><a href="#home" data-nav-link="home" class="active"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="#services" data-nav-link="services"><i class="fas fa-briefcase"></i> Services</a></li>
+      <li><a href="#quiz" data-nav-link="quiz"><i class="fas fa-magic"></i> Find Property</a></li>
+      <li><a href="#featured" data-nav-link="featured"><i class="fas fa-star"></i> Featured</a></li>
+      <li><a href="#listings" data-nav-link="listings"><i class="fas fa-building"></i> Listings</a></li>
+      <li><a href="#contact" data-nav-link="contact"><i class="fas fa-envelope"></i> Contact</a></li>
       <li><a href="#" id="mobileClientPortal"><i class="fas fa-user-circle"></i> Client Portal</a></li>
     </ul>
   </nav>
@@ -438,7 +440,7 @@
 
 <main id="main-content">
 <!-- Hero -->
-<section class="hero" id="home">
+<section class="hero" id="home" data-section="home">
   <div class="hero-bg-slider" id="heroBgSlider"></div>
 
   <div class="hero-content">
@@ -464,7 +466,7 @@
 </section>
 
 <!-- Services -->
-<section class="section" id="services" style="background:var(--ink-50);">
+<section class="section" id="services" data-section="services" style="background:var(--ink-50);">
   <div class="container">
     <div class="section-header">
       <div class="section-label">What We Do</div>
@@ -501,7 +503,7 @@
 </section>
 
 <!-- Quiz Section -->
-<section class="quiz-section" id="quiz">
+<section class="quiz-section" id="quiz" data-section="quiz">
   <div class="container">
     <div class="section-header">
       <div class="section-label">Find Your Match</div>
@@ -608,7 +610,7 @@
 </section>
 
 <!-- Featured -->
-<section class="section" id="featured">
+<section class="section" id="featured" data-section="featured">
   <div class="container">
     <div class="section-header">
       <div class="section-label">Fresh On The Market</div>
@@ -622,7 +624,7 @@
 </section>
 
 <!-- Listings -->
-<section class="section" id="listings" style="background:var(--ink-50);">
+<section class="section" id="listings" data-section="listings" style="background:var(--ink-50);">
   <div class="container">
     <div class="section-header">
       <div class="section-label">Our Portfolio</div>
@@ -673,7 +675,7 @@
 </section>
 
 <!-- Contact -->
-<section class="section" id="contact" style="background:linear-gradient(135deg,var(--brand-900),var(--brand-800));color:var(--white);">
+<section class="section" id="contact" data-section="contact" style="background:linear-gradient(135deg,var(--brand-900),var(--brand-800));color:var(--white);">
   <div class="container">
     <div class="section-header">
       <div class="section-label" style="color:var(--gold-400);">Get In Touch</div>
@@ -924,6 +926,61 @@ menuToggle.addEventListener('click',()=>mobileNav.classList.contains('open')?clo
 navOverlay.addEventListener('click',closeMenu);
 qsa('#mobileNav a').forEach(a=>a.addEventListener('click',closeMenu));
 window.addEventListener('scroll',()=>{$('siteHeader').classList.toggle('scrolled',window.scrollY>50);},{passive:true});
+
+/* ================= SCROLL SPY — ACTIVE NAV HIGHLIGHTING ================= */
+const navLinks = qsa('[data-nav-link]');
+const sections = qsa('[data-section]');
+const sectionIds = sections.map(s => s.dataset.section);
+
+function updateActiveNav(){
+  const scrollPos = window.scrollY + (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 76) + 40;
+  let currentSection = 'home';
+
+  // Find the current section based on scroll position
+  for (let i = sections.length - 1; i >= 0; i--) {
+    const section = sections[i];
+    if (section.offsetTop <= scrollPos) {
+      currentSection = section.dataset.section;
+      break;
+    }
+  }
+
+  // Special case: if scrolled to bottom, highlight contact
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+    currentSection = 'contact';
+  }
+
+  // Update all nav links (desktop + mobile)
+  navLinks.forEach(link => {
+    const linkSection = link.dataset.navLink;
+    if (linkSection === currentSection) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
+
+// Run on scroll with throttling
+let scrollSpyTicking = false;
+window.addEventListener('scroll', () => {
+  if (!scrollSpyTicking) {
+    window.requestAnimationFrame(() => {
+      updateActiveNav();
+      scrollSpyTicking = false;
+    });
+    scrollSpyTicking = true;
+  }
+}, { passive: true });
+
+// Run on load
+window.addEventListener('load', updateActiveNav);
+window.addEventListener('resize', updateActiveNav);
+
+// Also run on hash change
+window.addEventListener('hashchange', () => {
+  setTimeout(updateActiveNav, 100);
+});
 
 /* ================= HERO BACKSLIDE BACKGROUND ================= */
 const heroSlides = [
@@ -1603,6 +1660,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   $('year').textContent=new Date().getFullYear();
   loadFeatured();
   loadListings();
+  // Initial active nav check
+  setTimeout(updateActiveNav, 300);
 });
 })();
 </script>
