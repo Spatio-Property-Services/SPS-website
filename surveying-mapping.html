@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Surveying & Mapping | Spatio Property Services — Licensed Land Surveyors Kenya</title>
-  <meta name="description" content="Professional land surveying, GIS mapping, boundary confirmation, and topographic surveys across Kenya. Licensed, accurate, and tech-driven."/>
+  <meta name="description" content="Professional land surveying, GIS mapping, boundary confirmation, title processing, Ardhi Sasa registration, land searches, and topographic surveys across Kenya. Licensed, accurate, and tech-driven."/>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,14 +96,18 @@
     .section-desc { font-size: 1.05rem; color: var(--ink-500); }
 
     .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 28px; }
-    .service-card { background: var(--white); border-radius: var(--radius-lg); padding: 36px 28px; box-shadow: var(--shadow-sm); border: 1px solid var(--ink-200); transition: all var(--transition); position: relative; overflow: hidden; }
+    .service-card { background: var(--white); border-radius: var(--radius-lg); padding: 36px 28px; box-shadow: var(--shadow-sm); border: 1px solid var(--ink-200); transition: all var(--transition); position: relative; overflow: hidden; display: flex; flex-direction: column; }
     .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--brand-500), var(--gold-500)); transform: scaleX(0); transform-origin: left; transition: transform var(--transition); }
     .service-card:hover::before { transform: scaleX(1); }
     .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-xl); border-color: var(--brand-300); }
     .service-icon { width: 72px; height: 72px; border-radius: 20px; background: linear-gradient(135deg, var(--brand-500), var(--brand-600)); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin-bottom: 24px; box-shadow: 0 8px 24px rgba(26,138,122,0.25); transition: transform var(--transition); }
     .service-card:hover .service-icon { transform: scale(1.1) rotate(5deg); }
     .service-card h3 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--ink-900); margin-bottom: 12px; }
-    .service-card p { color: var(--ink-500); font-size: 0.95rem; line-height: 1.7; }
+    .service-card p { color: var(--ink-500); font-size: 0.95rem; line-height: 1.7; flex-grow: 1; margin-bottom: 20px; }
+    .service-card-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
+    .service-card-actions .btn { padding: 10px 20px; font-size: 0.82rem; min-height: 40px; }
+    .btn-outline { background: transparent; color: var(--brand-600); border: 2px solid var(--brand-500); }
+    .btn-outline:hover { background: var(--brand-500); color: var(--white); border-color: var(--brand-500); transform: translateY(-2px); }
 
     .features-section { background: var(--ink-50); }
     .features-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 24px; }
@@ -193,7 +197,7 @@
       <div class="page-hero-content">
         <div class="hero-badge"><i class="fas fa-drafting-compass"></i> Surveying & Mapping</div>
         <h1>Precision Land <em>Surveying</em> & Mapping</h1>
-        <p>Boundary confirmation, physical planning, land valuation, and GIS mapping delivered with modern technology and legal compliance.</p>
+        <p>Boundary confirmation, physical planning, land valuation, GIS mapping, title processing, Ardhi Sasa registration, and land searches — delivered with modern technology and legal compliance.</p>
       </div>
     </section>
 
@@ -205,26 +209,167 @@
           <p class="section-desc">Accurate, compliant, and delivered on time.</p>
         </div>
         <div class="services-grid">
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-search-location"></i></div>
+            <h3>Due Diligence on Buying Land</h3>
+            <p>Pre-purchase inspection by a surveyor. We verify ownership, boundaries, encumbrances, and land records to protect your investment before you buy.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Due%20Diligence%20on%20Buying%20Land" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
           <div class="service-card">
             <div class="service-icon"><i class="fas fa-border-all"></i></div>
             <h3>Boundary & Area Confirmation</h3>
-            <p>Accurate boundary and area verification using modern surveying methods to prevent disputes and support land transactions.</p>
+            <p>Boundary alignment and area verification by a registered surveyor. We re-establish accurate property lines and prevent disputes during land transactions.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Boundary%20%26%20Area%20Confirmation" target="_blank" rel="noopener">Get Quote</a>
+            </div>
           </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-vector-square"></i></div>
+            <h3>Land Subdivision</h3>
+            <p>Subdivision of land by a registered land surveyor. We handle boundary demarcation, beacon placement, survey plans, and title processing for all plots.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Land%20Subdivision" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-building"></i></div>
+            <h3>Sectional Property</h3>
+            <p>Sectional property registration and geo-referencing of sectional plans. Ideal for apartments, townhouses, and multi-unit developments.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Sectional%20Property" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
           <div class="service-card">
             <div class="service-icon"><i class="fas fa-mountain"></i></div>
-            <h3>Physical Planning</h3>
-            <p>Compliant physical planning and scheme plans to support orderly development and statutory approval processes.</p>
+            <h3>Physical Planning & Topographic Survey</h3>
+            <p>Compliant physical planning, scheme plans, and topographic surveys to support orderly development and statutory approval processes.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Physical%20Planning" target="_blank" rel="noopener">Get Quote</a>
+            </div>
           </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-file-signature"></i></div>
+            <h3>Title Processing</h3>
+            <p>Fast title processing. We handle all documentation, follow-ups, and registrations to get your title deed quickly and correctly.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Title%20Processing" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-file-alt"></i></div>
+            <h3>Allotment Letter & New Grant Survey</h3>
+            <p>Allotment letter processing and new grant survey services. We guide you through the entire process from allocation to registration.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Allotment%20Letter%20%26%20New%20Grant%20Survey" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-file-excel"></i></div>
+            <h3>Loss of Title</h3>
+            <p>Replacement of lost title documents. We handle the statutory declaration, police abstract, and land registry processes to restore your ownership records.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Loss%20of%20Title" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-clipboard-check"></i></div>
+            <h3>Pre-Purchase Inspection</h3>
+            <p>Professional pre-purchase property inspection by a surveyor. We assess the condition, boundaries, and legal status of the property before you commit.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Pre-Purchase%20Inspection" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
           <div class="service-card">
             <div class="service-icon"><i class="fas fa-chart-line"></i></div>
             <h3>Land Valuation</h3>
             <p>Professional land valuation for sales, financing, taxation, compensation, and investment decision-making.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Land%20Valuation" target="_blank" rel="noopener">Get Quote</a>
+            </div>
           </div>
+
           <div class="service-card">
             <div class="service-icon"><i class="fas fa-file-contract"></i></div>
             <h3>Data Provision</h3>
             <p>Reliable property data, maps, and title search information to support informed real estate decisions.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Data%20Provision" target="_blank" rel="noopener">Get Quote</a>
+            </div>
           </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-comments"></i></div>
+            <h3>Consultation Matters on Land</h3>
+            <p>Expert consultation on all land matters. From land use planning to property investment advice, we provide professional guidance for your decisions.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Consultation%20Matters%20on%20Land" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-gavel"></i></div>
+            <h3>Report by a Land Surveyor to Court</h3>
+            <p>Court-ready survey reports and expert witness services. We provide professional, legally admissible reports for land dispute litigation.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Report%20by%20a%20Land%20Surveyor%20to%20Court" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-map-marked-alt"></i></div>
+            <h3>Can't Find Your Land?</h3>
+            <p>Get a land surveyor to locate your land for you. We use GPS coordinates, old maps, and local knowledge to find and identify your property.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20help%20locating%20my%20land" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-laptop-house"></i></div>
+            <h3>Ardhi Sasa Registration</h3>
+            <p>End-to-end Ardhi Sasa registration support. We help you create and verify your account, link your parcels, and navigate the digital land registry with ease.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Ardhi%20Sasa%20Registration" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-search-dollar"></i></div>
+            <h3>Land Searches</h3>
+            <p>Official land registry searches and title verification. We confirm ownership, encumbrances, caveats, and restrictions so you can transact with confidence.</p>
+            <div class="service-card-actions">
+              <a class="btn btn-outline" href="#contact"><i class="fas fa-book-open"></i> Learn More</a>
+              <a class="btn btn-primary" href="https://wa.me/254782424154?text=Hello%20Spatio%2C%20I%20need%20a%20quote%20for%20Land%20Searches" target="_blank" rel="noopener">Get Quote</a>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
