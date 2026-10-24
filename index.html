@@ -295,6 +295,203 @@ section{padding-block:72px}
 .stats b{font:700 clamp(22px,3vw,32px) var(--font-display);color:var(--gold-400);font-variant-numeric:tabular-nums}
 .stats span{font-size:12px;color:rgba(255,255,255,.7)}
 
+/* ============================================================
+   NEW: ADVERTISE STRIP
+   ============================================================ */
+.advertise-strip{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-top:22px;
+  padding:16px 22px;
+  border-radius:var(--luxe-radius);
+  background:linear-gradient(135deg, rgba(212,160,23,.16), rgba(184,134,11,.08));
+  border:1px solid rgba(212,160,23,.35);
+  box-shadow:0 8px 30px rgba(212,160,23,.15);
+  backdrop-filter:blur(10px);
+  color:#fff;
+  max-width:760px;
+  width:100%;
+  animation:fadeUp .6s var(--luxe-ease) both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.advertise-strip-text{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  text-align:left;
+  flex:1 1 260px;
+  min-width:0;
+}
+.advertise-strip-text strong{
+  font-family:var(--font-display);
+  font-size:clamp(15px,2.2vw,18px);
+  font-weight:700;
+  color:var(--gold-400);
+  letter-spacing:-.01em;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.advertise-strip-text span{
+  font-size:13px;
+  color:rgba(255,255,255,.78);
+  line-height:1.5;
+}
+.btn-advertise{
+  background:var(--luxe-gradient);
+  color:#1a1300;
+  font-weight:600;
+  box-shadow:0 6px 20px rgba(212,160,23,.35);
+  border:1px solid rgba(255,255,255,.18);
+  padding:11px 22px;
+  font-size:14px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.btn-advertise:hover{
+  box-shadow:0 10px 28px rgba(212,160,23,.5);
+  transform:translateY(-2px);
+}
+.btn-advertise i{font-size:14px}
+.btn-lg{padding:12px 24px;font-size:15px;min-height:46px}
+@media(max-width:560px){
+  .advertise-strip{padding:14px 16px;gap:12px}
+  .advertise-strip-text span{font-size:12px}
+  .btn-advertise{width:100%;justify-content:center}
+}
+
+/* ============================================================
+   NEW: SERVICES SECTION (section-header / services-grid / property-card)
+   ============================================================ */
+.section-header{
+  text-align:center;
+  max-width:720px;
+  margin:0 auto 40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+.section-label{
+  font-size:12px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--gold-600);
+  font-weight:600;
+}
+[data-theme="dark"] .section-label{color:var(--gold-400)}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(28px,4.2vw,44px);
+  font-weight:600;
+  line-height:1.15;
+  color:var(--ink);
+  margin:0;
+}
+.section-title em{
+  font-style:normal;
+  color:var(--gold-600);
+  background:var(--luxe-gradient);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+[data-theme="dark"] .section-title em{
+  filter:drop-shadow(0 2px 10px rgba(212,160,23,.3));
+}
+.section-desc{
+  font-size:15px;
+  color:var(--muted);
+  max-width:52ch;
+  line-height:1.6;
+}
+
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:22px;
+}
+@media(max-width:860px){.services-grid{grid-template-columns:1fr}}
+
+.property-card{
+  background:var(--card);
+  border-radius:var(--luxe-radius);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  border:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition);
+}
+.property-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-xl);
+  border-color:rgba(212,160,23,.4);
+}
+.property-img-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/10;
+  overflow:hidden;
+  background:var(--ink-100);
+}
+.property-img-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .6s var(--luxe-ease);
+  display:block;
+}
+.property-card:hover .property-img-wrap img{
+  transform:scale(1.06);
+}
+.property-body{
+  padding:22px 22px 24px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  flex:1;
+}
+.property-title{
+  font-family:var(--font-display);
+  font-size:22px;
+  font-weight:600;
+  color:var(--ink);
+  margin:0;
+  letter-spacing:-.01em;
+}
+.btn-outline{
+  background:transparent;
+  color:var(--brand-600);
+  border:1.5px solid var(--line);
+  padding:9px 18px;
+  font-size:13px;
+  font-weight:600;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:all .2s var(--luxe-ease);
+  align-self:flex-start;
+  min-height:40px;
+}
+.btn-outline:hover{
+  background:var(--luxe-gradient);
+  color:#1a1300;
+  border-color:transparent;
+  box-shadow:0 6px 18px rgba(212,160,23,.3);
+  transform:translateY(-1px);
+}
+.btn-outline i{font-size:11px;transition:transform .2s}
+.btn-outline:hover i{transform:translateX(3px)}
+[data-theme="dark"] .btn-outline{color:var(--gold-400);border-color:rgba(212,160,23,.35)}
+[data-theme="dark"] .btn-outline:hover{color:#1a1300}
+
 /* Property cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
 .grid.five{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -323,7 +520,7 @@ section{padding-block:72px}
 [data-theme="dark"] .price{color:var(--gold-400)}
 .center{text-align:center;margin-top:28px}
 
-/* Services */
+/* Services (legacy svc cards kept for compatibility) */
 .services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 @media(max-width:860px){.services{grid-template-columns:1fr}}
 .svc{background:var(--card);border-radius:28px;overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid var(--line);display:flex;flex-direction:column;transition:transform var(--transition),box-shadow var(--transition)}
@@ -829,6 +1026,19 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
           <div><b>300+</b><span>Surveys done</span></div>
           <div><b>98%</b><span>Satisfaction</span></div>
         </div>
+
+        <!-- ═══════════════════════════════════════════════════════
+             NEW: ADVERTISE STRIP
+             ═══════════════════════════════════════════════════════ -->
+        <div class="advertise-strip">
+          <div class="advertise-strip-text">
+            <strong>🏡 Have a property to sell or let?</strong>
+            <span>Advertise with us and reach thousands of verified buyers and tenants across Kenya.</span>
+          </div>
+          <button type="button" class="btn btn-advertise btn-lg" id="heroAdvertiseBtn">
+            <i class="fas fa-bullhorn"></i> Advertise With Us
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -848,12 +1058,43 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
     <div class="center"><a class="btn" href="#listings">See All Listings</a></div>
   </section>
 
-  <section id="services">
-    <div class="sec-head">
-      <div><span class="eyebrow">What we do</span><h2>Three services, one team</h2></div>
-      <p>Buy, rent or sell with confidence, then confirm boundaries and get advice before you sign.</p>
+  <!-- ═══════════════════════════════════════════════════════
+       NEW: SERVICES SECTION (replaces the old #services content)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="services" data-section="services" style="background:var(--ink-50);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">What We Do</div>
+        <h2 class="section-title">Comprehensive <em>Property Services</em> in Kenya</h2>
+        <p class="section-desc">From property transactions to professional surveying and legal consultancy.</p>
+      </div>
+      <div class="services-grid">
+        <article class="property-card" style="cursor:default;">
+          <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1605146769289-440113cc3d00?w=800&auto=format&fit=crop&q=80" alt="Property Bazaar — Buy, Sell and Rent Verified Properties in Kenya" loading="lazy"></div>
+          <div class="property-body">
+            <h3 class="property-title">Property Bazaar</h3>
+            <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Renting and letting, buying and selling of verified properties across Kenya.</p>
+            <a class='btn btn-outline btn-sm' href='/property-bazaar' style='align-self:flex-start;'>Learn More <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="property-card" style="cursor:default;">
+          <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1628155858736-bacadae33a88?w=800&auto=format&fit=crop&q=80" alt="Land Surveying and GIS Mapping Services in Nairobi Kenya" loading="lazy"></div>
+          <div class="property-body">
+            <h3 class="property-title">Surveying &amp; Mapping</h3>
+            <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Boundary confirmation, physical planning, valuation and GIS mapping.</p>
+            <a class='btn btn-outline btn-sm' href='/surveying-mapping' style='align-self:flex-start;'>Learn More <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="property-card" style="cursor:default;">
+          <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1765020553734-2c050ddb9494?w=800&auto=format&fit=crop&q=80" alt="Real Estate and Property Consultancy Services Kenya" loading="lazy"></div>
+          <div class="property-body">
+            <h3 class="property-title">Consultancy</h3>
+            <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Legal transactions, official processes and auctioneering services.</p>
+            <a class='btn btn-outline btn-sm' href='/consultancy-services' style='align-self:flex-start;'>Learn More <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+      </div>
     </div>
-    <div class="services" id="svcGrid"></div>
   </section>
 
   <section id="match">
@@ -1161,6 +1402,15 @@ $('#waMain').href = waLink('Hello Spatio Property, I would like help with a prop
 $('#waFab').href = waLink('Hello Spatio Property, I have a question.');
 var waFooter=$('#waFooter'); if(waFooter) waFooter.href = waLink('Hello Spatio Property, I would like to speak to an agent.');
 
+/* ========== Advertise strip button ========== */
+(function(){
+  var btn = $('#heroAdvertiseBtn');
+  if(btn) btn.addEventListener('click', function(){
+    var msg = 'Hello Spatio Property, I would like to advertise my property with you. Please send me the details.';
+    window.open(waLink(msg), '_blank');
+  });
+})();
+
 /* ========== Animated wordmark ========== */
 (function(){
   var el=$('#wordmarkText');
@@ -1309,15 +1559,20 @@ function renderFeatured(){
   attachGalleryHandlers(newContainer);
 }
 
-/* ========== Services ========== */
+/* ========== Services (legacy svc grid — no longer used since new section is static HTML) ========== */
 var SERVICES=[
   {t:'Property Bazaar', d:'Verified homes, plots and commercial space to buy, rent or sell, with an agent from first viewing to handover.', img:'https://images.unsplash.com/photo-1605146769289-440113cc3d00?w=800&auto=format&fit=crop&q=70'},
   {t:'Surveying & Mapping', d:'Boundary confirmation, subdivisions and GIS mapping by licensed surveyors, with beacons you can see.', img:'https://images.unsplash.com/photo-1628155858736-bacadae33a88?w=800&auto=format&fit=crop&q=70'},
   {t:'Consultancy', d:'Land searches, valuations, legal transaction guidance and advice on auctions before you commit.', img:'https://images.unsplash.com/photo-1765020553734-2c050ddb9494?w=800&auto=format&fit=crop&q=70'}
 ];
-$('#svcGrid').innerHTML=SERVICES.map(function(s){
-  return '<article class="svc"><img loading="lazy" src="'+s.img+'" alt=""><div><h3>'+esc(s.t)+'</h3><p>'+esc(s.d)+'</p><a href="#contact">Learn more <i class="fas fa-arrow-right" style="font-size:11px"></i></a></div></article>';
-}).join('');
+/* svcGrid is no longer in DOM — guard against missing element */
+(function(){
+  var grid = $('#svcGrid');
+  if(!grid) return;
+  grid.innerHTML=SERVICES.map(function(s){
+    return '<article class="svc"><img loading="lazy" src="'+s.img+'" alt=""><div><h3>'+esc(s.t)+'</h3><p>'+esc(s.d)+'</p><a href="#contact">Learn more <i class="fas fa-arrow-right" style="font-size:11px"></i></a></div></article>';
+  }).join('');
+})();
 
 /* ========== Quiz ========== */
 var QUIZ=[
