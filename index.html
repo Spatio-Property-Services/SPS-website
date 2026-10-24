@@ -218,8 +218,8 @@ section{padding-block:72px}
 .stage{
   position:sticky;top:0;height:100vh;min-height:620px;
   overflow:hidden;perspective:1300px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:18px;padding:110px 16px 40px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  gap:18px;padding:100px 16px 24px;text-align:center;
   background:var(--brand-900);
 }
 [data-theme="dark"] .stage{background:#08181a}
@@ -229,12 +229,17 @@ section{padding-block:72px}
 .veil{position:absolute;inset:0;background:linear-gradient(180deg,var(--brand-900) 0%,rgba(10,46,46,.55) 30%,rgba(10,46,46,.65) 55%,var(--brand-900) 100%);pointer-events:none}
 [data-theme="dark"] .veil{background:linear-gradient(180deg,#08181a 0%,rgba(8,24,26,.55) 30%,rgba(8,24,26,.65) 55%,#08181a 100%)}
 
-/* Animated wordmark */
+/* Animated wordmark - moved to background, behind content */
 .wordmark{
-  position:absolute;top:90px;left:50%;transform:translate(-50%,0) translateZ(-250px);
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) translateZ(-250px);
   font:700 clamp(48px,12vw,160px)/1 var(--font-display);
   white-space:nowrap;pointer-events:none;user-select:none;
   letter-spacing:-.02em;
+  opacity:.15;
+  z-index:0;
 }
 .wordmark-text{
   display:inline-block;
@@ -254,13 +259,12 @@ section{padding-block:72px}
 @media(max-width:640px){ .wordmark{ -webkit-text-stroke-width:1px; } }
 
 /* ============================================================
-   HERO CARD — 100% TRANSPARENT (only faint gold border)
+   HERO CARD — Now in normal document flow (position:relative)
+   Appears FIRST: Logo → Brand Name → Tagline
    ============================================================ */
 .card3d{
-  position:absolute;
-  top:120px;
-  left:50%;
-  transform:translateX(-50%);
+  position:relative;
+  z-index:2;
   transform-style:preserve-3d;
   will-change:transform;
   width:min(280px,58vw);
@@ -274,8 +278,8 @@ section{padding-block:72px}
   border:1px solid rgba(212,160,23,.3);
   box-shadow:0 0 60px rgba(212,160,23,.08);
   backdrop-filter:none;
+  margin-bottom: 16px;
 }
-
 .card3d img{
   width:88px;height:88px;border-radius:50%;object-fit:cover;
   border:2px solid var(--gold-500);transform:translateZ(40px);
@@ -296,7 +300,19 @@ section{padding-block:72px}
 }
 .card3d-brand small i{color:var(--gold-400);margin:0 5px;font-size:6px;vertical-align:middle}
 
-.hero-copy{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:760px;color:#fff}
+/* ============================================================
+   HERO COPY — Now flows naturally below the card3d
+   ============================================================ */
+.hero-copy{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  max-width:760px;
+  color:#fff;
+}
 .badge{display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:600;color:var(--gold-400);background:rgba(212,160,23,.18);border:1px solid rgba(212,160,23,.4);padding:6px 16px;border-radius:999px;backdrop-filter:blur(8px)}
 .hero h1{font-size:clamp(30px,5.6vw,60px);color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.35)}
 .hero h1 em{font-style:normal;color:var(--gold-400);background:var(--luxe-gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 4px 20px rgba(212,160,23,.4))}
@@ -307,7 +323,7 @@ section{padding-block:72px}
 .stats span{font-size:12px;color:rgba(255,255,255,.7)}
 
 /* ============================================================
-   NEW: ADVERTISE STRIP
+   ADVERTISE STRIP
    ============================================================ */
 .advertise-strip{
   position:relative;
@@ -376,7 +392,7 @@ section{padding-block:72px}
 }
 
 /* ============================================================
-   NEW: SERVICES SECTION
+   SERVICES SECTION
    ============================================================ */
 .section-header{
   text-align:center;
@@ -639,7 +655,7 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
 .cinfo a:hover{color:var(--gold-400)}
 
 /* ============================================================
-   NEW FOOTER — 4-column layout with quick links
+   FOOTER
    ============================================================ */
 .site-footer{
   position:relative;
@@ -793,8 +809,7 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
 
 /* WhatsApp FAB */
 .fab{position:fixed;z-index:60;right:max(16px,var(--safe-right));bottom:max(16px,var(--safe-bottom));display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.fab a{width:56px;height:56px;border-radius:50%;background:#1fa855;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(31,168,85,.4);transition:transform .2s;overflow:hidden;padding:0}
-.fab a img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.4)}
+.fab a{width:56px;height:56px;border-radius:50%;background:#1fa855;color:#fff;display:grid;place-items:center;box-shadow:0 8px 24px rgba(31,168,85,.4);transition:transform .2s}
 .fab a:hover{transform:scale(1.08)}
 
 /* Modals */
@@ -1018,14 +1033,16 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
         <span class="wordmark-text" id="wordmarkText">Property Solutions</span>
       </div>
 
+      <!-- FIRST: Logo + Brand Name + Tagline -->
       <div class="card3d" id="card3d">
-        <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="">
+        <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio Property Logo">
         <div class="card3d-brand">
           <b>Spatio<span>Property</span></b>
           <small>Property Solutions <i class="fas fa-circle"></i> Surveying <i class="fas fa-circle"></i> Consultancy</small>
         </div>
       </div>
 
+      <!-- THEN: Rest of hero content -->
       <div class="hero-copy">
         <span class="badge"><i class="fas fa-star"></i> Trusted Since 2015</span>
         <h1>Property Solutions, <em>Surveying</em> &amp; Consultancy in Kenya</h1>
@@ -1191,7 +1208,9 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
 
 <footer class="site-footer" role="contentinfo">
   <div class="footer-inner">
+
     <div class="footer-grid">
+
       <div class="footer-col">
         <div class="footer-brand">
           <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio Property Services">
@@ -1265,6 +1284,7 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
           <i class="fab fa-whatsapp"></i> Chat on WhatsApp
         </a>
       </div>
+
     </div>
 
     <div class="footer-divider"></div>
@@ -1285,7 +1305,7 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
 
 <div class="fab">
   <a id="waFab" target="_blank" rel="noopener" href="#" aria-label="Chat on WhatsApp">
-    <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio Property Logo">
+    <i class="fab fa-whatsapp" style="font-size:26px"></i>
   </a>
 </div>
 
@@ -1343,7 +1363,6 @@ var SUPABASE_KEY = 'sb_publishable_5ylQGyYA-xSW-T0aDGFQ0Q_V5vdo71-';
 var STORAGE_BUCKET = 'property-photos';
 var MAX_CLIENT_PHOTOS = 6;
 var WA = '254782424154';
-
 var KENYA_COUNTIES_URL = 'https://raw.githubusercontent.com/Spatio-Property-Services/SPS-website/main/kenyan-counties.geojson';
 
 var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -1485,6 +1504,7 @@ var waFooter=$('#waFooter'); if(waFooter) waFooter.href = waLink('Hello Spatio P
     var total=hero.offsetHeight-innerHeight;
     var p=Math.min(1, Math.max(0, -r.top/total));
     curX+=(mx-curX)*.08; curY+=(my-curY)*.08;
+    // No translateX needed since card is now position:relative (centered via flex on parent)
     card.style.transform='translateZ('+(-p*320)+'px) rotateX('+(p*38-curY*8)+'deg) rotateY('+(curX*12-p*28)+'deg)';
     card.style.opacity=1-p*.55;
     plane.style.transform='translateZ(-500px) scale('+(1.5+p*.25)+') translate('+(curX*-10)+'px,'+(p*-30)+'px)';
@@ -1752,11 +1772,10 @@ function drawTable(){
 }
 
 /* ============================================================
-   MAP — loads GeoJSON from GitHub, falls back to inlined
+   MAP
    ============================================================ */
 var publicMap=null;
 var publicMarkers={};
-
 var FALLBACK_COUNTIES = {
   "type": "FeatureCollection",
   "features": [
@@ -1776,7 +1795,7 @@ var FALLBACK_COUNTIES = {
 
 function loadCountiesOverlay(map){
   if(!KENYA_COUNTIES_URL || KENYA_COUNTIES_URL.indexOf('YOUR_USERNAME') >= 0){
-    console.warn('⚠️ KENYA_COUNTIES_URL not configured — using fallback outlines.');
+    console.warn('️ KENYA_COUNTIES_URL not configured — using fallback outlines.');
     drawCounties(map, FALLBACK_COUNTIES);
     return;
   }
@@ -1787,7 +1806,7 @@ function loadCountiesOverlay(map){
       console.log('✅ Kenyan county boundaries loaded from GitHub');
     })
     .catch(function(err){
-      console.warn('⚠️ GitHub GeoJSON failed ('+err.message+') — using fallback outlines.');
+      console.warn('️ GitHub GeoJSON failed ('+err.message+') — using fallback outlines.');
       drawCounties(map, FALLBACK_COUNTIES);
     });
 }
