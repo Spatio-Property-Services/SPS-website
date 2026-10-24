@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://server.arcgisonline.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- SEO — Primary Meta Tags -->
   <title>Spatio Property Services Kenya | Land Surveying, GIS Mapping & Real Estate Consultancy</title>
@@ -483,6 +484,7 @@
       *,*::before,*::after{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}
     }
   </style>
+  <link rel="stylesheet" href="luxe-theme.css">
 </head>
 <body>
 
@@ -536,6 +538,7 @@
   <div class="hero-bg-slider" id="heroBgSlider"></div>
 
   <div class="hero-content">
+    <span class="hero-ghost" aria-hidden="true">Future</span>
     <div class="hero-logo-center">
       <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio Property Services — Real Estate & Land Surveying Kenya" width="120" height="120">
       <div class="hero-brand-name">Spatio<span>Property</span></div>
@@ -582,7 +585,7 @@
         <div class="property-body">
           <h3 class="property-title">Property Bazaar</h3>
           <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Renting and letting, buying and selling of verified properties across Kenya.</p>
-          <a href="property-bazaar.html" class="btn btn-outline btn-sm" style="align-self:flex-start;">Learn More <i class="fas fa-arrow-right"></i></a>
+          <a class='btn btn-outline btn-sm' href='/property-bazaar' style='align-self:flex-start;'>Learn More <i class="fas fa-arrow-right"></i></a>
         </div>
       </article>
       <article class="property-card" style="cursor:default;">
@@ -590,7 +593,7 @@
         <div class="property-body">
           <h3 class="property-title">Surveying & Mapping</h3>
           <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Boundary confirmation, physical planning, valuation and GIS mapping.</p>
-          <a href="surveying-mapping.html" class="btn btn-outline btn-sm" style="align-self:flex-start;">Learn More <i class="fas fa-arrow-right"></i></a>
+          <a class='btn btn-outline btn-sm' href='/surveying-mapping' style='align-self:flex-start;'>Learn More <i class="fas fa-arrow-right"></i></a>
         </div>
       </article>
       <article class="property-card" style="cursor:default;">
@@ -598,7 +601,7 @@
         <div class="property-body">
           <h3 class="property-title">Consultancy</h3>
           <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Legal transactions, official processes and auctioneering services.</p>
-          <a href="consultancy-services.html" class="btn btn-outline btn-sm" style="align-self:flex-start;">Learn More <i class="fas fa-arrow-right"></i></a>
+          <a class='btn btn-outline btn-sm' href='/consultancy-services' style='align-self:flex-start;'>Learn More <i class="fas fa-arrow-right"></i></a>
         </div>
       </article>
     </div>
@@ -728,27 +731,32 @@
       <div class="section-label">Our Portfolio</div>
       <h2 class="section-title">Available <em>Properties & Lands</em></h2>
     </div>
-    <div class="filter-chips" id="filterChips">
-      <button class="filter-chip active" data-filter="all">All</button>
-      <button class="filter-chip" data-filter="For Sale">For Sale</button>
-      <button class="filter-chip" data-filter="To Let">To Let</button>
-      <button class="filter-chip" data-filter="Apartment">Apartments</button>
-      <button class="filter-chip" data-filter="Land">Land / Plots</button>
+
+    <div class="search-card">
+      <h3>Find the best place</h3>
+      <div class="filter-chips" id="filterChips">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="For Sale">For Sale</button>
+        <button class="filter-chip" data-filter="To Let">To Let</button>
+        <button class="filter-chip" data-filter="Apartment">Apartments</button>
+        <button class="filter-chip" data-filter="Land">Land / Plots</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:16px;">
+        <input type="text" id="searchLocation" placeholder="Search location..." class="location-search-input" style="padding-left:14px;" aria-label="Search properties by location">
+        <select id="filterType" class="location-search-input" style="padding-left:14px;" aria-label="Filter by property type">
+          <option value="">All Types</option>
+          <option>Apartment</option><option>Plot</option><option>Land</option>
+          <option>Residential Plot</option><option>Commercial Land</option>
+          <option>Agricultural Land</option><option>Townhouse</option>
+          <option>Villa</option><option>Office Space</option>
+        </select>
+        <select id="filterCategory" class="location-search-input" style="padding-left:14px;" aria-label="Filter by category">
+          <option value="">All Categories</option>
+          <option>For Sale</option><option>To Let</option>
+        </select>
+      </div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px;">
-      <input type="text" id="searchLocation" placeholder="Search location..." class="location-search-input" style="padding-left:14px;" aria-label="Search properties by location">
-      <select id="filterType" class="location-search-input" style="padding-left:14px;" aria-label="Filter by property type">
-        <option value="">All Types</option>
-        <option>Apartment</option><option>Plot</option><option>Land</option>
-        <option>Residential Plot</option><option>Commercial Land</option>
-        <option>Agricultural Land</option><option>Townhouse</option>
-        <option>Villa</option><option>Office Space</option>
-      </select>
-      <select id="filterCategory" class="location-search-input" style="padding-left:14px;" aria-label="Filter by category">
-        <option value="">All Categories</option>
-        <option>For Sale</option><option>To Let</option>
-      </select>
-    </div>
+
     <div id="listingsContainer">
       <div style="text-align:center;padding:3rem;color:var(--ink-500);">
         <i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:1rem;display:block;"></i>
