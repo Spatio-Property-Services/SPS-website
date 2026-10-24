@@ -219,7 +219,7 @@ section{padding-block:72px}
   position:sticky;top:0;height:100vh;min-height:620px;
   overflow:hidden;perspective:1300px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:18px;padding:84px 16px 24px;text-align:center;
+  gap:18px;padding:110px 16px 40px;text-align:center;
   background:var(--brand-900);
 }
 [data-theme="dark"] .stage{background:#08181a}
@@ -231,7 +231,7 @@ section{padding-block:72px}
 
 /* Animated wordmark */
 .wordmark{
-  position:absolute;top:14%;left:50%;transform:translate(-50%,0) translateZ(-250px);
+  position:absolute;top:90px;left:50%;transform:translate(-50%,0) translateZ(-250px);
   font:700 clamp(48px,12vw,160px)/1 var(--font-display);
   white-space:nowrap;pointer-events:none;user-select:none;
   letter-spacing:-.02em;
@@ -260,10 +260,11 @@ section{padding-block:72px}
   position:relative;transform-style:preserve-3d;will-change:transform;
   width:min(280px,58vw);aspect-ratio:1.25;border-radius:32px;
   display:grid;place-items:center;align-content:center;gap:10px;
-  background:rgba(255,255,255,0);        /* 100% transparent */
-  border:1px solid rgba(212,160,23,.3);  /* only the gold ring remains */
-  box-shadow:0 0 60px rgba(212,160,23,.08); /* very subtle gold halo */
-  backdrop-filter:none;                  /* no blur */
+  background:rgba(255,255,255,0);
+  border:1px solid rgba(212,160,23,.3);
+  box-shadow:0 0 60px rgba(212,160,23,.08);
+  backdrop-filter:none;
+  margin-top: 20px;
 }
 .card3d img{
   width:88px;height:88px;border-radius:50%;object-fit:cover;
@@ -365,7 +366,7 @@ section{padding-block:72px}
 }
 
 /* ============================================================
-   NEW: SERVICES SECTION (section-header / services-grid / property-card)
+   NEW: SERVICES SECTION
    ============================================================ */
 .section-header{
   text-align:center;
@@ -782,7 +783,8 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
 
 /* WhatsApp FAB */
 .fab{position:fixed;z-index:60;right:max(16px,var(--safe-right));bottom:max(16px,var(--safe-bottom));display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.fab a{width:56px;height:56px;border-radius:50%;background:#1fa855;color:#fff;display:grid;place-items:center;box-shadow:0 8px 24px rgba(31,168,85,.4);transition:transform .2s}
+.fab a{width:56px;height:56px;border-radius:50%;background:#1fa855;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(31,168,85,.4);transition:transform .2s;overflow:hidden;padding:0}
+.fab a img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:2px solid rgba(255,255,255,0.4)}
 .fab a:hover{transform:scale(1.08)}
 
 /* Modals */
@@ -1027,9 +1029,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
           <div><b>98%</b><span>Satisfaction</span></div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════
-             NEW: ADVERTISE STRIP
-             ═══════════════════════════════════════════════════════ -->
         <div class="advertise-strip">
           <div class="advertise-strip-text">
             <strong>🏡 Have a property to sell or let?</strong>
@@ -1058,9 +1057,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
     <div class="center"><a class="btn" href="#listings">See All Listings</a></div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
-       NEW: SERVICES SECTION (replaces the old #services content)
-       ═══════════════════════════════════════════════════════ -->
   <section class="section" id="services" data-section="services" style="background:var(--ink-50);">
     <div class="container">
       <div class="section-header">
@@ -1183,15 +1179,9 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
   </section>
 </main>
 
-<!-- ============================================================
-     NEW FOOTER
-     ============================================================ -->
 <footer class="site-footer" role="contentinfo">
   <div class="footer-inner">
-
     <div class="footer-grid">
-
-      <!-- Brand column -->
       <div class="footer-col">
         <div class="footer-brand">
           <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio Property Services">
@@ -1209,7 +1199,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
         </div>
       </div>
 
-      <!-- Quick links column -->
       <div class="footer-col">
         <h4>Quick Links</h4>
         <ul class="footer-links">
@@ -1224,7 +1213,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
         </ul>
       </div>
 
-      <!-- Services column -->
       <div class="footer-col">
         <h4>Services</h4>
         <ul class="footer-links">
@@ -1238,7 +1226,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
         </ul>
       </div>
 
-      <!-- Contact column -->
       <div class="footer-col">
         <h4>Get In Touch</h4>
         <ul class="footer-contact">
@@ -1268,7 +1255,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
           <i class="fab fa-whatsapp"></i> Chat on WhatsApp
         </a>
       </div>
-
     </div>
 
     <div class="footer-divider"></div>
@@ -1289,7 +1275,7 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
 
 <div class="fab">
   <a id="waFab" target="_blank" rel="noopener" href="#" aria-label="Chat on WhatsApp">
-    <i class="fab fa-whatsapp" style="font-size:26px"></i>
+    <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio Property Logo">
   </a>
 </div>
 
@@ -1348,10 +1334,6 @@ var STORAGE_BUCKET = 'property-photos';
 var MAX_CLIENT_PHOTOS = 6;
 var WA = '254782424154';
 
-/* ⬇️  EDIT THIS LINE WITH YOUR REAL GITHUB RAW URL  ⬇️
-   Format: https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/kenyan-counties.geojson
-   Example: https://raw.githubusercontent.com/spatio-property/spatio-website/main/kenyan-counties.geojson
-*/
 var KENYA_COUNTIES_URL = 'https://raw.githubusercontent.com/Spatio-Property-Services/SPS-website/main/kenyan-counties.geojson';
 
 var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -1565,7 +1547,6 @@ var SERVICES=[
   {t:'Surveying & Mapping', d:'Boundary confirmation, subdivisions and GIS mapping by licensed surveyors, with beacons you can see.', img:'https://images.unsplash.com/photo-1628155858736-bacadae33a88?w=800&auto=format&fit=crop&q=70'},
   {t:'Consultancy', d:'Land searches, valuations, legal transaction guidance and advice on auctions before you commit.', img:'https://images.unsplash.com/photo-1765020553734-2c050ddb9494?w=800&auto=format&fit=crop&q=70'}
 ];
-/* svcGrid is no longer in DOM — guard against missing element */
 (function(){
   var grid = $('#svcGrid');
   if(!grid) return;
@@ -1766,7 +1747,6 @@ function drawTable(){
 var publicMap=null;
 var publicMarkers={};
 
-/* Fallback simplified outlines if GitHub fetch fails */
 var FALLBACK_COUNTIES = {
   "type": "FeatureCollection",
   "features": [
