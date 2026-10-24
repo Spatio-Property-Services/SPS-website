@@ -257,15 +257,25 @@ section{padding-block:72px}
    HERO CARD — 100% TRANSPARENT (only faint gold border)
    ============================================================ */
 .card3d{
-  position:relative;transform-style:preserve-3d;will-change:transform;
-  width:min(280px,58vw);aspect-ratio:1.25;border-radius:32px;
-  display:grid;place-items:center;align-content:center;gap:10px;
+  position:absolute;
+  top:120px;
+  left:50%;
+  transform:translateX(-50%);
+  transform-style:preserve-3d;
+  will-change:transform;
+  width:min(280px,58vw);
+  aspect-ratio:1.25;
+  border-radius:32px;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  gap:10px;
   background:rgba(255,255,255,0);
   border:1px solid rgba(212,160,23,.3);
   box-shadow:0 0 60px rgba(212,160,23,.08);
   backdrop-filter:none;
-  margin-top: 20px;
 }
+
 .card3d img{
   width:88px;height:88px;border-radius:50%;object-fit:cover;
   border:2px solid var(--gold-500);transform:translateZ(40px);
