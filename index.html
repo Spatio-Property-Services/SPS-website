@@ -216,13 +216,17 @@ section{padding-block:72px}
 .drawer a:hover{color:var(--gold-600);padding-left:14px}
 .drawer .btn{margin-top:14px;justify-content:center}
 
-/* 3D Hero */
+/* ============================================================
+   3D HERO — FIXED SIZING
+   ============================================================ */
 .hero{height:200vh;margin-inline:calc(-1*max(16px,var(--safe-left)));position:relative}
 .stage{
-  position:sticky;top:0;height:100vh;min-height:620px;
+  position:sticky;top:0;height:100vh;min-height:100svh;max-height:100vh;
   overflow:hidden;perspective:1300px;
-  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-  gap:18px;padding:84px 16px 24px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(8px,1.4vh,16px);
+  padding:clamp(64px,10vh,90px) 16px clamp(16px,3vh,28px);
+  text-align:center;
   background:var(--brand-900);
 }
 [data-theme="dark"] .stage{background:#08181a}
@@ -256,9 +260,7 @@ section{padding-block:72px}
 @keyframes wordmarkFade{ 0%,100%{ opacity:.55; } 50%{ opacity:.85; } }
 @media(max-width:640px){ .wordmark{ -webkit-text-stroke-width:1px; } }
 
-/* ============================================================
-   HERO CARD — 100% TRANSPARENT (only faint gold border)
-   ============================================================ */
+/* HERO CARD — 100% TRANSPARENT + height cap */
 .card3d{
   position:relative;transform-style:preserve-3d;will-change:transform;
   width:min(280px,58vw);aspect-ratio:1.25;border-radius:32px;
@@ -268,6 +270,9 @@ section{padding-block:72px}
   box-shadow:0 0 60px rgba(212,160,23,.08);
   backdrop-filter:none;
   z-index:2;
+  flex:0 0 auto;
+  max-height:min(34vh,260px);
+  margin-bottom: 6px;
 }
 .card3d img{
   width:88px;height:88px;border-radius:50%;object-fit:cover;
@@ -289,9 +294,14 @@ section{padding-block:72px}
 }
 .card3d-brand small i{color:var(--gold-400);margin:0 5px;font-size:6px;vertical-align:middle}
 
+/* HERO COPY — flex-constrained */
 .hero-copy{
-  position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;
+  position:relative;display:flex;flex-direction:column;align-items:center;
+  gap:clamp(8px,1.4vh,14px);
   max-width:760px;color:#fff;z-index:2;margin-top:0;
+  flex:0 1 auto;
+  min-height:0;
+  width: 100%;
 }
 .badge{display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:600;color:var(--gold-400);background:rgba(212,160,23,.18);border:1px solid rgba(212,160,23,.4);padding:6px 16px;border-radius:999px;backdrop-filter:blur(8px)}
 .hero h1{font-size:clamp(30px,5.6vw,60px);color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.35)}
@@ -303,49 +313,59 @@ section{padding-block:72px}
 .stats span{font-size:12px;color:rgba(255,255,255,.7)}
 
 /* ============================================================
-   NEW: ADVERTISE STRIP
+   NEW: ADVERTISE SECTION (Moved out of Hero)
    ============================================================ */
+.advertise-section {
+  padding-block: 40px;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  margin-inline: calc(-1 * max(16px, var(--safe-left)));
+  padding-inline: max(16px, var(--safe-left));
+}
 .advertise-strip{
   position:relative;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:18px;
+  gap:20px;
   flex-wrap:wrap;
-  margin-top:22px;
-  padding:16px 22px;
+  padding:20px 28px;
   border-radius:var(--luxe-radius);
-  background:linear-gradient(135deg, rgba(212,160,23,.16), rgba(184,134,11,.08));
+  background:linear-gradient(135deg, rgba(212,160,23,.12), rgba(184,134,11,.06));
   border:1px solid rgba(212,160,23,.35);
-  box-shadow:0 8px 30px rgba(212,160,23,.15);
+  box-shadow:0 8px 30px rgba(212,160,23,.1);
   backdrop-filter:blur(10px);
-  color:#fff;
-  max-width:760px;
+  max-width:1180px;
   width:100%;
-  animation:fadeUp .6s var(--luxe-ease) both;
+  margin: 0 auto;
 }
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+[data-theme="dark"] .advertise-strip {
+  background:linear-gradient(135deg, rgba(212,160,23,.08), rgba(184,134,11,.04));
+  box-shadow:0 8px 30px rgba(0,0,0,.2);
+}
 .advertise-strip-text{
   display:flex;
   flex-direction:column;
-  gap:4px;
+  gap:6px;
   text-align:left;
   flex:1 1 260px;
   min-width:0;
 }
 .advertise-strip-text strong{
   font-family:var(--font-display);
-  font-size:clamp(15px,2.2vw,18px);
+  font-size:clamp(18px,2.2vw,22px);
   font-weight:700;
-  color:var(--gold-400);
+  color:var(--ink);
   letter-spacing:-.01em;
   display:flex;
   align-items:center;
   gap:8px;
 }
+[data-theme="dark"] .advertise-strip-text strong { color: #fff; }
 .advertise-strip-text span{
-  font-size:13px;
-  color:rgba(255,255,255,.78);
+  font-size:14px;
+  color:var(--muted);
   line-height:1.5;
 }
 .btn-advertise{
@@ -354,25 +374,52 @@ section{padding-block:72px}
   font-weight:600;
   box-shadow:0 6px 20px rgba(212,160,23,.35);
   border:1px solid rgba(255,255,255,.18);
-  padding:11px 22px;
-  font-size:14px;
+  padding:12px 24px;
+  font-size:15px;
   white-space:nowrap;
   flex-shrink:0;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:all 0.2s;
 }
 .btn-advertise:hover{
   box-shadow:0 10px 28px rgba(212,160,23,.5);
   transform:translateY(-2px);
 }
-.btn-advertise i{font-size:14px}
-.btn-lg{padding:12px 24px;font-size:15px;min-height:46px}
+.btn-advertise i{font-size:15px}
+
 @media(max-width:560px){
-  .advertise-strip{padding:14px 16px;gap:12px}
-  .advertise-strip-text span{font-size:12px}
-  .btn-advertise{width:100%;justify-content:center}
+  .advertise-strip{
+    padding: 20px 16px;
+    gap: 16px;
+    text-align: center;
+    justify-content: center;
+  }
+  .advertise-strip-text{
+    text-align: center;
+    flex-basis: 100%;
+    align-items: center;
+  }
+  .advertise-strip-text strong{
+    justify-content: center;
+    font-size: 18px;
+  }
+  .advertise-strip-text span{
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .btn-advertise{
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+  }
 }
 
 /* ============================================================
-   NEW: SERVICES SECTION
+   SERVICES SECTION
    ============================================================ */
 .section-header{
   text-align:center;
@@ -635,7 +682,7 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
 .cinfo a:hover{color:var(--gold-400)}
 
 /* ============================================================
-   NEW FOOTER — 4-column layout with quick links
+   FOOTER — 4-column layout with quick links
    ============================================================ */
 .site-footer{
   position:relative;
@@ -1006,6 +1053,16 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
 }
 
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* ============================================================
+   SHORT-VIEWPORT COMPACTION (laptops ~700–820px tall)
+   ============================================================ */
+@media (max-height:820px) and (min-width:961px){
+  .stage{gap:10px;padding-top:76px;padding-bottom:14px}
+  .card3d{max-height:min(30vh,230px)}
+  .hero-copy .stats{padding-top:14px;margin-top:2px}
+  .hero h1{font-size:clamp(26px,4.4vw,48px)}
+}
 </style>
 </head>
 <body>
@@ -1079,19 +1136,24 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
           <div><b>300+</b><span>Surveys done</span></div>
           <div><b>98%</b><span>Satisfaction</span></div>
         </div>
-
-        <div class="advertise-strip">
-          <div class="advertise-strip-text">
-            <strong>🏡 Have a property to sell or let?</strong>
-            <span>Advertise with us and reach thousands of verified buyers and tenants across Kenya.</span>
-          </div>
-          <button type="button" class="btn btn-advertise btn-lg" id="heroAdvertiseBtn">
-            <i class="fas fa-bullhorn"></i> Advertise With Us
-          </button>
-        </div>
       </div>
     </div>
   </div>
+
+  <!-- ========================================== -->
+  <!-- ADVERTISE SECTION (Moved out of the Hero)  -->
+  <!-- ========================================== -->
+  <section class="advertise-section">
+    <div class="advertise-strip">
+      <div class="advertise-strip-text">
+        <strong>🏡 Have a property to sell or let?</strong>
+        <span>Advertise with us and reach thousands of verified buyers and tenants across Kenya.</span>
+      </div>
+      <button type="button" class="btn btn-advertise" id="heroAdvertiseBtn">
+        <i class="fas fa-bullhorn"></i> Advertise With Us
+      </button>
+    </div>
+  </section>
 
   <section id="picks">
     <div class="sec-head">
@@ -1513,7 +1575,7 @@ var waFooter=$('#waFooter'); if(waFooter) waFooter.href = waLink('Hello Spatio P
     var total=hero.offsetHeight-innerHeight;
     var p=Math.min(1, Math.max(0, -r.top/total));
     curX+=(mx-curX)*.08; curY+=(my-curY)*.08;
-    // Updated: Removed translateX(-50%) since card is centered via flexbox on parent .stage
+    // Removed translateX(-50%) since card is centered via flexbox on parent .stage
     card.style.transform='translateZ('+(-p*320)+'px) rotateX('+(p*38-curY*8)+'deg) rotateY('+(curX*12-p*28)+'deg)';
     card.style.opacity=1-p*.55;
     plane.style.transform='translateZ(-500px) scale('+(1.5+p*.25)+') translate('+(curX*-10)+'px,'+(p*-30)+'px)';
