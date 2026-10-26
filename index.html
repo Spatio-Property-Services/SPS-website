@@ -221,7 +221,7 @@ section{padding-block:72px}
 .stage{
   position:sticky;top:0;height:100vh;min-height:620px;
   overflow:hidden;perspective:1300px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   gap:18px;padding:84px 16px 24px;text-align:center;
   background:var(--brand-900);
 }
@@ -234,10 +234,10 @@ section{padding-block:72px}
 
 /* Animated wordmark */
 .wordmark{
-  position:absolute;top:14%;left:50%;transform:translate(-50%,0) translateZ(-250px);
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) translateZ(-250px);
   font:700 clamp(48px,12vw,160px)/1 var(--font-display);
   white-space:nowrap;pointer-events:none;user-select:none;
-  letter-spacing:-.02em;
+  letter-spacing:-.02em;opacity:0.15;z-index:1;
 }
 .wordmark-text{
   display:inline-block;
@@ -263,10 +263,11 @@ section{padding-block:72px}
   position:relative;transform-style:preserve-3d;will-change:transform;
   width:min(280px,58vw);aspect-ratio:1.25;border-radius:32px;
   display:grid;place-items:center;align-content:center;gap:10px;
-  background:rgba(255,255,255,0);        /* 100% transparent */
-  border:1px solid rgba(212,160,23,.3);  /* only the gold ring remains */
-  box-shadow:0 0 60px rgba(212,160,23,.08); /* very subtle gold halo */
-  backdrop-filter:none;                  /* no blur */
+  background:rgba(255,255,255,0);
+  border:1px solid rgba(212,160,23,.3);
+  box-shadow:0 0 60px rgba(212,160,23,.08);
+  backdrop-filter:none;
+  z-index:2;
 }
 .card3d img{
   width:88px;height:88px;border-radius:50%;object-fit:cover;
@@ -288,7 +289,10 @@ section{padding-block:72px}
 }
 .card3d-brand small i{color:var(--gold-400);margin:0 5px;font-size:6px;vertical-align:middle}
 
-.hero-copy{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:760px;color:#fff}
+.hero-copy{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;
+  max-width:760px;color:#fff;z-index:2;margin-top:0;
+}
 .badge{display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:600;color:var(--gold-400);background:rgba(212,160,23,.18);border:1px solid rgba(212,160,23,.4);padding:6px 16px;border-radius:999px;backdrop-filter:blur(8px)}
 .hero h1{font-size:clamp(30px,5.6vw,60px);color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.35)}
 .hero h1 em{font-style:normal;color:var(--gold-400);background:var(--luxe-gradient);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 4px 20px rgba(212,160,23,.4))}
@@ -368,7 +372,7 @@ section{padding-block:72px}
 }
 
 /* ============================================================
-   NEW: SERVICES SECTION (section-header / services-grid / property-card)
+   NEW: SERVICES SECTION
    ============================================================ */
 .section-header{
   text-align:center;
@@ -952,7 +956,51 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
 .chat-input button:hover{transform:scale(1.06)}
 .chat-input button:disabled{opacity:.4;cursor:not-allowed;transform:none}
 
+/* AI Chat Pop Message Tooltip */
+.chat-fab-tooltip {
+  position: fixed;
+  right: calc(80px + var(--safe-right));
+  bottom: calc(100px + var(--safe-bottom));
+  background: var(--card);
+  color: var(--ink);
+  padding: 10px 16px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 69;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  max-width: 220px;
+  text-align: right;
+}
+.chat-fab-tooltip::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  bottom: 16px;
+  width: 12px;
+  height: 12px;
+  background: var(--card);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transform: rotate(-45deg);
+}
+.chat-fab-tooltip.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 @media(max-width:520px){
+  .chat-fab-tooltip {
+    right: calc(70px + var(--safe-right));
+    bottom: calc(90px + var(--safe-bottom));
+    max-width: 180px;
+    font-size: 12px;
+  }
   .chat-panel{right:8px;left:8px;width:auto;bottom:calc(80px + var(--safe-bottom));height:calc(100vh - 120px);max-height:none;border-radius:20px}
   .chat-fab{width:54px;height:54px;font-size:20px;bottom:calc(84px + var(--safe-bottom))}
 }
@@ -1032,9 +1080,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
           <div><b>98%</b><span>Satisfaction</span></div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════
-             NEW: ADVERTISE STRIP
-             ═══════════════════════════════════════════════════════ -->
         <div class="advertise-strip">
           <div class="advertise-strip-text">
             <strong>🏡 Have a property to sell or let?</strong>
@@ -1063,9 +1108,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
     <div class="center"><a class="btn" href="#listings">See All Listings</a></div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
-       NEW: SERVICES SECTION (replaces the old #services content)
-       ═══════════════════════════════════════════════════════ -->
   <section class="section" id="services" data-section="services" style="background:var(--ink-50);">
     <div class="container">
       <div class="section-header">
@@ -1075,7 +1117,7 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
       </div>
       <div class="services-grid">
         <article class="property-card" style="cursor:default;">
-          <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1605146769289-440113cc3d00?w=800&auto=format&fit=crop&q=80" alt="Property Bazaar — Buy, Sell and Rent Verified Properties in Kenya" loading="lazy"></div>
+          <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1605146769289-440113cc3d00?w=800&auto=format&fit=crop&q=80" alt="Property Bazaar" loading="lazy"></div>
           <div class="property-body">
             <h3 class="property-title">Property Bazaar</h3>
             <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Renting and letting, buying and selling of verified properties across Kenya.</p>
@@ -1083,7 +1125,7 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
           </div>
         </article>
         <article class="property-card" style="cursor:default;">
-          <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1628155858736-bacadae33a88?w=800&auto=format&fit=crop&q=80" alt="Land Surveying and GIS Mapping Services in Nairobi Kenya" loading="lazy"></div>
+          <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1628155858736-bacadae33a88?w=800&auto=format&fit=crop&q=80" alt="Land Surveying and GIS Mapping" loading="lazy"></div>
           <div class="property-body">
             <h3 class="property-title">Surveying &amp; Mapping</h3>
             <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Boundary confirmation, physical planning, valuation and GIS mapping.</p>
@@ -1091,7 +1133,7 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
           </div>
         </article>
         <article class="property-card" style="cursor:default;">
-          <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1765020553734-2c050ddb9494?w=800&auto=format&fit=crop&q=80" alt="Real Estate and Property Consultancy Services Kenya" loading="lazy"></div>
+          <div class="property-img-wrap"><img src="https://images.unsplash.com/photo-1765020553734-2c050ddb9494?w=800&auto=format&fit=crop&q=80" alt="Real Estate Consultancy" loading="lazy"></div>
           <div class="property-body">
             <h3 class="property-title">Consultancy</h3>
             <p style="color:var(--ink-500);font-size:0.9rem;flex:1;margin-bottom:16px;">Legal transactions, official processes and auctioneering services.</p>
@@ -1188,15 +1230,9 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
   </section>
 </main>
 
-<!-- ============================================================
-     NEW FOOTER
-     ============================================================ -->
 <footer class="site-footer" role="contentinfo">
   <div class="footer-inner">
-
     <div class="footer-grid">
-
-      <!-- Brand column -->
       <div class="footer-col">
         <div class="footer-brand">
           <img src="https://i.ibb.co/NgVMK99N/Whats-App-Image-2026-01-27-at-08-54-24.jpg" alt="Spatio Property Services">
@@ -1214,7 +1250,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
         </div>
       </div>
 
-      <!-- Quick links column -->
       <div class="footer-col">
         <h4>Quick Links</h4>
         <ul class="footer-links">
@@ -1229,7 +1264,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
         </ul>
       </div>
 
-      <!-- Services column -->
       <div class="footer-col">
         <h4>Services</h4>
         <ul class="footer-links">
@@ -1243,7 +1277,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
         </ul>
       </div>
 
-      <!-- Contact column -->
       <div class="footer-col">
         <h4>Get In Touch</h4>
         <ul class="footer-contact">
@@ -1273,7 +1306,6 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
           <i class="fab fa-whatsapp"></i> Chat on WhatsApp
         </a>
       </div>
-
     </div>
 
     <div class="footer-divider"></div>
@@ -1296,6 +1328,11 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
   <a id="waFab" target="_blank" rel="noopener" href="#" aria-label="Chat on WhatsApp">
     <i class="fab fa-whatsapp" style="font-size:26px"></i>
   </a>
+</div>
+
+<!-- AI Pop Message Tooltip -->
+<div class="chat-fab-tooltip" id="chatTooltip">
+  👋 Need help? Chat with our AI assistant!
 </div>
 
 <button class="chat-fab" id="chatFab" aria-label="Open chat with an agent" aria-expanded="false">
@@ -1344,24 +1381,15 @@ td img{width:56px;height:44px;border-radius:10px;object-fit:cover}
 (function(){
 'use strict';
 
-/* ============================================================
-   CONFIG
-   ============================================================ */
 var SUPABASE_URL = 'https://fvathemgswgejrsmrpos.supabase.co';
 var SUPABASE_KEY = 'sb_publishable_5ylQGyYA-xSW-T0aDGFQ0Q_V5vdo71-';
 var STORAGE_BUCKET = 'property-photos';
 var MAX_CLIENT_PHOTOS = 6;
 var WA = '254782424154';
-
-/* ⬇️  EDIT THIS LINE WITH YOUR REAL GITHUB RAW URL  ⬇️
-   Format: https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/kenyan-counties.geojson
-   Example: https://raw.githubusercontent.com/spatio-property/spatio-website/main/kenyan-counties.geojson
-*/
 var KENYA_COUNTIES_URL = 'https://raw.githubusercontent.com/Spatio-Property-Services/SPS-website/main/kenyan-counties.geojson';
 
 var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/* ========== Helpers ========== */
 var $ = function(s,r){ return (r||document).querySelector(s); };
 var $$ = function(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
@@ -1379,7 +1407,6 @@ function toast(type,title,msg){
   setTimeout(function(){ el.style.opacity='0'; el.style.transform='translateX(100%)'; setTimeout(function(){ el.remove(); },300); }, 3500);
 }
 
-/* ========== Theme ========== */
 var root=document.documentElement;
 var savedTheme=store('spatio-theme');
 if(savedTheme==='dark'||savedTheme==='light') root.setAttribute('data-theme', savedTheme);
@@ -1396,18 +1423,15 @@ $('#theme').onclick=function(){
   syncThemeIcon();
 };
 
-/* ========== Drawer ========== */
 $('#burger').onclick=function(){ $('#drawer').classList.add('open'); };
 $('#dclose').onclick=function(){ $('#drawer').classList.remove('open'); };
 $('#drawer').addEventListener('click', function(e){ if(e.target===this) this.classList.remove('open'); });
 $$('#drawer a').forEach(function(a){ a.addEventListener('click', function(){ $('#drawer').classList.remove('open'); }); });
 
-/* ========== WhatsApp ========== */
 $('#waMain').href = waLink('Hello Spatio Property, I would like help with a property.');
 $('#waFab').href = waLink('Hello Spatio Property, I have a question.');
 var waFooter=$('#waFooter'); if(waFooter) waFooter.href = waLink('Hello Spatio Property, I would like to speak to an agent.');
 
-/* ========== Advertise strip button ========== */
 (function(){
   var btn = $('#heroAdvertiseBtn');
   if(btn) btn.addEventListener('click', function(){
@@ -1416,22 +1440,13 @@ var waFooter=$('#waFooter'); if(waFooter) waFooter.href = waLink('Hello Spatio P
   });
 })();
 
-/* ========== Animated wordmark ========== */
 (function(){
   var el=$('#wordmarkText');
   if(!el) return;
-  var phrases=[
-    'Property Solutions',
-    'Land Surveying',
-    'GIS Mapping',
-    'Consultancy',
-    'Trusted Since 2015',
-    'Kenya’s Property Partner'
-  ];
+  var phrases=['Property Solutions','Land Surveying','GIS Mapping','Consultancy','Trusted Since 2015','Kenya’s Property Partner'];
   var idx=0;
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduce){ el.textContent=phrases[0]; return; }
-
   function typePhrase(text, done){
     el.textContent='';
     var i=0;
@@ -1498,6 +1513,7 @@ var waFooter=$('#waFooter'); if(waFooter) waFooter.href = waLink('Hello Spatio P
     var total=hero.offsetHeight-innerHeight;
     var p=Math.min(1, Math.max(0, -r.top/total));
     curX+=(mx-curX)*.08; curY+=(my-curY)*.08;
+    // Updated: Removed translateX(-50%) since card is centered via flexbox on parent .stage
     card.style.transform='translateZ('+(-p*320)+'px) rotateX('+(p*38-curY*8)+'deg) rotateY('+(curX*12-p*28)+'deg)';
     card.style.opacity=1-p*.55;
     plane.style.transform='translateZ(-500px) scale('+(1.5+p*.25)+') translate('+(curX*-10)+'px,'+(p*-30)+'px)';
@@ -1506,7 +1522,6 @@ var waFooter=$('#waFooter'); if(waFooter) waFooter.href = waLink('Hello Spatio P
   requestAnimationFrame(frame);
 })();
 
-/* ========== Data ========== */
 var allProperties=[];
 var byId={};
 
@@ -1564,13 +1579,11 @@ function renderFeatured(){
   attachGalleryHandlers(newContainer);
 }
 
-/* ========== Services (legacy svc grid — no longer used since new section is static HTML) ========== */
 var SERVICES=[
   {t:'Property Bazaar', d:'Verified homes, plots and commercial space to buy, rent or sell, with an agent from first viewing to handover.', img:'https://images.unsplash.com/photo-1605146769289-440113cc3d00?w=800&auto=format&fit=crop&q=70'},
   {t:'Surveying & Mapping', d:'Boundary confirmation, subdivisions and GIS mapping by licensed surveyors, with beacons you can see.', img:'https://images.unsplash.com/photo-1628155858736-bacadae33a88?w=800&auto=format&fit=crop&q=70'},
   {t:'Consultancy', d:'Land searches, valuations, legal transaction guidance and advice on auctions before you commit.', img:'https://images.unsplash.com/photo-1765020553734-2c050ddb9494?w=800&auto=format&fit=crop&q=70'}
 ];
-/* svcGrid is no longer in DOM — guard against missing element */
 (function(){
   var grid = $('#svcGrid');
   if(!grid) return;
@@ -1579,7 +1592,6 @@ var SERVICES=[
   }).join('');
 })();
 
-/* ========== Quiz ========== */
 var QUIZ=[
   {k:'budget', q:'What is your budget?', o:[
     {v:'budget', l:'Starter', s:'Buy up to KES 5M · rent up to 50k'},
@@ -1704,7 +1716,6 @@ function showQuizResult(b){
 }
 renderQuiz();
 
-/* ========== Listings table ========== */
 var chipFilter='all';
 var CHIPS=[['all','All'],['For Sale','For sale'],['To Let','To let'],['Apartment','Apartments'],['Land','Land']];
 $('#chips').innerHTML=CHIPS.map(function(c){
@@ -1765,13 +1776,8 @@ function drawTable(){
   });
 }
 
-/* ============================================================
-   MAP — loads GeoJSON from GitHub, falls back to inlined
-   ============================================================ */
 var publicMap=null;
 var publicMarkers={};
-
-/* Fallback simplified outlines if GitHub fetch fails */
 var FALLBACK_COUNTIES = {
   "type": "FeatureCollection",
   "features": [
@@ -1876,7 +1882,6 @@ function selectMap(id, scroll){
   if(scroll) $('#map').scrollIntoView({ behavior:'smooth' });
 }
 
-/* ========== Gallery ========== */
 var gallery={
   photos:[], index:0, title:'',
   open:function(photos, idx, title){
@@ -1926,7 +1931,6 @@ document.addEventListener('keydown', function(e){
   }
 });
 
-/* ========== Client Portal ========== */
 var CLIENT_SESSION_KEY='spatio_client_session';
 var currentClient=null;
 function hashPassword(pw){
@@ -2334,7 +2338,16 @@ function chatClose(){
   $('#chatPanel').classList.remove('open');
   $('#chatFab').setAttribute('aria-expanded','false');
 }
-$('#chatFab').onclick=function(){ chatState.open ? chatClose() : chatOpen(); };
+
+$('#chatFab').onclick=function(){ 
+  // Dismiss AI pop message tooltip when chat is opened
+  var tooltip = $('#chatTooltip');
+  if(tooltip) {
+    tooltip.classList.remove('show');
+    setTimeout(function(){ tooltip.remove(); }, 300);
+  }
+  chatState.open ? chatClose() : chatOpen(); 
+};
 $('#chatClose').onclick=chatClose;
 
 $('#chatForm').onsubmit=function(e){
@@ -2372,11 +2385,16 @@ $('#chatForm').onsubmit=function(e){
   }
 };
 
+// Show AI pop message tooltip after 3 seconds if chat hasn't been started
 setTimeout(function(){
   if(!chatState.started){
     $('#chatFab').classList.add('unread');
+    var tooltip = $('#chatTooltip');
+    if(tooltip) {
+      setTimeout(function(){ tooltip.classList.add('show'); }, 500);
+    }
   }
-}, 15000);
+}, 3000);
 
 /* ========== Active Nav Highlighting ========== */
 (function(){
